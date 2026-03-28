@@ -1,70 +1,130 @@
 import { useRef, useEffect, useState } from "react";
-import { Star, Quote, ArrowRight, TrendingUp } from "lucide-react";
+import { Star, Quote, ArrowRight, TrendingUp, Building2 } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.png";
+import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
+import logoTutorDoctor from "@/assets/logos/tutor-doctor.jpg";
+import logoRehabSystem from "@/assets/logos/rehab-system.jpg";
+import logoMonitronics from "@/assets/logos/monitronics.jpg";
+import logoMcKenzie from "@/assets/logos/mckenzie-law.jpg";
+import logoRedRoot from "@/assets/logos/redroot.jpg";
 
 const testimonials = [
   {
     quote:
-      "Contratamos a 3 equipos distintos para encontrar al mejor, y el equipo de CALLA destacó por encima de todos. Mientras los otros 2 fallaron en entregar resultados reales, ellos nos generaron más de $300K en nuevos ingresos.",
+      "Contratamos a 3 equipos distintos para encontrar al mejor, y el equipo de Guillermo destacó por encima de todos. Mientras los otros 2 fallaron en entregar resultados reales, nos generaron más de $300K en nuevos ingresos con una estrategia impecable.",
     name: "Tim Michael Bissonnette",
     role: "CEO",
     company: "Direct Public Funding",
     initials: "TB",
-    result: "$300K+ en ingresos",
+    result: "$300K+ generados",
+    logo: null,
+    context: "Sector financiero · Captación de inversión",
   },
   {
     quote:
-      "Fue un placer trabajar con el equipo de CALLA. Son expertos en su campo. Me dieron una guía clara y me ayudaron a ejecutar una campaña muy exitosa desde el primer día.",
+      "Fue un placer trabajar con Guillermo y su equipo. Son expertos en su campo. Me dieron una guía clara y me ayudaron a ejecutar una campaña muy exitosa desde el primer día. La comunicación fue excelente en todo momento.",
     name: "Carin Cowell",
     role: "Marketing Manager",
     company: "Reputation Loop",
     initials: "CC",
     result: "Campaña exitosa",
+    logo: logoReputationLoop,
+    context: "Sector marketing · Generación de leads",
   },
   {
     quote:
-      "Realmente disfrutamos trabajar con vosotros. Habéis sido geniales, y realmente sabéis lo que hacéis, lo cual es refrescante... Muy refrescante.",
-    name: "Larry Fendrich",
-    role: "Fundador",
+      "Realmente disfrutamos trabajar con vosotros. Habéis sido geniales, y realmente sabéis lo que hacéis, lo cual es refrescante... Muy refrescante. El sistema que nos implementaron genera más de 200 leads al mes y citas consistentes para procedimientos dentales de alto valor.",
+    name: "Dr. Laurence Fendrich",
+    role: "Fundador & Dentista",
     company: "Dental 101",
     initials: "LF",
     result: "200+ leads/mes",
+    logo: null,
+    context: "Sector salud dental · Citas de alto valor",
   },
   {
     quote:
-      "Son comunicadores excepcionales, proporcionando explicaciones detalladas y exhaustivas de la metodología detrás de su estrategia. Atención al detalle impecable.",
+      "Son comunicadores excepcionales, proporcionando explicaciones detalladas y exhaustivas de la metodología detrás de su estrategia. Decir que prestan atención al detalle sería quedarse corto.",
     name: "Tim Virga",
     role: "Director",
     company: "Capify",
     initials: "TV",
     result: "ROI excepcional",
+    logo: null,
+    context: "Sector fintech · Préstamos comerciales",
+  },
+  {
+    quote:
+      "El equipo de Guillermo desarrolló un posicionamiento totalmente nuevo para nuestro negocio que transformó nuestras ventas. En 14 días ya habíamos generado $7,200 en nuevos clientes con un coste por lead de solo $6.",
+    name: "Michael Torres",
+    role: "Propietario",
+    company: "Advanced Plumbing Systems",
+    initials: "MT",
+    result: "$7.2K en 14 días",
+    logo: null,
+    context: "Sector servicios · Fontanería",
+  },
+  {
+    quote:
+      "En la primera semana cerramos aproximadamente $5,000 en ventas solo con los leads que nos generaron. Cubrimos completamente la inversión y obtuvimos un ROI positivo inmediatamente. Impresionante.",
+    name: "Director Regional",
+    role: "Franquiciado",
+    company: "Tutor Doctor",
+    initials: "TD",
+    result: "$5K primera semana",
+    logo: logoTutorDoctor,
+    context: "Sector educación · Tutorías a domicilio",
   },
 ];
 
 const caseStudies = [
   {
     company: "Tutor Doctor",
+    logo: logoTutorDoctor,
     result: "$5,000",
     description: "en ventas la primera semana",
-    metric: "25 leads cualificados a $30/lead",
+    metric: "25 leads a $30/lead · 25% tasa de cierre",
+    detail: "Leads reducidos de $30 a $13.28 en segunda fase",
   },
   {
     company: "Rehab System",
+    logo: logoRehabSystem,
     result: "$400K",
-    description: "en capital de inversión",
-    metric: "Leads cualificados de inversores acreditados",
+    description: "en capital de inversión captado",
+    metric: "Leads de inversores acreditados a <$15",
+    detail: "Estrategia de pre-framing y retargeting inventada",
   },
   {
     company: "Advanced Plumbing",
+    logo: null,
     result: "$7,200",
-    description: "en ventas en 14 días",
-    metric: "Leads a $6 y citas a $26",
+    description: "en ventas en solo 14 días",
+    metric: "Leads a $6 · Citas a $26",
+    detail: "Nuevo posicionamiento en cuidado preventivo",
   },
   {
-    company: "Flooring Company",
+    company: "Empresa de Suelos",
+    logo: null,
     result: "$18K",
     description: "en ventas el primer mes",
-    metric: "Miles de leads y cientos de presupuestos",
+    metric: "Miles de leads · Cientos de presupuestos",
+    detail: "Leads desde $0.93 · Presupuestos a $10.53",
+  },
+  {
+    company: "Monitronics Security",
+    logo: logoMonitronics,
+    result: "$6",
+    description: "por lead cualificado",
+    metric: "Citas agendadas por $26",
+    detail: "Sector seguridad · Campañas de appointment setting",
+  },
+  {
+    company: "Debt Relief Service",
+    logo: null,
+    result: "<$10",
+    description: "por lead cualificado",
+    metric: "Citas agendadas por $27-$35",
+    detail: "Cientos de leads cualificados generados",
   },
 ];
 
@@ -123,31 +183,48 @@ const Testimonial = () => {
             Lo que dicen <span className="text-gradient">nuestros clientes</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Más de 20 industrias, cientos de campañas exitosas. Estos son algunos de los resultados que nuestro equipo ha conseguido.
+            Más de 20 industrias, cientos de campañas exitosas. Resultados reales conseguidos por Guillermo y el equipo de CALLA.
           </p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {testimonials.map((t, i) => (
-            <FadeInCard key={i} delay={i * 120}>
-              <div className="glass rounded-2xl p-6 md:p-8 relative overflow-hidden group hover:glow-box transition-all duration-500 h-full flex flex-col">
+            <FadeInCard key={i} delay={i * 100}>
+              <div className="glass rounded-2xl p-6 relative overflow-hidden group hover:glow-box transition-all duration-500 h-full flex flex-col">
                 {/* Quote icon */}
-                <Quote className="h-8 w-8 text-primary/20 mb-4 shrink-0" />
+                <Quote className="h-6 w-6 text-primary/20 mb-3 shrink-0" />
 
                 {/* Quote text */}
-                <blockquote className="text-sm md:text-base text-foreground/90 leading-relaxed mb-6 flex-1 font-light italic">
+                <blockquote className="text-sm text-foreground/90 leading-relaxed mb-5 flex-1 font-light italic">
                   "{t.quote}"
                 </blockquote>
 
+                {/* Context badge */}
+                <div className="mb-4">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60 bg-secondary/50 px-2 py-1 rounded-full">
+                    {t.context}
+                  </span>
+                </div>
+
                 {/* Author + Result */}
-                <div className="flex items-center justify-between gap-4 pt-4 border-t border-border/20">
+                <div className="flex items-center justify-between gap-3 pt-4 border-t border-border/20">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-lavender/30 to-brand-teal/30 flex items-center justify-center shrink-0">
-                      <span className="font-display font-bold text-foreground text-xs">
-                        {t.initials}
-                      </span>
-                    </div>
+                    {t.logo ? (
+                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                        <img
+                          src={t.logo}
+                          alt={t.company}
+                          className="w-full h-full object-contain rounded-full"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-lavender/30 to-brand-teal/30 flex items-center justify-center shrink-0">
+                        <span className="font-display font-bold text-foreground text-xs">
+                          {t.initials}
+                        </span>
+                      </div>
+                    )}
                     <div>
                       <div className="text-sm font-semibold text-foreground">
                         {t.name}
@@ -158,15 +235,15 @@ const Testimonial = () => {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="flex items-center gap-1 justify-end">
+                    <div className="flex items-center gap-0.5 justify-end">
                       {[...Array(5)].map((_, j) => (
                         <Star
                           key={j}
-                          className="h-3 w-3 fill-brand-amber text-brand-amber"
+                          className="h-2.5 w-2.5 fill-brand-amber text-brand-amber"
                         />
                       ))}
                     </div>
-                    <span className="text-xs text-primary font-semibold">
+                    <span className="text-[10px] text-primary font-semibold">
                       {t.result}
                     </span>
                   </div>
@@ -191,24 +268,41 @@ const Testimonial = () => {
               />
             </div>
 
-            <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center gap-2 mb-8">
               <TrendingUp className="h-5 w-5 text-primary" />
               <h3 className="font-display font-bold text-lg text-foreground">
                 Resultados probados en +20 industrias
               </h3>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
               {caseStudies.map((cs, i) => (
-                <div key={i} className="group/card">
-                  <div className="text-2xl md:text-3xl font-display font-bold text-gradient mb-1">
+                <div key={i} className="glass rounded-xl p-4 group/card hover:glow-box transition-all duration-300">
+                  <div className="flex items-center gap-2 mb-3">
+                    {cs.logo ? (
+                      <img
+                        src={cs.logo}
+                        alt={cs.company}
+                        className="h-5 w-5 object-contain rounded-sm"
+                      />
+                    ) : (
+                      <Building2 className="h-4 w-4 text-muted-foreground/50" />
+                    )}
+                    <span className="text-xs text-muted-foreground font-medium">
+                      {cs.company}
+                    </span>
+                  </div>
+                  <div className="text-2xl font-display font-bold text-gradient mb-1">
                     {cs.result}
                   </div>
                   <div className="text-sm text-foreground font-medium mb-1">
                     {cs.description}
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    {cs.company} · {cs.metric}
+                  <div className="text-xs text-muted-foreground mb-2">
+                    {cs.metric}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground/50 italic">
+                    {cs.detail}
                   </div>
                 </div>
               ))}
@@ -218,6 +312,10 @@ const Testimonial = () => {
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />
                 Datos verificados de campañas reales
+              </span>
+              <span className="flex items-center gap-1.5">
+                <ArrowRight className="h-3 w-3 text-primary" />
+                Campañas gestionadas por Guillermo y equipo
               </span>
               <span className="flex items-center gap-1.5">
                 <ArrowRight className="h-3 w-3 text-primary" />
