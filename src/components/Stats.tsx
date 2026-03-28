@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import agentAnalytics from "@/assets/characters/agent-analytics.png";
 
 const stats = [
   { value: 2, suffix: "M+", label: "Llamadas gestionadas" },
@@ -48,22 +49,36 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
 
 const Stats = () => {
   return (
-    <section id="stats" className="py-24 px-6">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-4">
-          Innovación en <span className="text-gradient">IA conversacional</span>
-        </h2>
-        <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
-          Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
-        </p>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((s, i) => (
-            <div key={i} className="text-center">
-              <AnimatedNumber target={s.value} suffix={s.suffix} />
-              <p className="text-sm text-muted-foreground mt-2">{s.label}</p>
+    <section id="stats" className="py-24 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
+      <div className="container mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="lg:w-1/3 flex justify-center">
+            <img
+              src={agentAnalytics}
+              alt="BYTE analiza los datos"
+              className="w-40 md:w-52 object-contain animate-float drop-shadow-2xl"
+              width={512}
+              height={512}
+              loading="lazy"
+            />
+          </div>
+          <div className="lg:w-2/3">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-2">
+              Innovación en <span className="text-gradient">IA conversacional</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mb-10">
+              Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
+            </p>
+            <div className="grid grid-cols-2 gap-8">
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <AnimatedNumber target={s.value} suffix={s.suffix} />
+                  <p className="text-sm text-muted-foreground mt-2">{s.label}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
