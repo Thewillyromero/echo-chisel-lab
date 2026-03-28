@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from "react";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
@@ -51,6 +52,69 @@ const features = [
   },
 ];
 
+const FeatureCard = ({ f, index }: { f: typeof features[0]; index: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${index * 150}ms` }}
+      className={`glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10 group hover:glow-box transition-all duration-700 relative overflow-hidden ${
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-8"
+      }`}
+    >
+      <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${f.bgGlow} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+
+      <div className="shrink-0 relative z-10">
+        <img
+          src={f.image}
+          alt={f.agent}
+          className={`w-24 md:w-28 object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500 ${f.animation}`}
+          width={512}
+          height={512}
+          loading="lazy"
+        />
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-2">
+          <div className={`w-8 h-8 rounded-lg ${f.iconBg} flex items-center justify-center`}>
+            <f.icon className={`h-4 w-4 ${f.color}`} />
+          </div>
+          <span className={`text-xs font-display font-bold ${f.color} tracking-wider uppercase`}>
+            {f.agent}
+          </span>
+        </div>
+        <h3 className="font-display font-bold text-xl md:text-2xl mb-3 text-foreground">
+          {f.title}
+        </h3>
+        <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-lg">
+          {f.description}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const Features = () => {
   return (
     <section id="features" className="py-24 px-6 relative section-glow">
@@ -71,47 +135,9 @@ const Features = () => {
         </div>
 
         <div className="space-y-6">
-          {features.map((f, i) => {
-            return (
-              <div
-                key={i}
-                className={`glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10 group hover:glow-box transition-all duration-500 relative overflow-hidden`}
-              >
-                {/* Ambient glow behind robot */}
-                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${f.bgGlow} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
-
-                {/* Robot — uniform size, unique idle animation */}
-                <div className="shrink-0 relative z-10">
-                  <img
-                    src={f.image}
-                    alt={f.agent}
-                    className={`w-24 md:w-28 object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500 ${f.animation}`}
-                    width={512}
-                    height={512}
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Content — always left-aligned */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className={`w-8 h-8 rounded-lg ${f.iconBg} flex items-center justify-center`}>
-                      <f.icon className={`h-4 w-4 ${f.color}`} />
-                    </div>
-                    <span className={`text-xs font-display font-bold ${f.color} tracking-wider uppercase`}>
-                      {f.agent}
-                    </span>
-                  </div>
-                  <h3 className="font-display font-bold text-xl md:text-2xl mb-3 text-foreground">
-                    {f.title}
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-lg">
-                    {f.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+          {features.map((f, i) => (
+            <FeatureCard key={i} f={f} index={i} />
+          ))}
         </div>
       </div>
     </section>
