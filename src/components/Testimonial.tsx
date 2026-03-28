@@ -32,10 +32,10 @@ const Testimonial = () => {
             ))}
           </div>
           <blockquote className="text-lg md:text-xl text-foreground leading-relaxed mb-6 italic relative z-10">
-            "Hemos trabajado duro para sacar al mercado un producto sólido, sin fallos y con la mayor seguridad posible, aportando total confianza a las empresas que cuentan con nosotros."
+            "Nos hemos volcado en crear una solución robusta, fiable y con los más altos estándares de seguridad, para que cada empresa que confía en nosotros sienta esa tranquilidad desde el primer día."
           </blockquote>
           <div className="text-sm text-muted-foreground">
-            <span className="text-foreground font-semibold">José Luis Perdomo</span> · Fundador de CALLA
+            <span className="text-foreground font-semibold">Guillermo Romero</span> · Fundador de CALLA
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <span className="text-gradient font-semibold">4.9 de 5 estrellas</span>
