@@ -14,6 +14,7 @@ const features = [
     color: "text-brand-teal",
     bgGlow: "bg-brand-teal/[0.08]",
     iconBg: "bg-brand-teal/10",
+    animation: "animate-wave",
   },
   {
     image: agentOutbound,
@@ -24,6 +25,7 @@ const features = [
     color: "text-brand-lavender",
     bgGlow: "bg-brand-lavender/[0.08]",
     iconBg: "bg-brand-lavender/10",
+    animation: "animate-bounce-subtle",
   },
   {
     image: agentScheduler,
@@ -34,6 +36,7 @@ const features = [
     color: "text-brand-emerald",
     bgGlow: "bg-brand-emerald/[0.08]",
     iconBg: "bg-brand-emerald/10",
+    animation: "animate-wiggle",
   },
   {
     image: agentAnalytics,
@@ -44,6 +47,7 @@ const features = [
     color: "text-brand-amber",
     bgGlow: "bg-brand-amber/[0.08]",
     iconBg: "bg-brand-amber/10",
+    animation: "animate-nod",
   },
 ];
 
@@ -72,31 +76,26 @@ const Features = () => {
             return (
               <div
                 key={i}
-                className={`glass rounded-2xl p-6 md:p-8 flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-6 md:gap-10 group hover:glow-box transition-all duration-500 relative overflow-hidden`}
+                className={`glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10 group hover:glow-box transition-all duration-500 relative overflow-hidden`}
               >
                 {/* Ambient glow behind robot */}
-                <div className={`absolute ${isReversed ? 'right-0' : 'left-0'} top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${f.bgGlow} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${f.bgGlow} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
-                {/* Robot - each one presented differently */}
+                {/* Robot — uniform size, unique idle animation */}
                 <div className="shrink-0 relative z-10">
                   <img
                     src={f.image}
                     alt={f.agent}
-                    className={`object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500 ${
-                      i === 0 ? 'w-28 md:w-36 group-hover:-rotate-3 group-hover:scale-105' :
-                      i === 1 ? 'w-24 md:w-32 group-hover:rotate-3 group-hover:scale-110' :
-                      i === 2 ? 'w-26 md:w-34 group-hover:scale-105 group-hover:-translate-y-2' :
-                      'w-24 md:w-32 group-hover:rotate-2 group-hover:scale-108'
-                    }`}
+                    className={`w-24 md:w-28 object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500 ${f.animation}`}
                     width={512}
                     height={512}
                     loading="lazy"
                   />
                 </div>
 
-                {/* Content */}
-                <div className={`flex-1 min-w-0 ${isReversed ? 'md:text-right' : ''}`}>
-                  <div className={`flex items-center gap-2 mb-2 ${isReversed ? 'md:justify-end' : ''}`}>
+                {/* Content — always left-aligned */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
                     <div className={`w-8 h-8 rounded-lg ${f.iconBg} flex items-center justify-center`}>
                       <f.icon className={`h-4 w-4 ${f.color}`} />
                     </div>
