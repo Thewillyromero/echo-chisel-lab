@@ -29,6 +29,7 @@ const Index = () => {
       <Hero onContact={() => openContact("hero")} />
       <LogoMarquee />
       <Features />
+      <DemoCall />
       <Squad />
       <About />
       <Stats />
