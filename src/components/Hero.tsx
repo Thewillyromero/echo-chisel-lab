@@ -2,8 +2,6 @@ import heroRobot from "@/assets/hero-robot.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import agentOutbound from "@/assets/characters/agent-outbound.png";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
 
 const Hero = () => {
   return (
@@ -48,33 +46,19 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="flex-1 flex justify-center lg:justify-end relative">
-          {/* Secondary agents flanking the hero */}
-          <img
-            src={agentOutbound}
-            alt=""
-            className="absolute -left-4 bottom-4 w-16 md:w-20 object-contain animate-float opacity-70 hidden lg:block"
-            width={512}
-            height={512}
-            loading="lazy"
-            style={{ animationDelay: "0.8s" }}
-          />
-          <img
-            src={heroRobot}
-            alt="CALLA Asistente Virtual"
-            className="w-72 md:w-96 lg:w-[28rem] animate-float drop-shadow-2xl relative z-10"
-            width={1024}
-            height={1024}
-          />
-          <img
-            src={agentScheduler}
-            alt=""
-            className="absolute -right-4 bottom-8 w-14 md:w-18 object-contain animate-float opacity-70 hidden lg:block"
-            width={512}
-            height={512}
-            loading="lazy"
-            style={{ animationDelay: "1.6s" }}
-          />
+        {/* Hero robot — solo, protagonista, con espacio para respirar */}
+        <div className="flex-1 flex justify-center lg:justify-end">
+          <div className="relative">
+            {/* Soft glow behind the robot */}
+            <div className="absolute inset-0 scale-150 rounded-full bg-accent/[0.06] blur-[80px]" />
+            <img
+              src={heroRobot}
+              alt="CALLA Asistente Virtual"
+              className="w-72 md:w-96 lg:w-[26rem] animate-float drop-shadow-2xl relative z-10"
+              width={1024}
+              height={1024}
+            />
+          </div>
         </div>
       </div>
     </section>
