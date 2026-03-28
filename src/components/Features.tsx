@@ -32,10 +32,10 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="py-24 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
-      {/* Ambient orb */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[300px] rounded-full bg-primary/[0.03] blur-[100px]" />
+    <section id="features" className="py-24 px-6 relative section-glow">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
+      <div className="absolute top-0 right-1/4 w-[600px] h-[300px] rounded-full bg-brand-lavender/[0.04] blur-[100px]" />
+      <div className="absolute bottom-0 left-1/3 w-[400px] h-[250px] rounded-full bg-brand-rose/[0.03] blur-[100px]" />
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-16">
           <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-3 font-medium">
