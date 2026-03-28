@@ -88,7 +88,10 @@ const FeatureCard = ({ f, index }: { f: typeof features[0]; index: number }) => 
         <img
           src={f.image}
           alt={f.agent}
-          className={`w-24 md:w-28 object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500 ${f.animation}`}
+          className={`w-24 md:w-28 object-contain drop-shadow-xl group-hover:drop-shadow-2xl transition-all duration-500`}
+          style={{ animation: "none" }}
+          onMouseEnter={(e) => { e.currentTarget.style.animation = `${f.animationName} ${f.animationDuration} ease-in-out`; }}
+          onMouseLeave={(e) => { e.currentTarget.style.animation = "none"; }}
           width={512}
           height={512}
           loading="lazy"
