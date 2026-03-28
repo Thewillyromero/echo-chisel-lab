@@ -49,7 +49,7 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
 
 const Stats = () => {
   return (
-    <section id="stats" className="py-24 px-6 relative overflow-hidden">
+    <section id="stats" className="py-24 px-6 relative overflow-hidden section-glow">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12">
