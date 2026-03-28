@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroRobot from "@/assets/hero-robot.png";
+import iconSparkle from "@/assets/icons/icon-sparkle.png";
 
 const CTA = () => {
   return (
@@ -8,8 +9,8 @@ const CTA = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-brand-lavender/[0.03] via-transparent to-transparent" />
       <div className="container mx-auto max-w-4xl relative z-10">
         <div className="glass-warm rounded-2xl p-8 md:p-12 relative overflow-hidden glow-box-strong">
-          {/* Hero robot en el lateral — como mascota de despedida */}
-          <div className="absolute -right-6 -bottom-4 hidden md:block opacity-20">
+          {/* Hero robot como watermark */}
+          <div className="absolute -right-6 -bottom-4 hidden md:block opacity-15">
             <img
               src={heroRobot}
               alt=""
@@ -21,8 +22,16 @@ const CTA = () => {
           </div>
 
           <div className="relative z-10 text-center md:text-left max-w-xl">
-            <div className="w-10 h-10 rounded-xl bg-brand-lavender/10 border border-brand-lavender/20 flex items-center justify-center mb-5 md:mx-0 mx-auto">
-              <Sparkles className="h-5 w-5 text-brand-lavender" />
+            {/* 3D sparkle icon */}
+            <div className="mb-5 md:mx-0 mx-auto w-fit">
+              <img
+                src={iconSparkle}
+                alt=""
+                className="w-12 h-12 object-contain drop-shadow-md"
+                width={512}
+                height={512}
+                loading="lazy"
+              />
             </div>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4 tracking-tight">
               Empieza <span className="text-gradient">hoy mismo</span>
