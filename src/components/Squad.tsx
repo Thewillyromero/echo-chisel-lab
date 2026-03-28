@@ -12,8 +12,8 @@ const agents = [
     description: "Recibe las llamadas de tus clientes, resuelve dudas y recoge la info que necesitas.",
     image: agentInbound,
     icon: Phone,
-    accentColor: "text-primary",
-    glowColor: "shadow-[0_0_30px_hsl(185_80%_50%/0.2)]",
+    accentColor: "text-brand-teal",
+    glowColor: "shadow-[0_0_30px_hsl(190_55%_58%/0.2)]",
   },
   {
     name: "NOVA",
@@ -21,8 +21,8 @@ const agents = [
     description: "Llama a tus leads, presenta tu servicio y detecta interés real.",
     image: agentOutbound,
     icon: PhoneOutgoing,
-    accentColor: "text-violet-400",
-    glowColor: "shadow-[0_0_30px_hsl(270_60%_60%/0.2)]",
+    accentColor: "text-brand-lavender",
+    glowColor: "shadow-[0_0_30px_hsl(260_45%_65%/0.2)]",
   },
   {
     name: "LUMI",
@@ -30,8 +30,8 @@ const agents = [
     description: "Cuando hay interés, agenda la cita automáticamente en tu calendario.",
     image: agentScheduler,
     icon: CalendarCheck,
-    accentColor: "text-emerald-400",
-    glowColor: "shadow-[0_0_30px_hsl(150_60%_50%/0.2)]",
+    accentColor: "text-brand-emerald",
+    glowColor: "shadow-[0_0_30px_hsl(160_45%_52%/0.2)]",
   },
   {
     name: "BYTE",
@@ -39,8 +39,8 @@ const agents = [
     description: "Analiza cada conversación y te muestra qué funciona y qué mejorar.",
     image: agentAnalytics,
     icon: BarChart3,
-    accentColor: "text-amber-400",
-    glowColor: "shadow-[0_0_30px_hsl(40_80%_55%/0.2)]",
+    accentColor: "text-brand-amber",
+    glowColor: "shadow-[0_0_30px_hsl(35_65%_62%/0.2)]",
   },
   {
     name: "CARE",
@@ -48,8 +48,8 @@ const agents = [
     description: "Hace seguimiento post-cita para asegurar que todo salió bien.",
     image: agentSupport,
     icon: Heart,
-    accentColor: "text-rose-400",
-    glowColor: "shadow-[0_0_30px_hsl(350_70%_60%/0.2)]",
+    accentColor: "text-brand-rose",
+    glowColor: "shadow-[0_0_30px_hsl(340_50%_65%/0.2)]",
   },
 ];
 
