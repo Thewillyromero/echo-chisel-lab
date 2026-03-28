@@ -35,16 +35,19 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
 
     setLoading(true);
     try {
-      const { error } = await supabase.from("contact_leads").insert({
-        name: form.name.trim().slice(0, 100),
-        email: form.email.trim().toLowerCase().slice(0, 255),
-        phone: form.phone.trim().slice(0, 30) || null,
-        company: form.company.trim().slice(0, 100) || null,
-        message: form.message.trim().slice(0, 1000) || null,
-        source,
+      const { data, error } = await supabase.functions.invoke("submit-contact", {
+        body: {
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
+          phone: form.phone.trim() || null,
+          company: form.company.trim() || null,
+          message: form.message.trim() || null,
+          source,
+        },
       });
 
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", company: "", message: "" });
     } catch {
