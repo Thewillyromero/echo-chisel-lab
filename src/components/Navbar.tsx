@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroRobot from "@/assets/hero-robot.png";
 
@@ -21,6 +22,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
           <a href="#squad" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+          <Link to="/precios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Precios</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -43,6 +45,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
           <a href="#squad" className="text-sm text-muted-foreground">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground">Blog</a>
+          <Link to="/precios" className="text-sm text-muted-foreground" onClick={() => setOpen(false)}>Precios</Link>
           <Button size="sm" className="glow-box w-full" onClick={() => { setOpen(false); onContact?.(); }}>
             Prueba gratis
           </Button>
