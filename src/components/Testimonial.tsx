@@ -1,45 +1,52 @@
-import { Star } from "lucide-react";
-import agentInbound from "@/assets/characters/agent-inbound.png";
+import { Star, Quote } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.png";
 
 const Testimonial = () => {
   return (
-    <section className="py-24 px-6">
-      <div className="container mx-auto max-w-3xl">
-        <div className="glass rounded-2xl p-8 md:p-12 text-center glow-box-strong relative overflow-hidden">
-          {/* Decorative robots */}
-          <img
-            src={agentInbound}
-            alt=""
-            className="absolute -top-6 -right-4 w-20 h-20 md:w-24 md:h-24 object-contain hidden md:block animate-float opacity-80"
-            width={512}
-            height={512}
-            loading="lazy"
-          />
-          <img
-            src={agentSupport}
-            alt=""
-            className="absolute -bottom-4 -left-4 w-16 h-16 md:w-20 md:h-20 object-contain hidden md:block animate-float opacity-60"
-            width={512}
-            height={512}
-            loading="lazy"
-            style={{ animationDelay: "1.5s" }}
-          />
-
-          <div className="flex justify-center gap-1 mb-6">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="h-5 w-5 text-primary fill-primary" />
-            ))}
+    <section className="py-24 px-6 relative">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-brand-rose/[0.03] blur-[100px]" />
+      <div className="container mx-auto max-w-3xl relative z-10">
+        <div className="glass-warm rounded-2xl p-8 md:p-12 relative overflow-hidden">
+          {/* CARE asomándose por detrás de la tarjeta — posición única */}
+          <div className="absolute -bottom-2 right-6 md:right-10 hidden md:block">
+            <img
+              src={agentSupport}
+              alt=""
+              className="w-24 object-contain opacity-40 group-hover:opacity-60 transition-opacity"
+              width={512}
+              height={512}
+              loading="lazy"
+            />
           </div>
-          <blockquote className="text-lg md:text-xl text-foreground leading-relaxed mb-6 italic relative z-10">
+
+          {/* Quote icon */}
+          <div className="w-10 h-10 rounded-xl bg-brand-rose/10 border border-brand-rose/20 flex items-center justify-center mb-6">
+            <Quote className="h-5 w-5 text-brand-rose" />
+          </div>
+
+          <blockquote className="text-lg md:text-xl text-foreground leading-relaxed mb-6 font-light relative z-10">
             "Nos hemos volcado en crear una solución robusta, fiable y con los más altos estándares de seguridad, para que cada empresa que confía en nosotros sienta esa tranquilidad desde el primer día."
           </blockquote>
-          <div className="text-sm text-muted-foreground">
-            <span className="text-foreground font-semibold">Guillermo Romero</span> · Fundador de CALLA
+
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-lavender/30 to-brand-teal/30 flex items-center justify-center">
+              <span className="font-display font-bold text-foreground text-sm">GR</span>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Guillermo Romero</div>
+              <div className="text-xs text-muted-foreground">Fundador de CALLA</div>
+            </div>
           </div>
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <span className="text-gradient font-semibold">4.9 de 5 estrellas</span>
-            <span>· Basado en 5.000+ opiniones</span>
+
+          <div className="mt-6 pt-6 border-t border-border/30 flex items-center gap-3">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 text-brand-amber fill-brand-amber" />
+              ))}
+            </div>
+            <span className="text-sm text-muted-foreground">
+              <span className="text-foreground font-medium">4.9</span> · 5.000+ opiniones
+            </span>
           </div>
         </div>
       </div>
