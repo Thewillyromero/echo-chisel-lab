@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import iconTeam from "@/assets/icons/icon-team.png";
 
 const About = () => {
   return (
@@ -11,7 +11,6 @@ const About = () => {
       <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
         <div className="flex-1">
           <div className="glass-warm rounded-2xl p-8 glow-box-strong relative">
-            {/* Robots en composición dinámica — superpuestos con profundidad */}
             <div className="relative h-48 md:h-56 flex items-end justify-center">
               <img
                 src={agentOutbound}
@@ -36,8 +35,16 @@ const About = () => {
         </div>
 
         <div className="flex-1 max-w-lg">
-          <div className="w-10 h-10 rounded-xl bg-brand-emerald/10 border border-brand-emerald/20 flex items-center justify-center mb-5">
-            <Users className="h-5 w-5 text-brand-emerald" />
+          {/* 3D team icon */}
+          <div className="mb-5">
+            <img
+              src={iconTeam}
+              alt=""
+              className="w-12 h-12 object-contain drop-shadow-md"
+              width={512}
+              height={512}
+              loading="lazy"
+            />
           </div>
           <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-6 tracking-tight">
             Conócenos
