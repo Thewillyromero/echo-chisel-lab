@@ -1,7 +1,7 @@
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroRobot from "@/assets/hero-robot.png";
-import { FadeIn } from "@/hooks/useFadeInOnScroll";
 
 const CTA = ({ onContact }: { onContact?: () => void }) => {
   return (
@@ -9,9 +9,13 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto max-w-4xl relative z-10">
-        <FadeIn>
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+        >
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
-            {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-card/80 to-accent/[0.04]" />
 
             <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center gap-10">
@@ -37,7 +41,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
               </div>
             </div>
           </div>
-        </FadeIn>
+        </motion.div>
       </div>
     </section>
   );

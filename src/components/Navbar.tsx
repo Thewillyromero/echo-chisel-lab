@@ -1,6 +1,6 @@
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroRobot from "@/assets/hero-robot.png";
 import { sectors } from "@/data/sectors";
@@ -11,6 +11,8 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
   const [mobileSectorsOpen, setMobileSectorsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -28,6 +30,27 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollToSection = (hash: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      }, 400);
+    } else {
+      document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleNavClick = (e: React.MouseEvent, hash: string) => {
+    e.preventDefault();
+    scrollToSection(hash);
+  };
+
+  const handleMobileNavClick = (hash: string) => {
+    setOpen(false);
+    scrollToSection(hash);
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       scrolled
@@ -35,7 +58,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
         : "bg-transparent"
     }`}>
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <a href="/" className="flex items-center gap-2.5">
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex items-center gap-2.5">
           <img src={heroRobot} alt="CALLA" className="h-8 w-8 object-contain" width={64} height={64} />
           <span className="text-xl font-display font-bold text-foreground tracking-tight">
             CA<span className="text-gradient-blue">LLA</span>
@@ -43,7 +66,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
         </a>
 
         <div className="hidden md:flex items-center gap-1">
-          <a href="#features" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Servicios</a>
+          <a href="#features" onClick={(e) => handleNavClick(e, "#features")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Servicios</a>
 
           <div ref={dropdownRef} className="relative">
             <button
@@ -76,9 +99,9 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
             )}
           </div>
 
-          <a href="#squad" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Squad</a>
-          <a href="#stats" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Resultados</a>
-          <a href="#blog" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Blog</a>
+          <a href="#squad" onClick={(e) => handleNavClick(e, "#squad")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Squad</a>
+          <a href="#stats" onClick={(e) => handleNavClick(e, "#stats")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Resultados</a>
+          <a href="#blog" onClick={(e) => handleNavClick(e, "#blog")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Blog</a>
           <Link to="/precios" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Precios</Link>
         </div>
 
@@ -98,7 +121,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
 
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-2xl border-t border-border/30 px-6 py-5 flex flex-col gap-1">
-          <a href="#features" className="py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors">Servicios</a>
+          <button onClick={() => handleMobileNavClick("#features")} className="py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors text-left">Servicios</button>
           <button
             onClick={() => setMobileSectorsOpen(!mobileSectorsOpen)}
             className="flex items-center justify-between py-2.5 text-sm text-muted-foreground"
@@ -120,9 +143,9 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
               })}
             </div>
           )}
-          <a href="#squad" className="py-2.5 text-sm text-muted-foreground">Squad</a>
-          <a href="#stats" className="py-2.5 text-sm text-muted-foreground">Resultados</a>
-          <a href="#blog" className="py-2.5 text-sm text-muted-foreground">Blog</a>
+          <button onClick={() => handleMobileNavClick("#squad")} className="py-2.5 text-sm text-muted-foreground text-left">Squad</button>
+          <button onClick={() => handleMobileNavClick("#stats")} className="py-2.5 text-sm text-muted-foreground text-left">Resultados</button>
+          <button onClick={() => handleMobileNavClick("#blog")} className="py-2.5 text-sm text-muted-foreground text-left">Blog</button>
           <Link to="/precios" className="py-2.5 text-sm text-muted-foreground" onClick={() => setOpen(false)}>Precios</Link>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full w-full mt-3 shadow-lg shadow-primary/20" onClick={() => { setOpen(false); onContact?.(); }}>
             Empezar gratis

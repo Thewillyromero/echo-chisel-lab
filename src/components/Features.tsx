@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
@@ -56,69 +56,26 @@ const features = [
   },
 ];
 
-const FeatureCard = ({ f, index }: { f: typeof features[0]; index: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.unobserve(el); } },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${index * 120}ms` }}
-      className={`group relative bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8 transition-all duration-700 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
-    >
-      <div className="flex items-start gap-5">
-        <div className="shrink-0">
-          <img
-            src={f.image}
-            alt={f.agent}
-            className="w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
-            style={{ animation: "none" }}
-            onMouseEnter={(e) => { e.currentTarget.style.animation = `${f.animationName} ${f.animationDuration} ease-in-out`; }}
-            onMouseLeave={(e) => { e.currentTarget.style.animation = "none"; }}
-            width={512} height={512} loading="lazy"
-          />
-        </div>
-
-        <div className="flex-1 min-w-0 pt-1">
-          <div className="flex items-center gap-2 mb-3">
-            <f.icon className={`h-4 w-4 ${f.color}`} />
-            <span className={`text-xs font-display font-bold ${f.color} tracking-widest uppercase`}>
-              {f.agent}
-            </span>
-          </div>
-          <h3 className="font-display font-bold text-xl md:text-2xl mb-2 text-foreground">
-            {f.title}
-          </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            {f.description}
-          </p>
-          <div className={`flex items-center gap-1.5 text-sm font-medium ${f.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
-            Conocer más <ArrowRight className="h-3.5 w-3.5" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 const Features = () => {
   return (
     <section id="features" className="py-28 px-6 relative">
       <div className="container mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          className="text-center mb-16"
+        >
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Empleados IA 24/7
           </p>
@@ -129,13 +86,55 @@ const Features = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
             Cada agente está diseñado para un rol específico. Delega y escala sin añadir personal.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-5">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ staggerChildren: 0.12 }}
+          className="grid md:grid-cols-2 gap-5"
+        >
           {features.map((f, i) => (
-            <FeatureCard key={i} f={f} index={i} />
+            <motion.div
+              key={i}
+              variants={cardVariants}
+              className={`group relative bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
+            >
+              <div className="flex items-start gap-5">
+                <div className="shrink-0">
+                  <img
+                    src={f.image}
+                    alt={f.agent}
+                    className="w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    style={{ animation: "none" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.animation = `${f.animationName} ${f.animationDuration} ease-in-out`; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.animation = "none"; }}
+                    width={512} height={512} loading="lazy"
+                  />
+                </div>
+
+                <div className="flex-1 min-w-0 pt-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <f.icon className={`h-4 w-4 ${f.color}`} />
+                    <span className={`text-xs font-display font-bold ${f.color} tracking-widest uppercase`}>
+                      {f.agent}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-xl md:text-2xl mb-2 text-foreground">
+                    {f.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                    {f.description}
+                  </p>
+                  <div className={`flex items-center gap-1.5 text-sm font-medium ${f.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                    Conocer más <ArrowRight className="h-3.5 w-3.5" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
