@@ -34,8 +34,17 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const body = await req.json();
-    const { action } = body;
+    const rawBody = await req.text();
+    let body: any;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const action = body?.action;
 
     // Route actions
     if (action === "create_conversation") {
