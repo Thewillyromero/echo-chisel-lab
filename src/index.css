@@ -6,54 +6,54 @@
 
 @layer base {
   :root {
-    --background: 235 25% 10%;
-    --foreground: 220 20% 94%;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 96%;
 
-    --card: 235 22% 13%;
-    --card-foreground: 220 20% 94%;
+    --card: 240 8% 7%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 235 22% 13%;
-    --popover-foreground: 220 20% 94%;
+    --popover: 240 8% 7%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 200 65% 62%;
-    --primary-foreground: 228 22% 8%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 228 18% 14%;
-    --secondary-foreground: 220 15% 80%;
+    --secondary: 240 6% 10%;
+    --secondary-foreground: 0 0% 70%;
 
-    --muted: 228 16% 13%;
-    --muted-foreground: 220 12% 52%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 0 0% 50%;
 
-    --accent: 260 45% 65%;
-    --accent-foreground: 228 22% 8%;
+    --accent: 260 50% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 65% 58%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 228 16% 16%;
-    --input: 228 16% 16%;
-    --ring: 200 65% 62%;
+    --border: 240 6% 14%;
+    --input: 240 6% 14%;
+    --ring: 217 91% 60%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Brand palette — matches robot characters */
-    --brand-teal: 190 55% 58%;
-    --brand-lavender: 260 45% 65%;
-    --brand-rose: 340 50% 65%;
-    --brand-amber: 35 65% 62%;
-    --brand-emerald: 160 45% 52%;
+    /* Brand palette */
+    --brand-teal: 190 60% 55%;
+    --brand-lavender: 260 50% 65%;
+    --brand-rose: 340 55% 60%;
+    --brand-amber: 35 70% 58%;
+    --brand-emerald: 160 50% 48%;
 
-    --glow-primary: 0 0 25px hsl(200 65% 62% / 0.2), 0 0 60px hsl(260 45% 65% / 0.08);
-    --glow-strong: 0 0 40px hsl(200 65% 62% / 0.15), 0 0 80px hsl(260 45% 65% / 0.06), 0 0 120px hsl(340 50% 65% / 0.04);
+    --glow-primary: 0 0 30px hsl(217 91% 60% / 0.15), 0 0 80px hsl(217 91% 60% / 0.05);
+    --glow-strong: 0 0 50px hsl(217 91% 60% / 0.12), 0 0 120px hsl(260 50% 60% / 0.06);
 
-    --sidebar-background: 228 20% 9%;
-    --sidebar-foreground: 220 15% 80%;
-    --sidebar-primary: 200 65% 62%;
-    --sidebar-primary-foreground: 228 22% 8%;
-    --sidebar-accent: 228 18% 14%;
-    --sidebar-accent-foreground: 220 15% 80%;
-    --sidebar-border: 228 16% 16%;
-    --sidebar-ring: 200 65% 62%;
+    --sidebar-background: 240 10% 5%;
+    --sidebar-foreground: 0 0% 70%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 6% 10%;
+    --sidebar-accent-foreground: 0 0% 70%;
+    --sidebar-border: 240 6% 14%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
@@ -64,11 +64,6 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(260 45% 65% / 0.06), transparent),
-      radial-gradient(ellipse 60% 50% at 100% 30%, hsl(200 65% 62% / 0.04), transparent),
-      radial-gradient(ellipse 50% 40% at 0% 70%, hsl(340 50% 65% / 0.03), transparent),
-      radial-gradient(ellipse 40% 30% at 70% 90%, hsl(160 45% 52% / 0.02), transparent);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -79,12 +74,17 @@
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(200 65% 68%), hsl(260 50% 72%), hsl(340 50% 70%));
+    background-image: linear-gradient(135deg, hsl(217 91% 65%), hsl(260 55% 70%), hsl(340 55% 65%));
   }
 
   .text-gradient-warm {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(340 50% 68%), hsl(35 65% 65%), hsl(160 45% 58%));
+    background-image: linear-gradient(135deg, hsl(340 55% 65%), hsl(35 70% 62%), hsl(160 50% 55%));
+  }
+
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(217 91% 65%), hsl(200 80% 60%));
   }
 
   .glow-box {
@@ -96,28 +96,21 @@
   }
 
   .glass {
-    @apply bg-card/40 backdrop-blur-2xl border border-border/30;
-    background-image: linear-gradient(135deg, hsl(228 20% 13% / 0.5), hsl(228 20% 9% / 0.7));
+    @apply bg-card/60 backdrop-blur-xl border border-border/40;
   }
 
   .glass-warm {
-    @apply bg-card/40 backdrop-blur-2xl border border-border/30;
-    background-image: linear-gradient(135deg, hsl(260 20% 14% / 0.3), hsl(228 20% 10% / 0.6));
+    @apply bg-card/50 backdrop-blur-xl border border-border/30;
+    background-image: linear-gradient(135deg, hsl(260 15% 10% / 0.4), hsl(240 8% 6% / 0.6));
   }
 
-  .section-glow {
-    position: relative;
-  }
-  .section-glow::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 40% at 50% 0%, hsl(260 45% 65% / 0.04), transparent);
-    pointer-events: none;
+  .glass-elevated {
+    @apply bg-card/70 backdrop-blur-2xl border border-border/50;
+    box-shadow: 0 8px 32px hsl(0 0% 0% / 0.3), 0 0 1px hsl(0 0% 100% / 0.05);
   }
 
-  .section-glow-rose::before {
-    background: radial-gradient(ellipse 60% 35% at 50% 0%, hsl(340 50% 65% / 0.04), transparent);
+  .section-divider {
+    @apply border-t border-border/20;
   }
 
   .noise-overlay {
@@ -127,7 +120,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.012;
+    opacity: 0.015;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 256px 256px;
     pointer-events: none;
@@ -155,7 +148,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ARIA — gentle wave / tilt like waving hello */
 @keyframes wave {
   0%, 100% { transform: rotate(0deg) translateY(0); }
   15% { transform: rotate(4deg) translateY(-3px); }
@@ -165,7 +157,6 @@
   75% { transform: rotate(1deg) translateY(-1px); }
 }
 
-/* NOVA — energetic subtle bounce with horizontal sway */
 @keyframes bounce-subtle {
   0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
   25% { transform: translateY(-8px) translateX(3px) rotate(2deg); }
@@ -173,7 +164,6 @@
   75% { transform: translateY(-6px) translateX(-3px) rotate(-2deg); }
 }
 
-/* LUMI — playful wiggle like writing in a notebook */
 @keyframes wiggle {
   0%, 100% { transform: rotate(0deg) scale(1); }
   20% { transform: rotate(-3deg) scale(1.02); }
@@ -182,10 +172,14 @@
   80% { transform: rotate(1deg) scale(0.99); }
 }
 
-/* BYTE — analytical nod like reading data */
 @keyframes nod {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   30% { transform: translateY(-4px) rotate(-1deg); }
   50% { transform: translateY(2px) rotate(1deg); }
   70% { transform: translateY(-3px) rotate(-0.5deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }

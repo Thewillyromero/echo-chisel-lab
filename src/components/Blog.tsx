@@ -12,6 +12,7 @@ const items = [
     description: "Novedades y contenido de nuestras redes sociales.",
     cta: "Ver publicaciones",
     color: "text-brand-teal",
+    hoverBorder: "hover:border-brand-teal/30",
   },
   {
     icon: iconUpdates,
@@ -19,6 +20,7 @@ const items = [
     description: "Avances y nuevas funcionalidades de la plataforma.",
     cta: "Ir al blog",
     color: "text-brand-lavender",
+    hoverBorder: "hover:border-brand-lavender/30",
   },
   {
     icon: iconNews,
@@ -26,49 +28,41 @@ const items = [
     description: "Hitos y logros de CALLA. ¡No te los pierdas!",
     cta: "Ver noticias",
     color: "text-brand-rose",
+    hoverBorder: "hover:border-brand-rose/30",
   },
 ];
 
 const Blog = () => {
   return (
-    <section id="blog" className="py-24 px-6 relative">
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[300px] rounded-full bg-brand-teal/[0.03] blur-[100px]" />
+    <section id="blog" className="py-28 px-6 relative">
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+
       <div className="container mx-auto relative z-10">
         <FadeIn>
-          <div className="flex flex-col lg:flex-row items-center gap-8 mb-12">
+          <div className="flex flex-col lg:flex-row items-center gap-8 mb-14">
             <div className="lg:flex-1">
-              <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-3 font-medium">
+              <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
                 Mantente al día
               </p>
-              <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
+              <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
                 Infórmate de nuestros <span className="text-gradient">avances</span>
               </h2>
             </div>
             <div className="hidden lg:block shrink-0">
-              <img
-                src={agentScheduler}
-                alt=""
-                className="w-20 object-contain drop-shadow-lg -rotate-6 hover:rotate-0 transition-transform duration-500 opacity-80"
-                width={512} height={512} loading="lazy"
-              />
+              <img src={agentScheduler} alt="" className="w-20 object-contain drop-shadow-lg -rotate-6 hover:rotate-0 transition-transform duration-500 opacity-60" width={512} height={512} loading="lazy" />
             </div>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {items.map((item, i) => (
-            <FadeIn key={i} delay={i * 120}>
-              <div className="glass rounded-2xl p-6 hover:glow-box transition-all duration-500 group flex flex-col cursor-pointer h-full">
+            <FadeIn key={i} delay={i * 100}>
+              <div className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}>
                 <div className="mb-5">
-                  <img
-                    src={item.icon}
-                    alt=""
-                    className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
-                    width={512} height={512} loading="lazy"
-                  />
+                  <img src={item.icon} alt="" className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md" width={512} height={512} loading="lazy" />
                 </div>
                 <h3 className="font-display font-bold text-lg mb-2 text-foreground">{item.title}</h3>
-                <p className="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">{item.description}</p>
+                <p className="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed font-light">{item.description}</p>
                 <div className={`flex items-center gap-1.5 text-sm font-medium ${item.color} group-hover:gap-2.5 transition-all duration-300`}>
                   {item.cta}
                   <ArrowUpRight className="h-4 w-4" />

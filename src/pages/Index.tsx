@@ -22,7 +22,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background noise-overlay">
+    <div className="min-h-screen bg-background">
       <Navbar onContact={() => openContact("navbar")} />
       <Hero onContact={() => openContact("hero")} />
       <LogoMarquee />

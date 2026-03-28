@@ -26,13 +26,11 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
       toast.error("Por favor, completa al menos tu nombre y email.");
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email.trim())) {
       toast.error("Por favor, introduce un email válido.");
       return;
     }
-
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("submit-contact", {
@@ -45,7 +43,6 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
           source,
         },
       });
-
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setSuccess(true);
@@ -59,14 +56,12 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
 
   const handleClose = (open: boolean) => {
     onOpenChange(open);
-    if (!open) {
-      setTimeout(() => setSuccess(false), 300);
-    }
+    if (!open) setTimeout(() => setSuccess(false), 300);
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="glass-warm border-border/30 sm:max-w-lg">
+      <DialogContent className="bg-card/90 backdrop-blur-2xl border-border/30 sm:max-w-lg">
         {success ? (
           <div className="flex flex-col items-center text-center py-8 gap-4">
             <div className="w-16 h-16 rounded-full bg-brand-emerald/20 flex items-center justify-center">
@@ -75,106 +70,51 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
             <DialogHeader>
               <DialogTitle className="text-2xl font-display font-extrabold">¡Mensaje enviado!</DialogTitle>
               <DialogDescription className="text-muted-foreground mt-2">
-                Nos pondremos en contacto contigo en menos de 24 horas. Prepárate para conocer a tu nuevo equipo de agentes IA.
+                Nos pondremos en contacto contigo en menos de 24 horas.
               </DialogDescription>
             </DialogHeader>
-            <img src={heroRobot} alt="" className="w-24 opacity-60 mt-2" width={1024} height={1024} />
-            <Button variant="outline" onClick={() => handleClose(false)} className="mt-2">
-              Cerrar
-            </Button>
+            <img src={heroRobot} alt="" className="w-24 opacity-40 mt-2" width={1024} height={1024} />
+            <Button variant="outline" onClick={() => handleClose(false)} className="mt-2 rounded-full">Cerrar</Button>
           </div>
         ) : (
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-display font-extrabold">
-                Empieza con <span className="text-gradient">CALLA</span>
+                Empieza con <span className="text-gradient-blue">CALLA</span>
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
-                Déjanos tus datos y te contactamos para configurar tu asistente virtual en menos de 30 minutos.
+                Déjanos tus datos y te contactamos para configurar tu asistente virtual.
               </DialogDescription>
             </DialogHeader>
-
             <form onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="name">Nombre *</Label>
-                  <Input
-                    id="name"
-                    placeholder="Tu nombre"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    maxLength={100}
-                    required
-                    className="bg-secondary/50 border-border/40"
-                  />
+                  <Input id="name" placeholder="Tu nombre" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required className="bg-secondary/50 border-border/40" />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="email">Email *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="tu@empresa.com"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    maxLength={255}
-                    required
-                    className="bg-secondary/50 border-border/40"
-                  />
+                  <Input id="email" type="email" placeholder="tu@empresa.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required className="bg-secondary/50 border-border/40" />
                 </div>
               </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="phone">Teléfono</Label>
-                  <Input
-                    id="phone"
-                    placeholder="+34 600 000 000"
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    maxLength={30}
-                    className="bg-secondary/50 border-border/40"
-                  />
+                  <Input id="phone" placeholder="+34 600 000 000" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={30} className="bg-secondary/50 border-border/40" />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="company">Empresa</Label>
-                  <Input
-                    id="company"
-                    placeholder="Tu empresa"
-                    value={form.company}
-                    onChange={(e) => setForm({ ...form, company: e.target.value })}
-                    maxLength={100}
-                    className="bg-secondary/50 border-border/40"
-                  />
+                  <Input id="company" placeholder="Tu empresa" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} maxLength={100} className="bg-secondary/50 border-border/40" />
                 </div>
               </div>
-
               <div className="space-y-1.5">
                 <Label htmlFor="message">Mensaje</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Cuéntanos qué necesitas..."
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  maxLength={1000}
-                  rows={3}
-                  className="bg-secondary/50 border-border/40 resize-none"
-                />
+                <Textarea id="message" placeholder="Cuéntanos qué necesitas..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} maxLength={1000} rows={3} className="bg-secondary/50 border-border/40 resize-none" />
               </div>
-
-              <Button type="submit" size="lg" className="w-full glow-box text-base" disabled={loading}>
-                {loading ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                ) : (
-                  <>
-                    Solicitar demo
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </>
-                )}
+              <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-base shadow-lg shadow-primary/20" disabled={loading}>
+                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <>Solicitar demo <ArrowRight className="ml-2 h-5 w-5" /></>}
               </Button>
-
-              <p className="text-xs text-muted-foreground/60 text-center">
-                Sin compromiso · Respuesta en &lt;24h · Setup en 30 min
-              </p>
+              <p className="text-xs text-muted-foreground/50 text-center">Sin compromiso · Respuesta en &lt;24h · Setup en 30 min</p>
             </form>
           </>
         )}
