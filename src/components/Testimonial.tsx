@@ -1,12 +1,10 @@
-import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Star, Quote, ArrowRight, TrendingUp, Building2 } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.png";
 import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
 import logoTutorDoctor from "@/assets/logos/tutor-doctor.jpg";
 import logoRehabSystem from "@/assets/logos/rehab-system.jpg";
 import logoMonitronics from "@/assets/logos/monitronics.jpg";
-import logoMcKenzie from "@/assets/logos/mckenzie-law.jpg";
-import logoRedRoot from "@/assets/logos/redroot.jpg";
 
 const testimonials = [
   {
@@ -80,21 +78,13 @@ const caseStudies = [
   { company: "Debt Relief", logo: null, result: "<$10", description: "por lead cualificado", metric: "Citas a $27-$35", detail: "Cientos de leads generados" },
 ];
 
-const FadeInCard = ({ children, delay }: { children: React.ReactNode; delay: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.unobserve(el); } }, { threshold: 0.1 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <div ref={ref} style={{ transitionDelay: `${delay}ms` }} className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-      {children}
-    </div>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 const Testimonial = () => {
@@ -103,7 +93,13 @@ const Testimonial = () => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          className="text-center mb-16"
+        >
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Resultados reales
           </p>
@@ -114,7 +110,6 @@ const Testimonial = () => {
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
-          {/* Review badges */}
           <div className="flex flex-wrap items-center justify-center gap-4">
             {[
               { label: "Google Reviews", rating: "4.9", color: "fill-brand-amber text-brand-amber" },
@@ -136,12 +131,18 @@ const Testimonial = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ staggerChildren: 0.08 }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16"
+        >
           {testimonials.map((t, i) => (
-            <FadeInCard key={i} delay={i * 80}>
+            <motion.div key={i} variants={cardVariants}>
               <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 transition-all duration-500 h-full flex flex-col group">
                 <Quote className="h-5 w-5 text-primary/30 mb-3 shrink-0" />
                 <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
@@ -171,12 +172,17 @@ const Testimonial = () => {
                   <span className="text-[10px] text-primary font-semibold whitespace-nowrap">{t.result}</span>
                 </div>
               </div>
-            </FadeInCard>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Case Studies */}
-        <FadeInCard delay={0}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+        >
           <div className="bg-card/40 rounded-2xl border border-border/30 p-8 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block">
               <img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" />
@@ -185,9 +191,15 @@ const Testimonial = () => {
               <TrendingUp className="h-5 w-5 text-primary" />
               <h3 className="font-display font-bold text-lg text-foreground">Resultados probados en +20 industrias</h3>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ staggerChildren: 0.06 }}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
+            >
               {caseStudies.map((cs, i) => (
-                <div key={i} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 transition-all duration-300">
+                <motion.div key={i} variants={cardVariants} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 transition-all duration-300">
                   <div className="flex items-center gap-2 mb-3">
                     {cs.logo ? (
                       <img src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
@@ -200,9 +212,9 @@ const Testimonial = () => {
                   <div className="text-sm text-foreground/70 font-medium mb-1">{cs.description}</div>
                   <div className="text-xs text-muted-foreground mb-1">{cs.metric}</div>
                   <div className="text-[10px] text-muted-foreground/40 italic">{cs.detail}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
             <div className="mt-8 pt-6 border-t border-border/20 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />
@@ -214,7 +226,7 @@ const Testimonial = () => {
               </span>
             </div>
           </div>
-        </FadeInCard>
+        </motion.div>
       </div>
     </section>
   );

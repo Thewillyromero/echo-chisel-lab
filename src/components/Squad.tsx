@@ -1,10 +1,10 @@
+import { motion } from "framer-motion";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
 import agentSupport from "@/assets/characters/agent-support.png";
 import { ArrowRight, Phone, PhoneOutgoing, CalendarCheck, BarChart3, Heart } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
 
 const agents = [
   { name: "ARIA", image: agentInbound, icon: Phone, accentColor: "text-brand-teal", role: "Recibe la llamada" },
@@ -29,31 +29,28 @@ const workflows = [
   },
 ];
 
-const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.unobserve(el); } }, { threshold: 0.15 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return (
-    <div ref={ref} style={{ transitionDelay: `${delay}ms` }} className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-      {children}
-    </div>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 const Squad = () => {
   return (
     <section id="squad" className="py-28 px-6 relative overflow-hidden">
-      {/* Subtle background accent */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          className="text-center mb-16"
+        >
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Automatización completa
           </p>
@@ -63,26 +60,36 @@ const Squad = () => {
           <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light">
             Cada agente sabe cuándo actuar y a quién pasar el testigo. Tú no haces nada.
           </p>
-        </div>
+        </motion.div>
 
         {/* Agent roster */}
-        <FadeIn>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-14">
-            {agents.map((agent) => (
-              <div key={agent.name} className="flex flex-col items-center group cursor-pointer">
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card/60 border border-border/30 flex items-center justify-center mb-2 group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-300 group-hover:-translate-y-1">
-                  <img src={agent.image} alt={agent.name} className="w-12 h-12 md:w-14 md:h-14 object-contain" width={512} height={512} loading="lazy" />
-                </div>
-                <span className={`text-[10px] font-display font-bold ${agent.accentColor} tracking-wider`}>{agent.name}</span>
-                <span className="text-[10px] text-muted-foreground/60">{agent.role}</span>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ staggerChildren: 0.08 }}
+          className="flex flex-wrap justify-center gap-4 md:gap-6 mb-14"
+        >
+          {agents.map((agent) => (
+            <motion.div key={agent.name} variants={cardVariants} className="flex flex-col items-center group cursor-pointer">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card/60 border border-border/30 flex items-center justify-center mb-2 group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-300 group-hover:-translate-y-1">
+                <img src={agent.image} alt={agent.name} className="w-12 h-12 md:w-14 md:h-14 object-contain" width={512} height={512} loading="lazy" />
               </div>
-            ))}
-          </div>
-        </FadeIn>
+              <span className={`text-[10px] font-display font-bold ${agent.accentColor} tracking-wider`}>{agent.name}</span>
+              <span className="text-[10px] text-muted-foreground/60">{agent.role}</span>
+            </motion.div>
+          ))}
+        </motion.div>
 
-        <div className="space-y-5">
-          {workflows.map((workflow, wi) => (
-            <FadeIn key={workflow.title} delay={wi * 150}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ staggerChildren: 0.15 }}
+          className="space-y-5"
+        >
+          {workflows.map((workflow) => (
+            <motion.div key={workflow.title} variants={cardVariants}>
               <div className="bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8">
                 <div className="mb-6">
                   <h4 className="font-display font-bold text-lg text-foreground">{workflow.title}</h4>
@@ -146,9 +153,9 @@ const Squad = () => {
                   })}
                 </div>
               </div>
-            </FadeIn>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

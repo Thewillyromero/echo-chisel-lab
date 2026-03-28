@@ -1,26 +1,12 @@
-import { useRef, useEffect, useState } from "react";
+import { motion, type Variants } from "framer-motion";
 
-export const useFadeInOnScroll = (threshold = 0.15) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 export const FadeIn = ({
@@ -34,16 +20,53 @@ export const FadeIn = ({
   className?: string;
   threshold?: number;
 }) => {
-  const { ref, isVisible } = useFadeInOnScroll(threshold);
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
+    <motion.div
+      variants={fadeInVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: threshold }}
+      transition={{ delay: delay / 1000 }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
+  );
+};
+
+// Stagger container for child elements
+export const StaggerContainer = ({
+  children,
+  className = "",
+  staggerDelay = 0.08,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  staggerDelay?: number;
+}) => {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ staggerChildren: staggerDelay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+export const FadeInItem = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <motion.div variants={fadeInVariants} className={className}>
+      {children}
+    </motion.div>
   );
 };

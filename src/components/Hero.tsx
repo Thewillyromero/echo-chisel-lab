@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import heroRobot from "@/assets/hero-robot.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { Button } from "@/components/ui/button";
@@ -16,12 +17,16 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/50" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70" />
 
-      {/* Subtle ambient glows */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[150px]" />
       <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[120px]" />
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
-        <div className="flex-1 max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          className="flex-1 max-w-2xl"
+        >
           <div className="inline-flex items-center gap-2 bg-primary/[0.08] border border-primary/20 rounded-full px-4 py-1.5 mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs text-primary font-medium">Atención telefónica inteligente</span>
@@ -36,7 +41,12 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
           <p className="text-base text-muted-foreground/50 mb-8">
             Inbound + Outbound. Todo en una sola plataforma.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+            className="flex flex-wrap gap-4"
+          >
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-base px-8 shadow-lg shadow-primary/25" onClick={onContact}>
               Empezar ahora
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -44,10 +54,15 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <Button size="lg" variant="outline" className="rounded-full text-base px-8 border-border/50 hover:bg-secondary/50" onClick={onContact}>
               Ver demo
             </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="flex-1 flex justify-center lg:justify-end">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          className="flex-1 flex justify-center lg:justify-end"
+        >
           <div className="relative">
             <div className="absolute inset-0 scale-150 rounded-full bg-primary/[0.04] blur-[100px]" />
             <img
@@ -58,7 +73,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
               height={1024}
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
