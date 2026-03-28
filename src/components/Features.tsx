@@ -34,12 +34,14 @@ const Features = () => {
   return (
     <section id="features" className="py-24 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
+      {/* Ambient orb */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[300px] rounded-full bg-primary/[0.03] blur-[100px]" />
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-16">
-          <p className="text-primary font-display text-sm tracking-widest uppercase mb-3">
+          <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-3 font-medium">
             Todo automatizado
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
             ¿Qué <span className="text-gradient">hacemos</span>?
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">

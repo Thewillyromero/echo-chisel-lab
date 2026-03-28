@@ -49,7 +49,7 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
 
 const Stats = () => {
   return (
-    <section id="stats" className="py-24 px-6 relative overflow-hidden">
+    <section id="stats" className="py-24 px-6 relative overflow-hidden section-glow">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -64,10 +64,10 @@ const Stats = () => {
             />
           </div>
           <div className="lg:w-2/3">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-2">
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-2 tracking-tight">
               Innovación en <span className="text-gradient">IA conversacional</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl mb-10">
+            <p className="text-muted-foreground max-w-xl mb-10 font-light">
               Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
             </p>
             <div className="grid grid-cols-2 gap-8">
