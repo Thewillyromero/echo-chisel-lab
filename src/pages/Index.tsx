@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
+import DemoCall from "@/components/DemoCall";
 import About from "@/components/About";
 import Squad from "@/components/Squad";
 import Stats from "@/components/Stats";
@@ -28,6 +29,7 @@ const Index = () => {
       <Hero onContact={() => openContact("hero")} />
       <LogoMarquee />
       <Features />
+      <DemoCall />
       <Squad />
       <About />
       <Stats />
