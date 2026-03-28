@@ -18,8 +18,9 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
       {/* Ambient glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[hsl(250_60%_50%/0.03)] blur-[100px]" />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/[0.05] blur-[120px]" />
+      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-rose/[0.04] blur-[100px]" />
+      <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] rounded-full bg-brand-teal/[0.03] blur-[80px]" />
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
         <div className="flex-1 max-w-2xl">

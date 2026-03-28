@@ -81,8 +81,8 @@ const workflows = [
 const Squad = () => {
   return (
     <section id="squad" className="py-24 px-6 relative overflow-hidden section-glow">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
-      <div className="absolute bottom-0 left-1/3 w-[500px] h-[400px] rounded-full bg-[hsl(250_60%_50%/0.03)] blur-[120px]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
+      <div className="absolute bottom-0 left-1/3 w-[500px] h-[400px] rounded-full bg-brand-lavender/[0.04] blur-[120px]" />
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
