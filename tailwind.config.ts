@@ -89,7 +89,7 @@ export default {
         },
         marquee: {
           "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(-33.333%)" },
         },
         "fade-in-up": {
           from: { opacity: "0", transform: "translateY(30px)" },
