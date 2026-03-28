@@ -22,6 +22,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
           <a href="#squad" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+          <Link to="/precios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Precios</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
