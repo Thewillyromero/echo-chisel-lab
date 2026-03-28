@@ -45,8 +45,7 @@ Deno.serve(async (req) => {
       });
     }
     const action = body?.action;
-
-    // Route actions
+    console.log("Received body:", JSON.stringify(body), "action:", action, "type:", typeof action);
     if (action === "create_conversation") {
       return await handleCreateConversation(body);
     }
