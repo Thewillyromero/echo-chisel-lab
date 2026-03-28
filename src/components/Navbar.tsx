@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import heroRobot from "@/assets/hero-robot.png";
 
-const Navbar = () => {
+const Navbar = ({ onContact }: { onContact?: () => void }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -27,7 +27,7 @@ const Navbar = () => {
           <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
             Iniciar sesión
           </Button>
-          <Button size="sm" className="glow-box">
+          <Button size="sm" className="glow-box" onClick={onContact}>
             Prueba gratis
           </Button>
         </div>
@@ -43,7 +43,9 @@ const Navbar = () => {
           <a href="#squad" className="text-sm text-muted-foreground">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground">Blog</a>
-          <Button size="sm" className="glow-box w-full">Prueba gratis</Button>
+          <Button size="sm" className="glow-box w-full" onClick={() => { setOpen(false); onContact?.(); }}>
+            Prueba gratis
+          </Button>
         </div>
       )}
     </nav>

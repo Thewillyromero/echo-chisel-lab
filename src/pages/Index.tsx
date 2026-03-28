@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LogoMarquee from "@/components/LogoMarquee";
@@ -9,12 +10,21 @@ import Testimonial from "@/components/Testimonial";
 import Blog from "@/components/Blog";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import ContactFormDialog from "@/components/ContactFormDialog";
 
 const Index = () => {
+  const [contactOpen, setContactOpen] = useState(false);
+  const [contactSource, setContactSource] = useState("general");
+
+  const openContact = (source: string = "general") => {
+    setContactSource(source);
+    setContactOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-background noise-overlay">
-      <Navbar />
-      <Hero />
+      <Navbar onContact={() => openContact("navbar")} />
+      <Hero onContact={() => openContact("hero")} />
       <LogoMarquee />
       <Features />
       <Squad />
@@ -22,8 +32,9 @@ const Index = () => {
       <Stats />
       <Testimonial />
       <Blog />
-      <CTA />
+      <CTA onContact={() => openContact("cta")} />
       <Footer />
+      <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
     </div>
   );
 };

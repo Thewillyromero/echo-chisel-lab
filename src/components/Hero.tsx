@@ -3,7 +3,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const Hero = () => {
+const Hero = ({ onContact }: { onContact?: () => void }) => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden noise-overlay">
       <img
@@ -15,7 +15,6 @@ const Hero = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
-      {/* Ambient glow orbs */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/[0.05] blur-[120px]" />
       <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-rose/[0.04] blur-[100px]" />
       <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] rounded-full bg-brand-teal/[0.03] blur-[80px]" />
@@ -36,20 +35,18 @@ const Hero = () => {
             Inbound + Outbound. Todo en una sola plataforma.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="glow-box text-base px-8">
+            <Button size="lg" className="glow-box text-base px-8" onClick={onContact}>
               Empezar ahora
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-base px-8 border-border hover:bg-secondary">
+            <Button size="lg" variant="outline" className="text-base px-8 border-border hover:bg-secondary" onClick={onContact}>
               Ver demo
             </Button>
           </div>
         </div>
 
-        {/* Hero robot — solo, protagonista, con espacio para respirar */}
         <div className="flex-1 flex justify-center lg:justify-end">
           <div className="relative">
-            {/* Soft glow behind the robot */}
             <div className="absolute inset-0 scale-150 rounded-full bg-accent/[0.06] blur-[80px]" />
             <img
               src={heroRobot}
