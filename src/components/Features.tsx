@@ -15,7 +15,8 @@ const features = [
     color: "text-brand-teal",
     bgGlow: "bg-brand-teal/[0.08]",
     iconBg: "bg-brand-teal/10",
-    animation: "animate-wave",
+    animationName: "wave",
+    animationDuration: "1.5s",
   },
   {
     image: agentOutbound,
@@ -26,7 +27,8 @@ const features = [
     color: "text-brand-lavender",
     bgGlow: "bg-brand-lavender/[0.08]",
     iconBg: "bg-brand-lavender/10",
-    animation: "animate-bounce-subtle",
+    animationName: "bounce-subtle",
+    animationDuration: "1.2s",
   },
   {
     image: agentScheduler,
@@ -37,7 +39,8 @@ const features = [
     color: "text-brand-emerald",
     bgGlow: "bg-brand-emerald/[0.08]",
     iconBg: "bg-brand-emerald/10",
-    animation: "animate-wiggle",
+    animationName: "wiggle",
+    animationDuration: "1.5s",
   },
   {
     image: agentAnalytics,
@@ -48,7 +51,8 @@ const features = [
     color: "text-brand-amber",
     bgGlow: "bg-brand-amber/[0.08]",
     iconBg: "bg-brand-amber/10",
-    animation: "animate-nod",
+    animationName: "nod",
+    animationDuration: "1.3s",
   },
 ];
 
