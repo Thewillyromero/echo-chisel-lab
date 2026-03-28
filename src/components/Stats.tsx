@@ -4,8 +4,8 @@ import agentAnalytics from "@/assets/characters/agent-analytics.png";
 const stats = [
   { value: 2, suffix: "M+", label: "Llamadas gestionadas" },
   { value: 5, suffix: "M+", label: "Usuarios finales" },
-  { value: 4.9, suffix: "K+", label: "Valoración 5 estrellas" },
-  { value: 3, suffix: "", label: "Años en el mercado" },
+  { value: 4.9, suffix: "/5", label: "Valoración media" },
+  { value: 3, suffix: " años", label: "En el mercado" },
 ];
 
 const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) => {
@@ -41,41 +41,42 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
   }, [started, target]);
 
   return (
-    <div ref={ref} className="text-4xl md:text-5xl font-display font-bold text-gradient">
-      {count}{suffix}
+    <div ref={ref} className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+      {count}<span className="text-primary">{suffix}</span>
     </div>
   );
 };
 
 const Stats = () => {
   return (
-    <section id="stats" className="py-24 px-6 relative overflow-hidden section-glow section-glow-rose">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-amber/[0.02] to-transparent" />
-      <div className="absolute top-1/2 left-0 w-[400px] h-[300px] rounded-full bg-brand-amber/[0.04] blur-[100px]" />
+    <section id="stats" className="py-28 px-6 relative overflow-hidden">
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+
       <div className="container mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/3 flex justify-center">
             <img
               src={agentAnalytics}
               alt="BYTE analiza los datos"
-              className="w-40 md:w-52 object-contain animate-float drop-shadow-2xl"
-              width={512}
-              height={512}
-              loading="lazy"
+              className="w-40 md:w-56 object-contain animate-float drop-shadow-2xl"
+              width={512} height={512} loading="lazy"
             />
           </div>
           <div className="lg:w-2/3">
-            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-2 tracking-tight">
+            <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
+              Resultados probados
+            </p>
+            <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
               Innovación en <span className="text-gradient">IA conversacional</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl mb-10 font-light">
+            <p className="text-muted-foreground max-w-xl mb-12 text-lg font-light">
               Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
             </p>
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-8">
               {stats.map((s, i) => (
-                <div key={i}>
+                <div key={i} className="group">
                   <AnimatedNumber target={s.value} suffix={s.suffix} />
-                  <p className="text-sm text-muted-foreground mt-2">{s.label}</p>
+                  <p className="text-sm text-muted-foreground mt-2 font-light">{s.label}</p>
                 </div>
               ))}
             </div>
