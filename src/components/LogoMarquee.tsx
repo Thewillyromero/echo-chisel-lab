@@ -37,17 +37,15 @@ const LogoMarquee = () => {
         {[...logos, ...logos].map((item, i) => (
           <div
             key={i}
-            className="mx-8 flex items-center gap-3 min-w-[180px] shrink-0"
+            className="mx-8 flex items-center min-w-[100px] shrink-0"
           >
             <img
               src={item.logo}
               alt={item.name}
-              className="h-6 w-auto object-contain grayscale brightness-[2] opacity-40 max-w-[80px]"
+              className="h-8 w-auto object-contain opacity-80 max-w-[100px]"
               loading="lazy"
+              style={{ background: 'transparent' }}
             />
-            <span className="text-muted-foreground/30 font-display font-medium text-xs tracking-wide whitespace-nowrap">
-              {item.name}
-            </span>
           </div>
         ))}
       </div>
