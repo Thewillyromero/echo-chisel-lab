@@ -67,7 +67,7 @@ const Stats = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: false, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
             className="lg:w-1/3 flex justify-center"
           >
@@ -82,7 +82,7 @@ const Stats = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: false, margin: "-80px" }}
               transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
             >
               <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
@@ -98,7 +98,7 @@ const Stats = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ staggerChildren: 0.1 }}
               className="grid grid-cols-2 gap-x-10 gap-y-8"
             >

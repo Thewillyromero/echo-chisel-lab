@@ -96,7 +96,7 @@ const Testimonial = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="text-center mb-16"
         >
@@ -137,7 +137,7 @@ const Testimonial = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
+          viewport={{ once: false, amount: 0.05 }}
           transition={{ staggerChildren: 0.08 }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16"
         >
@@ -180,7 +180,7 @@ const Testimonial = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: false, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
           <div className="bg-card/40 rounded-2xl border border-border/30 p-8 md:p-10 relative overflow-hidden">
@@ -194,7 +194,7 @@ const Testimonial = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={{ once: false, amount: 0.1 }}
               transition={{ staggerChildren: 0.06 }}
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
