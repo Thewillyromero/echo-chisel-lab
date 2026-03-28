@@ -25,7 +25,7 @@ export const FadeIn = ({
       variants={fadeInVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: threshold }}
+      viewport={{ once: false, amount: threshold }}
       transition={{ delay: delay / 1000 }}
       className={className}
     >
@@ -48,7 +48,7 @@ export const StaggerContainer = ({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
+      viewport={{ once: false, amount: 0.1 }}
       transition={{ staggerChildren: staggerDelay }}
       className={className}
     >

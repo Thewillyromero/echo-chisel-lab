@@ -47,7 +47,7 @@ const Squad = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="text-center mb-16"
         >
@@ -66,7 +66,7 @@ const Squad = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ staggerChildren: 0.08 }}
           className="flex flex-wrap justify-center gap-4 md:gap-6 mb-14"
         >
@@ -84,7 +84,7 @@ const Squad = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: false, amount: 0.1 }}
           transition={{ staggerChildren: 0.15 }}
           className="space-y-5"
         >
