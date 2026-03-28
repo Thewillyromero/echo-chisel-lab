@@ -154,3 +154,38 @@
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ARIA — gentle wave / tilt like waving hello */
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  15% { transform: rotate(4deg) translateY(-3px); }
+  30% { transform: rotate(-3deg) translateY(0); }
+  45% { transform: rotate(3deg) translateY(-2px); }
+  60% { transform: rotate(-2deg) translateY(0); }
+  75% { transform: rotate(1deg) translateY(-1px); }
+}
+
+/* NOVA — energetic subtle bounce with horizontal sway */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+  25% { transform: translateY(-8px) translateX(3px) rotate(2deg); }
+  50% { transform: translateY(-2px) translateX(0) rotate(0deg); }
+  75% { transform: translateY(-6px) translateX(-3px) rotate(-2deg); }
+}
+
+/* LUMI — playful wiggle like writing in a notebook */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-3deg) scale(1.02); }
+  40% { transform: rotate(2deg) scale(0.98); }
+  60% { transform: rotate(-2deg) scale(1.01); }
+  80% { transform: rotate(1deg) scale(0.99); }
+}
+
+/* BYTE — analytical nod like reading data */
+@keyframes nod {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-4px) rotate(-1deg); }
+  50% { transform: translateY(2px) rotate(1deg); }
+  70% { transform: translateY(-3px) rotate(-0.5deg); }
+}
