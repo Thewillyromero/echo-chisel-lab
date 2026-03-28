@@ -25,7 +25,7 @@ const About = () => {
           <p className="text-muted-foreground leading-relaxed mb-6">
             Contamos con un equipo de profesionales especializados en IA conversacional. Entrenamos y adaptamos tu asistente virtual para que tus clientes reciban la mejor experiencia posible tanto en llamadas entrantes como en campañas outbound.
           </p>
-          <Button variant="outline" className="border-primary/30 text-primary hover:bg-primary/10">
+          <Button variant="outline" className="border-accent/30 text-accent hover:bg-accent/10">
             Conoce al equipo
           </Button>
         </div>
