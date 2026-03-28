@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Chatbot from "./components/Chatbot.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Chatbot />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
