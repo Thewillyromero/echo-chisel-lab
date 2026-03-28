@@ -89,7 +89,7 @@ export default {
         },
         marquee: {
           "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(-33.333%)" },
         },
         "fade-in-up": {
           from: { opacity: "0", transform: "translateY(30px)" },
@@ -127,7 +127,7 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 6s ease-in-out infinite",
-        marquee: "marquee 20s linear infinite",
+        marquee: "marquee 40s linear infinite",
         "fade-in-up": "fade-in-up 0.8s ease-out forwards",
         wave: "wave 4s ease-in-out infinite",
         "bounce-subtle": "bounce-subtle 3s ease-in-out infinite",
