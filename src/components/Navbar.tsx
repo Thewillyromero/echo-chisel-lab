@@ -45,6 +45,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
           <a href="#squad" className="text-sm text-muted-foreground">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground">Blog</a>
+          <Link to="/precios" className="text-sm text-muted-foreground" onClick={() => setOpen(false)}>Precios</Link>
           <Button size="sm" className="glow-box w-full" onClick={() => { setOpen(false); onContact?.(); }}>
             Prueba gratis
           </Button>
