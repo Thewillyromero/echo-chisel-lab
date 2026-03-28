@@ -21,7 +21,7 @@ const About = () => {
               <img
                 src={agentInbound}
                 alt="ARIA"
-                className="relative z-10 w-28 md:w-36 object-contain animate-float drop-shadow-xl"
+                className="relative z-10 w-28 md:w-36 object-contain drop-shadow-xl hover:animate-float transition-transform duration-300"
                 width={512} height={512} loading="lazy"
               />
               <img
