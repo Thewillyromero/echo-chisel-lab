@@ -1,13 +1,18 @@
 import { Button } from "@/components/ui/button";
+import agentInbound from "@/assets/characters/agent-inbound.png";
+import agentOutbound from "@/assets/characters/agent-outbound.png";
+import agentAnalytics from "@/assets/characters/agent-analytics.png";
 
 const About = () => {
   return (
     <section id="about" className="py-24 px-6">
       <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div className="flex-1">
-          <div className="glass rounded-2xl p-1 glow-box-strong">
-            <div className="bg-secondary rounded-xl aspect-video flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">Video / Imagen del equipo</span>
+          <div className="glass rounded-2xl p-8 glow-box-strong">
+            <div className="flex items-end justify-center gap-4">
+              <img src={agentOutbound} alt="NOVA" className="w-24 h-24 object-contain animate-float" width={512} height={512} loading="lazy" style={{ animationDelay: "0.5s" }} />
+              <img src={agentInbound} alt="ARIA" className="w-32 h-32 object-contain animate-float" width={512} height={512} loading="lazy" />
+              <img src={agentAnalytics} alt="BYTE" className="w-24 h-24 object-contain animate-float" width={512} height={512} loading="lazy" style={{ animationDelay: "1s" }} />
             </div>
           </div>
         </div>
