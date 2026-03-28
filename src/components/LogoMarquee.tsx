@@ -1,38 +1,52 @@
+import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
+import logoMonitronics from "@/assets/logos/monitronics.jpg";
+import logoInvictus from "@/assets/logos/invictus-advisors.png";
+import logoRehab from "@/assets/logos/rehab-system.jpg";
+import logoHartmetall from "@/assets/logos/hartmetall-usa.jpg";
+import logoConveyAll from "@/assets/logos/convey-all.png";
+import logoBeyondGroup from "@/assets/logos/beyondgrouptravel.jpg";
+import logoAvian from "@/assets/logos/avian-digital.jpg";
+import logoTutor from "@/assets/logos/tutor-doctor.jpg";
+import logoIntelligent from "@/assets/logos/intelligent-office.jpg";
+import logoEasyMobile from "@/assets/logos/easymobile.jpg";
+import logoMcKenzie from "@/assets/logos/mckenzie-law.jpg";
+import logoCornerstone from "@/assets/logos/cornerstone.jpg";
+import logoRedRoot from "@/assets/logos/redroot.jpg";
+
 const logos = [
-  { name: "Reputation Loop", initials: "RL" },
-  { name: "American Monitronics", initials: "AM" },
-  { name: "Invictus Advisors", initials: "IA" },
-  { name: "Rehab System", initials: "RS" },
-  { name: "RedRoot Strategies", initials: "RR" },
-  { name: "Hartmetall USA", initials: "HU" },
-  { name: "Convey-All Industries", initials: "CA" },
-  { name: "BeyondGroupTravel", initials: "BG" },
-  { name: "Avian Digital", initials: "AD" },
-  { name: "Tutor Doctor", initials: "TD" },
-  { name: "Capify", initials: "Ca" },
-  { name: "Dental 101", initials: "D1" },
-  { name: "Intelligent Office", initials: "IO" },
-  { name: "EasyMobile", initials: "EM" },
-  { name: "McKenzie Law Firm", initials: "ML" },
-  { name: "Cornerstone Hospitality", initials: "CH" },
+  { name: "Reputation Loop", logo: logoReputationLoop },
+  { name: "Monitronics Security", logo: logoMonitronics },
+  { name: "Invictus Advisors", logo: logoInvictus },
+  { name: "Rehab System", logo: logoRehab },
+  { name: "RedRoot", logo: logoRedRoot },
+  { name: "Hartmetall USA", logo: logoHartmetall },
+  { name: "Convey-All Industries", logo: logoConveyAll },
+  { name: "BeyondGroupTravel", logo: logoBeyondGroup },
+  { name: "Avian Digital", logo: logoAvian },
+  { name: "Tutor Doctor", logo: logoTutor },
+  { name: "Intelligent Office", logo: logoIntelligent },
+  { name: "EasyMobile", logo: logoEasyMobile },
+  { name: "McKenzie Law Firm", logo: logoMcKenzie },
+  { name: "Cornerstone Hospitality", logo: logoCornerstone },
 ];
 
 const LogoMarquee = () => {
   return (
     <section className="py-10 border-y border-border/15 overflow-hidden">
-      <div className="flex animate-marquee whitespace-nowrap">
-        {[...logos, ...logos].map((logo, i) => (
+      <div className="flex animate-marquee whitespace-nowrap items-center">
+        {[...logos, ...logos].map((item, i) => (
           <div
             key={i}
-            className="mx-8 flex items-center gap-2.5 min-w-[160px]"
+            className="mx-8 flex items-center gap-3 min-w-[180px] shrink-0"
           >
-            <div className="w-7 h-7 rounded-md bg-muted/40 border border-border/20 flex items-center justify-center shrink-0">
-              <span className="text-[10px] font-display font-bold text-muted-foreground/40 leading-none">
-                {logo.initials}
-              </span>
-            </div>
-            <span className="text-muted-foreground/25 font-display font-medium text-xs tracking-wide">
-              {logo.name}
+            <img
+              src={item.logo}
+              alt={item.name}
+              className="h-6 w-auto object-contain grayscale brightness-[2] opacity-40 max-w-[80px]"
+              loading="lazy"
+            />
+            <span className="text-muted-foreground/30 font-display font-medium text-xs tracking-wide whitespace-nowrap">
+              {item.name}
             </span>
           </div>
         ))}
