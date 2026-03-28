@@ -7,7 +7,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b-0 border-t-0 border-x-0 border-b border-border/20">
       <div className="container mx-auto flex items-center justify-between py-3 px-6">
         <a href="/" className="flex items-center gap-2">
           <img src={heroRobot} alt="CALLA" className="h-8 w-8 object-contain" width={64} height={64} />

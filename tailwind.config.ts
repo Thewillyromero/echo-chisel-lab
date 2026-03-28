@@ -51,6 +51,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        brand: {
+          teal: "hsl(var(--brand-teal))",
+          lavender: "hsl(var(--brand-lavender))",
+          rose: "hsl(var(--brand-rose))",
+          amber: "hsl(var(--brand-amber))",
+          emerald: "hsl(var(--brand-emerald))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

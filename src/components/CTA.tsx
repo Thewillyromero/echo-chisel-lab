@@ -4,9 +4,10 @@ import agentSupport from "@/assets/characters/agent-support.png";
 
 const CTA = () => {
   return (
-    <section className="py-24 px-6">
-      <div className="container mx-auto max-w-4xl">
-        <div className="glass rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 glow-box-strong">
+    <section className="py-24 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-lavender/[0.03] via-transparent to-transparent" />
+      <div className="container mx-auto max-w-4xl relative z-10">
+        <div className="glass-warm rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 glow-box-strong">
           <img
             src={agentSupport}
             alt="CARE te acompaña"

@@ -5,10 +5,11 @@ import agentAnalytics from "@/assets/characters/agent-analytics.png";
 
 const About = () => {
   return (
-    <section id="about" className="py-24 px-6">
-      <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16">
+    <section id="about" className="py-24 px-6 relative overflow-hidden">
+      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-brand-emerald/[0.03] blur-[120px]" />
+      <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
         <div className="flex-1">
-          <div className="glass rounded-2xl p-8 glow-box-strong">
+          <div className="glass-warm rounded-2xl p-8 glow-box-strong">
             <div className="flex items-end justify-center gap-4">
               <img src={agentOutbound} alt="NOVA" className="w-24 h-24 object-contain animate-float" width={512} height={512} loading="lazy" style={{ animationDelay: "0.5s" }} />
               <img src={agentInbound} alt="ARIA" className="w-32 h-32 object-contain animate-float" width={512} height={512} loading="lazy" />
@@ -24,7 +25,7 @@ const About = () => {
           <p className="text-muted-foreground leading-relaxed mb-6">
             Contamos con un equipo de profesionales especializados en IA conversacional. Entrenamos y adaptamos tu asistente virtual para que tus clientes reciban la mejor experiencia posible tanto en llamadas entrantes como en campañas outbound.
           </p>
-          <Button variant="outline" className="border-primary/30 text-primary hover:bg-primary/10">
+          <Button variant="outline" className="border-accent/30 text-accent hover:bg-accent/10">
             Conoce al equipo
           </Button>
         </div>
