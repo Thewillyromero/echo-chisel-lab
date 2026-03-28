@@ -23,12 +23,15 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
         <div className="flex-1 max-w-2xl">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight mb-6">
-            Atención telefónica{" "}
-            <span className="text-gradient">automatizada con IA</span>
+          <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-4 font-medium">
+            Atención telefónica inteligente
+          </p>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.05] mb-6 tracking-tight">
+            Tus llamadas,{" "}
+            <span className="text-gradient">resueltas por IA</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-relaxed">
-            CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Además, lanza campañas de llamadas outbound para appointment setting.
+          <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-relaxed font-light">
+            CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Lanza campañas outbound para appointment setting.
           </p>
           <p className="text-base text-muted-foreground/70 mb-8">
             Inbound + Outbound. Todo en una sola plataforma.
