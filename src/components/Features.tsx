@@ -72,7 +72,6 @@ const Features = () => {
 
         <div className="space-y-6">
           {features.map((f, i) => {
-            const isReversed = i % 2 === 1;
             return (
               <div
                 key={i}
