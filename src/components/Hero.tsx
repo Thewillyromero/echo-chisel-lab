@@ -22,7 +22,7 @@ const Hero = () => {
             <span className="text-gradient">automatizada con IA</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-relaxed">
-            VoxAI atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Además, lanza campañas de llamadas outbound para appointment setting.
+            CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Además, lanza campañas de llamadas outbound para appointment setting.
           </p>
           <p className="text-base text-muted-foreground/70 mb-8">
             Inbound + Outbound. Todo en una sola plataforma.
@@ -41,10 +41,10 @@ const Hero = () => {
         <div className="flex-1 flex justify-center lg:justify-end">
           <img
             src={heroRobot}
-            alt="VoxAI Asistente Virtual"
+            alt="CALLA Asistente Virtual"
             className="w-72 md:w-96 lg:w-[28rem] animate-float drop-shadow-2xl"
-            width={800}
-            height={800}
+            width={1024}
+            height={1024}
           />
         </div>
       </div>

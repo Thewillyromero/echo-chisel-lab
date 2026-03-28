@@ -1,23 +1,24 @@
-import { Phone, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import heroRobot from "@/assets/hero-robot.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+      <div className="container mx-auto flex items-center justify-between py-3 px-6">
         <a href="/" className="flex items-center gap-2">
-          <Phone className="h-7 w-7 text-primary" />
+          <img src={heroRobot} alt="CALLA" className="h-8 w-8 object-contain" width={64} height={64} />
           <span className="text-xl font-display font-bold text-foreground">
-            Vox<span className="text-gradient">AI</span>
+            CA<span className="text-gradient">LLA</span>
           </span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Servicios</a>
-          <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Nosotros</a>
+          <a href="#squad" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
         </div>
@@ -39,7 +40,7 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden glass border-t border-border/50 px-6 py-4 flex flex-col gap-4">
           <a href="#features" className="text-sm text-muted-foreground">Servicios</a>
-          <a href="#about" className="text-sm text-muted-foreground">Nosotros</a>
+          <a href="#squad" className="text-sm text-muted-foreground">Squad</a>
           <a href="#stats" className="text-sm text-muted-foreground">Resultados</a>
           <a href="#blog" className="text-sm text-muted-foreground">Blog</a>
           <Button size="sm" className="glow-box w-full">Prueba gratis</Button>
