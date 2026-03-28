@@ -64,10 +64,10 @@ const Stats = () => {
             />
           </div>
           <div className="lg:w-2/3">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-2">
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-2 tracking-tight">
               Innovación en <span className="text-gradient">IA conversacional</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl mb-10">
+            <p className="text-muted-foreground max-w-xl mb-10 font-light">
               Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
             </p>
             <div className="grid grid-cols-2 gap-8">

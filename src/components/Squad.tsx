@@ -80,19 +80,20 @@ const workflows = [
 
 const Squad = () => {
   return (
-    <section id="squad" className="py-24 px-6 relative overflow-hidden">
+    <section id="squad" className="py-24 px-6 relative overflow-hidden section-glow">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
+      <div className="absolute bottom-0 left-1/3 w-[500px] h-[400px] rounded-full bg-[hsl(250_60%_50%/0.03)] blur-[120px]" />
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-20">
-          <p className="text-primary font-display text-sm tracking-widest uppercase mb-3">
+          <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-3 font-medium">
             El equipo que nunca descansa
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
             Conoce a tu <span className="text-gradient">Squad de IA</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto font-light">
             Cinco agentes especializados que trabajan en equipo, pasándose el testigo automáticamente.
           </p>
         </div>
