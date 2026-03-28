@@ -7,15 +7,19 @@ import agentScheduler from "@/assets/characters/agent-scheduler.png";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden noise-overlay">
       <img
         src={heroBg}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover opacity-40"
+        className="absolute inset-0 w-full h-full object-cover opacity-30"
         width={1920}
         height={1080}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+      {/* Ambient glow orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[hsl(250_60%_50%/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
         <div className="flex-1 max-w-2xl">
