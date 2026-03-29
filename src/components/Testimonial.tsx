@@ -139,7 +139,7 @@ const Testimonial = () => {
           whileInView="visible"
           viewport={{ once: false, amount: 0.05 }}
           transition={{ staggerChildren: 0.08 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
           {testimonials.map((t, i) => (
             <motion.div key={i} variants={cardVariants}>
