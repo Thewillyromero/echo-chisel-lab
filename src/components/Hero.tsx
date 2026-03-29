@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 const Hero = ({ onContact }: { onContact?: () => void }) => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex items-center overflow-hidden">
       <img
         src={heroBg}
         alt=""
@@ -17,10 +17,10 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/50" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70" />
 
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[150px]" />
-      <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[120px]" />
+      <div className="absolute top-1/3 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-primary/[0.04] blur-[150px]" />
+      <div className="absolute bottom-1/4 right-1/3 w-[250px] md:w-[400px] h-[250px] md:h-[400px] rounded-full bg-accent/[0.03] blur-[120px]" />
 
-      <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
+      <div className="container mx-auto px-5 md:px-6 relative z-10 flex flex-col lg:flex-row items-center gap-8 md:gap-12 pt-20 md:pt-24 pb-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
