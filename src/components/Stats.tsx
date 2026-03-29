@@ -88,7 +88,7 @@ const Stats = () => {
               <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
                 Resultados probados
               </p>
-              <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
                 Innovación en <span className="text-gradient">IA conversacional</span>
               </h2>
               <p className="text-muted-foreground max-w-xl mb-12 text-lg font-light">
