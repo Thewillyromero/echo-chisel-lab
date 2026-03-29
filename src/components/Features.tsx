@@ -67,7 +67,7 @@ const cardVariants = {
 
 const Features = () => {
   return (
-    <section id="features" className="py-28 px-6 relative">
+    <section id="features" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
