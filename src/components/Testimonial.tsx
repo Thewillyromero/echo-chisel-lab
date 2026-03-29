@@ -89,7 +89,7 @@ const cardVariants = {
 
 const Testimonial = () => {
   return (
-    <section id="testimonials" className="py-28 px-6 relative">
+    <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
