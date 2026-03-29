@@ -32,14 +32,15 @@ const items = [
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 25 },
+const cardVariants = (i: number) => ({
+  hidden: { opacity: 0, y: 25, x: i === 0 ? -40 : i === 2 ? 40 : 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    x: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
   },
-};
+});
 
 const Blog = () => {
   return (
@@ -75,7 +76,7 @@ const Blog = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-5"
         >
           {items.map((item, i) => (
-            <motion.div key={i} variants={cardVariants}>
+            <motion.div key={i} variants={cardVariants(i)}>
               <div className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}>
                 <div className="mb-5">
                   <img src={item.icon} alt="" className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md" width={512} height={512} loading="lazy" />
