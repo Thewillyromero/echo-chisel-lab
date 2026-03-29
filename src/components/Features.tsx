@@ -99,7 +99,7 @@ const Features = () => {
             <motion.div
               key={i}
               variants={cardVariants}
-              className={`group relative bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
+              className={`group relative bg-card/40 rounded-2xl border border-border/30 p-5 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
             >
               <div className="flex items-start gap-5">
                 <div className="shrink-0">
