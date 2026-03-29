@@ -183,3 +183,129 @@
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
+/* ══════════════════════════════════════════════════════════════
+   CALLA — Design Polish Additions
+   Add these to the END of src/index.css (after existing styles)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Stop-motion character keyframes ── */
+@keyframes character-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-2deg); }
+  50% { transform: translateY(-3px) rotate(1deg); }
+  75% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+@keyframes character-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-4deg); }
+  40% { transform: rotate(3deg); }
+  60% { transform: rotate(-2deg); }
+  80% { transform: rotate(1deg); }
+}
+
+@keyframes character-peek {
+  0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* ── Improved typography scale ── */
+@layer utilities {
+  .text-display-xl {
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.05];
+  }
+
+  .text-display-lg {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight leading-[1.1];
+  }
+
+  .text-display-md {
+    @apply text-2xl sm:text-3xl md:text-4xl font-display font-bold tracking-tight leading-[1.15];
+  }
+
+  .text-body-lg {
+    @apply text-base md:text-lg text-muted-foreground font-light leading-relaxed;
+  }
+
+  .text-body-md {
+    @apply text-sm md:text-base text-muted-foreground leading-relaxed;
+  }
+
+  .text-label {
+    @apply text-xs font-display font-semibold tracking-[0.2em] uppercase text-primary;
+  }
+}
+
+/* ── Section spacing system ── */
+@layer utilities {
+  .section-padding {
+    @apply py-20 md:py-32 px-5 md:px-6;
+  }
+
+  .section-header {
+    @apply text-center mb-16 md:mb-20;
+  }
+}
+
+/* ── Improved card surfaces ── */
+@layer utilities {
+  .card-surface {
+    @apply bg-card/35 rounded-2xl border border-border/25;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card-surface:hover {
+    @apply border-border/40;
+    transform: translateY(-4px);
+    box-shadow: 0 25px 60px hsl(0 0% 0% / 0.2), 0 0 1px hsl(0 0% 100% / 0.03);
+  }
+}
+
+/* ── Agent color utilities ── */
+@layer utilities {
+  .agent-glow-teal { box-shadow: 0 0 40px hsl(190 60% 55% / 0.08); }
+  .agent-glow-lavender { box-shadow: 0 0 40px hsl(260 50% 65% / 0.08); }
+  .agent-glow-emerald { box-shadow: 0 0 40px hsl(160 50% 48% / 0.08); }
+  .agent-glow-amber { box-shadow: 0 0 40px hsl(35 70% 58% / 0.08); }
+  .agent-glow-rose { box-shadow: 0 0 40px hsl(340 55% 60% / 0.08); }
+}
+
+/* ── Smooth scroll behavior ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Selection color ── */
+::selection {
+  background: hsl(var(--primary) / 0.25);
+  color: hsl(var(--foreground));
+}
+
+/* ── Improved focus styles ── */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Subtle page noise texture ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
