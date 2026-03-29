@@ -1,90 +1,96 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  Calculator, TrendingDown, TrendingUp, PhoneOff, Phone,
-  Euro, ArrowRight, Sparkles, ChevronDown,
+  Calculator, Phone, PhoneOff, Euro, ArrowRight, Sparkles,
+  ChevronDown, Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 /* ── Sector presets ── */
 const sectors = [
-  {
-    id: "salud",
-    label: "Clínica / Salud",
-    defaults: { callsPerDay: 20, missedPct: 25, clientValue: 150, isRecurring: true, conversionPct: 40 },
-  },
-  {
-    id: "dental",
-    label: "Clínica dental",
-    defaults: { callsPerDay: 15, missedPct: 30, clientValue: 400, isRecurring: false, conversionPct: 35 },
-  },
-  {
-    id: "legal",
-    label: "Despacho legal",
-    defaults: { callsPerDay: 10, missedPct: 35, clientValue: 1500, isRecurring: false, conversionPct: 20 },
-  },
-  {
-    id: "inmobiliaria",
-    label: "Inmobiliaria",
-    defaults: { callsPerDay: 25, missedPct: 40, clientValue: 3000, isRecurring: false, conversionPct: 10 },
-  },
-  {
-    id: "instalaciones",
-    label: "Instalaciones / Energía solar",
-    defaults: { callsPerDay: 12, missedPct: 30, clientValue: 10000, isRecurring: false, conversionPct: 8 },
-  },
-  {
-    id: "estetica",
-    label: "Clínica estética",
-    defaults: { callsPerDay: 18, missedPct: 25, clientValue: 800, isRecurring: false, conversionPct: 25 },
-  },
-  {
-    id: "educacion",
-    label: "Academia / Educación",
-    defaults: { callsPerDay: 15, missedPct: 20, clientValue: 200, isRecurring: true, conversionPct: 45 },
-  },
-  {
-    id: "hosteleria",
-    label: "Restaurante / Hostelería",
-    defaults: { callsPerDay: 30, missedPct: 20, clientValue: 50, isRecurring: true, conversionPct: 70 },
-  },
-  {
-    id: "seguros",
-    label: "Seguros",
-    defaults: { callsPerDay: 20, missedPct: 30, clientValue: 1200, isRecurring: false, conversionPct: 12 },
-  },
-  {
-    id: "otro",
-    label: "Otro sector",
-    defaults: { callsPerDay: 15, missedPct: 25, clientValue: 300, isRecurring: false, conversionPct: 20 },
-  },
+  { id: "dental", label: "Clínica dental", clientValue: 400, clientsPerMonth: 25 },
+  { id: "salud", label: "Clínica / Centro médico", clientValue: 150, clientsPerMonth: 40 },
+  { id: "legal", label: "Despacho de abogados", clientValue: 1500, clientsPerMonth: 8 },
+  { id: "inmobiliaria", label: "Inmobiliaria", clientValue: 3000, clientsPerMonth: 5 },
+  { id: "instalaciones", label: "Instalaciones / Energía solar", clientValue: 10000, clientsPerMonth: 4 },
+  { id: "estetica", label: "Clínica estética", clientValue: 800, clientsPerMonth: 15 },
+  { id: "educacion", label: "Academia / Formación", clientValue: 200, clientsPerMonth: 20 },
+  { id: "hosteleria", label: "Restaurante / Hotel", clientValue: 50, clientsPerMonth: 200 },
+  { id: "seguros", label: "Seguros / Asesoría", clientValue: 1200, clientsPerMonth: 6 },
+  { id: "taller", label: "Taller / Reparaciones", clientValue: 350, clientsPerMonth: 30 },
+  { id: "otro", label: "Otro sector", clientValue: 300, clientsPerMonth: 15 },
 ];
 
-/* ── Number Input with label ── */
-const NumberField = ({
+/* ── Visual phone selector (10 phones, click to mark as missed) ── */
+const MissedCallSelector = ({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) => (
+  <div className="space-y-2">
+    <p className="text-xs text-muted-foreground/60 font-medium">
+      De cada 10 llamadas, ¿cuántas <span className="text-brand-rose font-semibold">NO contestas</span>?
+    </p>
+    <div className="flex items-center gap-2 sm:gap-2.5 justify-center py-2">
+      {[...Array(10)].map((_, i) => {
+        const isMissed = i < value;
+        return (
+          <button
+            key={i}
+            onClick={() => onChange(i + 1 === value ? i : i + 1)}
+            className={`relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center transition-all duration-300 ${
+              isMissed
+                ? "bg-brand-rose/20 border-brand-rose/40 scale-105"
+                : "bg-secondary/40 border-border/20 hover:bg-secondary/60"
+            } border`}
+          >
+            {isMissed ? (
+              <PhoneOff className="w-4 h-4 text-brand-rose" />
+            ) : (
+              <Phone className="w-4 h-4 text-brand-emerald/60" />
+            )}
+          </button>
+        );
+      })}
+    </div>
+    <p className="text-center text-sm font-display font-bold text-foreground">
+      {value} de cada 10
+      <span className="text-muted-foreground/40 font-normal text-xs ml-1.5">
+        ({value * 10}%)
+      </span>
+    </p>
+  </div>
+);
+
+/* ── Simple number input ── */
+const SimpleInput = ({
   label,
   value,
   onChange,
+  prefix,
   suffix,
-  icon: Icon,
   min,
   max,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
-  suffix: string;
-  icon: React.ElementType;
+  prefix?: string;
+  suffix?: string;
   min?: number;
   max?: number;
 }) => (
   <div className="space-y-1.5">
-    <label className="text-xs text-muted-foreground/60 font-medium flex items-center gap-1.5">
-      <Icon className="w-3.5 h-3.5" />
-      {label}
-    </label>
+    <label className="text-xs text-muted-foreground/60 font-medium">{label}</label>
     <div className="relative">
+      {prefix && (
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground/40 pointer-events-none">
+          {prefix}
+        </span>
+      )}
       <Input
         type="number"
         value={value}
@@ -96,93 +102,80 @@ const NumberField = ({
         }}
         min={min}
         max={max}
-        className="bg-secondary/30 border-border/25 h-11 text-base font-display font-bold text-foreground rounded-xl pr-16 focus:border-primary/40 focus:ring-primary/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        className={`bg-secondary/30 border-border/25 h-11 text-base font-display font-bold text-foreground rounded-xl focus:border-primary/40 focus:ring-primary/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+          prefix ? "pl-8" : ""
+        } ${suffix ? "pr-20" : ""}`}
       />
-      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/40 pointer-events-none">
-        {suffix}
-      </span>
+      {suffix && (
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/40 pointer-events-none">
+          {suffix}
+        </span>
+      )}
     </div>
-  </div>
-);
-
-/* ── Result card ── */
-const ResultCard = ({
-  label,
-  value,
-  prefix,
-  color,
-  large,
-}: {
-  label: string;
-  value: number;
-  prefix?: string;
-  color: string;
-  large?: boolean;
-}) => (
-  <div className={`text-center ${large ? "bg-card/50 rounded-xl p-4 border border-border/15" : ""}`}>
-    <p className="text-[10px] text-muted-foreground/40 uppercase tracking-wider mb-0.5">{label}</p>
-    <p className={`font-display font-extrabold text-${color} ${large ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}`}>
-      {prefix}{Math.round(value).toLocaleString("es-ES")}
-    </p>
   </div>
 );
 
 /* ── Main ── */
 const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
-  const [selectedSector, setSelectedSector] = useState("otro");
-  const [sectorOpen, setSectorOpen] = useState(false);
-  const [inputs, setInputs] = useState({
-    callsPerDay: 15,
-    missedPct: 25,
-    clientValue: 300,
-    isRecurring: false,
-    conversionPct: 20,
-    receptionistCost: 1500,
-  });
-
-  const update = (key: string, value: number | boolean) =>
-    setInputs((prev) => ({ ...prev, [key]: value }));
+  const [sectorId, setSectorId] = useState("otro");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [callsPerDay, setCallsPerDay] = useState(15);
+  const [missedOf10, setMissedOf10] = useState(3);
+  const [clientsPerMonth, setClientsPerMonth] = useState(15);
+  const [clientValue, setClientValue] = useState(300);
+  const [staffCost, setStaffCost] = useState(1500);
 
   const selectSector = (id: string) => {
-    const sector = sectors.find((s) => s.id === id);
-    if (sector) {
-      setSelectedSector(id);
-      setInputs((prev) => ({ ...prev, ...sector.defaults }));
+    const s = sectors.find((x) => x.id === id);
+    if (s) {
+      setSectorId(id);
+      setClientValue(s.clientValue);
+      setClientsPerMonth(s.clientsPerMonth);
     }
-    setSectorOpen(false);
+    setDropdownOpen(false);
   };
 
-  const currentSector = sectors.find((s) => s.id === selectedSector);
+  const currentSector = sectors.find((s) => s.id === sectorId);
 
-  const roi = useMemo(() => {
+  const math = useMemo(() => {
     const workDays = 22;
-    const callsMonth = inputs.callsPerDay * workDays;
-    const missedMonth = Math.round(callsMonth * (inputs.missedPct / 100));
+    const callsMonth = callsPerDay * workDays;
+    const missedPct = missedOf10 / 10;
+    const missedMonth = Math.round(callsMonth * missedPct);
+    const answeredMonth = callsMonth - missedMonth;
 
-    // Not every missed call = lost sale. Apply conversion rate.
-    const potentialClients = Math.round(missedMonth * (inputs.conversionPct / 100));
-    const revenueLost = potentialClients * inputs.clientValue;
+    // How many of answered calls become clients?
+    // They told us they close X clients/month from the calls they DO answer
+    const conversionRate = answeredMonth > 0 ? clientsPerMonth / answeredMonth : 0;
 
-    // CALLA cost at €0.25/min, avg 2.5 min/call, ALL calls answered
-    const avgCallMin = 2.5;
-    const callaMinuteCost = callsMonth * avgCallMin * 0.25;
+    // Apply same rate to missed calls = lost clients
+    const lostClients = Math.round(missedMonth * conversionRate);
+    const lostRevenue = lostClients * clientValue;
+
+    // CALLA cost
+    const avgMinPerCall = 2.5;
+    const callaCost = Math.round(callsMonth * avgMinPerCall * 0.25);
 
     // Savings
-    const monthlySaving = revenueLost + inputs.receptionistCost - callaMinuteCost;
+    const monthlySaving = lostRevenue + staffCost - callaCost;
     const annualSaving = monthlySaving * 12;
-    const roiMultiple = callaMinuteCost > 0 ? Math.round(monthlySaving / callaMinuteCost) : 0;
+
+    // "1 de cada X" for easy understanding
+    const oneOfEvery = conversionRate > 0 ? Math.round(1 / conversionRate) : 0;
 
     return {
       callsMonth,
       missedMonth,
-      potentialClients,
-      revenueLost,
-      callaMinuteCost: Math.round(callaMinuteCost),
-      monthlySaving: Math.round(monthlySaving),
-      annualSaving: Math.round(annualSaving),
-      roiMultiple,
+      answeredMonth,
+      conversionRate,
+      oneOfEvery,
+      lostClients,
+      lostRevenue,
+      callaCost,
+      monthlySaving,
+      annualSaving,
     };
-  }, [inputs]);
+  }, [callsPerDay, missedOf10, clientsPerMonth, clientValue, staffCost]);
 
   return (
     <section id="calculadora" className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
@@ -196,54 +189,51 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12 md:mb-14"
+          className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 bg-brand-emerald/[0.08] border border-brand-emerald/20 rounded-full px-4 py-1.5 mb-6">
             <Calculator className="w-3.5 h-3.5 text-brand-emerald" />
             <span className="text-xs text-brand-emerald font-display font-semibold tracking-wide">
-              Calculadora de ROI
+              Calculadora
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-5 tracking-tight leading-[1.1]">
-            Calcula tu{" "}
-            <span className="text-gradient-warm">ahorro real</span>
+            ¿Cuánto dinero pierdes en{" "}
+            <span className="text-gradient-warm">llamadas sin contestar</span>?
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg font-light leading-relaxed">
-            Introduce los datos de tu negocio. Sin trampas, con números reales.
+          <p className="text-muted-foreground max-w-lg mx-auto text-base md:text-lg font-light">
+            4 datos de tu negocio. 10 segundos. La respuesta te va a sorprender.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
-          {/* Left: Inputs (3 cols) */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
+          {/* Left: Inputs */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: "-60px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-3"
           >
-            <div className="rounded-2xl border border-border/25 bg-card/35 p-5 sm:p-6 md:p-8 space-y-5">
-              {/* Sector selector */}
+            <div className="rounded-2xl border border-border/25 bg-card/35 p-5 sm:p-6 md:p-8 space-y-6">
+              {/* Sector */}
               <div className="space-y-1.5">
-                <label className="text-xs text-muted-foreground/60 font-medium">
-                  ¿En qué sector trabajas?
-                </label>
+                <label className="text-xs text-muted-foreground/60 font-medium">Tu sector</label>
                 <div className="relative">
                   <button
-                    onClick={() => setSectorOpen(!sectorOpen)}
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="w-full h-11 bg-secondary/30 border border-border/25 rounded-xl px-4 text-left text-sm font-medium text-foreground flex items-center justify-between hover:border-border/40 transition-colors"
                   >
-                    {currentSector?.label || "Seleccionar sector"}
-                    <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${sectorOpen ? "rotate-180" : ""}`} />
+                    {currentSector?.label || "Seleccionar"}
+                    <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
                   </button>
-                  {sectorOpen && (
-                    <div className="absolute top-full mt-1 left-0 right-0 bg-card border border-border/30 rounded-xl shadow-2xl z-20 max-h-64 overflow-y-auto">
+                  {dropdownOpen && (
+                    <div className="absolute top-full mt-1 left-0 right-0 bg-card border border-border/30 rounded-xl shadow-2xl z-20 max-h-56 overflow-y-auto">
                       {sectors.map((s) => (
                         <button
                           key={s.id}
                           onClick={() => selectSector(s.id)}
                           className={`w-full text-left px-4 py-2.5 text-sm hover:bg-secondary/50 transition-colors first:rounded-t-xl last:rounded-b-xl ${
-                            selectedSector === s.id ? "text-primary font-semibold bg-primary/5" : "text-foreground/80"
+                            sectorId === s.id ? "text-primary font-semibold bg-primary/5" : "text-foreground/80"
                           }`}
                         >
                           {s.label}
@@ -254,168 +244,172 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
                 </div>
               </div>
 
-              {/* Input grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <NumberField
-                  label="Llamadas al día"
-                  value={inputs.callsPerDay}
-                  onChange={(v) => update("callsPerDay", v)}
-                  suffix="llamadas"
-                  icon={Phone}
-                  min={1}
-                  max={500}
-                />
-                <NumberField
-                  label="% que no contestas"
-                  value={inputs.missedPct}
-                  onChange={(v) => update("missedPct", v)}
-                  suffix="%"
-                  icon={PhoneOff}
-                  min={0}
-                  max={100}
-                />
-              </div>
+              {/* Calls per day */}
+              <SimpleInput
+                label="¿Cuántas llamadas recibís al día?"
+                value={callsPerDay}
+                onChange={setCallsPerDay}
+                suffix="llamadas/día"
+                min={1}
+                max={500}
+              />
 
-              {/* Client value + type toggle */}
-              <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-4">
-                  <NumberField
-                    label="Valor de un cliente"
-                    value={inputs.clientValue}
-                    onChange={(v) => update("clientValue", v)}
-                    suffix="€"
-                    icon={Euro}
-                    min={10}
-                    max={100000}
-                  />
-                  <NumberField
-                    label="% llamadas que convierten"
-                    value={inputs.conversionPct}
-                    onChange={(v) => update("conversionPct", v)}
-                    suffix="%"
-                    icon={TrendingUp}
-                    min={1}
-                    max={100}
-                  />
-                </div>
+              {/* Missed calls - visual selector */}
+              <MissedCallSelector value={missedOf10} onChange={setMissedOf10} />
 
-                {/* Recurring toggle */}
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <button
-                    onClick={() => update("isRecurring", !inputs.isRecurring)}
-                    className={`relative w-10 h-5 rounded-full transition-colors duration-300 shrink-0 ${
-                      inputs.isRecurring ? "bg-brand-emerald" : "bg-secondary/60"
-                    }`}
-                  >
-                    <div
-                      className={`absolute top-0.5 w-4 h-4 rounded-full bg-foreground transition-transform duration-300 ${
-                        inputs.isRecurring ? "translate-x-5" : "translate-x-0.5"
-                      }`}
-                    />
-                  </button>
-                  <span className="text-xs text-muted-foreground/60">
-                    {inputs.isRecurring
-                      ? "Mis clientes pagan mensualmente"
-                      : "Mis clientes pagan una sola vez"}
-                  </span>
-                </label>
-              </div>
+              {/* Clients per month */}
+              <SimpleInput
+                label="¿Cuántos clientes nuevos cerráis al mes?"
+                value={clientsPerMonth}
+                onChange={setClientsPerMonth}
+                suffix="clientes/mes"
+                min={1}
+                max={1000}
+              />
 
-              <NumberField
-                label="Coste actual de personal (recepcionista, telefonista...)"
-                value={inputs.receptionistCost}
-                onChange={(v) => update("receptionistCost", v)}
-                suffix="€/mes"
-                icon={Euro}
+              {/* Client value */}
+              <SimpleInput
+                label="¿Cuánto paga un cliente de media?"
+                value={clientValue}
+                onChange={setClientValue}
+                prefix="€"
+                min={10}
+                max={100000}
+              />
+
+              {/* Staff cost */}
+              <SimpleInput
+                label="¿Cuánto os cuesta la persona que contesta el teléfono?"
+                value={staffCost}
+                onChange={setStaffCost}
+                prefix="€"
+                suffix="/mes"
                 min={0}
                 max={10000}
               />
-
-              <p className="text-[10px] text-muted-foreground/25 leading-relaxed">
-                Cálculo basado en 22 días laborables, 2,5 min de media por llamada, y tarifa CALLA de €0,25/min.
-                {inputs.isRecurring
-                  ? " Para clientes recurrentes se calcula el valor mensual."
-                  : " Para ventas puntuales se aplica la tasa de conversión sobre llamadas perdidas."}
-              </p>
             </div>
           </motion.div>
 
-          {/* Right: Results (2 cols) */}
+          {/* Right: Results as a STORY */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-2 space-y-4"
+            className="space-y-5"
           >
-            {/* What you lose */}
-            <div className="rounded-2xl border border-brand-rose/15 bg-brand-rose/[0.02] p-5">
-              <p className="text-[10px] text-brand-rose/50 uppercase tracking-wider font-semibold mb-4 flex items-center gap-1.5">
-                <TrendingDown className="w-3.5 h-3.5" />
-                Sin CALLA
+            {/* Step by step narrative */}
+            <div className="rounded-2xl border border-border/25 bg-card/35 p-5 sm:p-6 md:p-8">
+              <p className="text-xs text-muted-foreground/40 uppercase tracking-wider font-semibold mb-5">
+                Tus números, paso a paso
               </p>
-              <div className="space-y-3 mb-4">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Llamadas perdidas</span>
-                  <span className="text-sm font-display font-bold text-foreground">{roi.missedMonth}/mes</span>
+
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-primary">1</span>
+                  </div>
+                  <p className="text-sm text-foreground/80 leading-relaxed">
+                    Recibís{" "}
+                    <span className="font-display font-bold text-foreground">{math.callsMonth} llamadas</span>{" "}
+                    al mes.
+                  </p>
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Clientes que no cierras</span>
-                  <span className="text-sm font-display font-bold text-foreground">{roi.potentialClients}/mes</span>
+
+                {/* Step 2 */}
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-lg bg-brand-rose/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-brand-rose">2</span>
+                  </div>
+                  <p className="text-sm text-foreground/80 leading-relaxed">
+                    No contestáis{" "}
+                    <span className="font-display font-bold text-brand-rose">{math.missedMonth}</span>.
+                    {" "}Esas personas llaman a otro.
+                  </p>
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Ingresos perdidos</span>
-                  <span className="text-sm font-display font-bold text-brand-rose">€{roi.revenueLost.toLocaleString("es-ES")}</span>
+
+                {/* Step 3 */}
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-lg bg-brand-amber/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-brand-amber">3</span>
+                  </div>
+                  <p className="text-sm text-foreground/80 leading-relaxed">
+                    Hoy cerráis{" "}
+                    <span className="font-display font-bold text-foreground">{clientsPerMonth} clientes</span>{" "}
+                    de{" "}
+                    <span className="font-display font-bold text-foreground">{math.answeredMonth}</span>{" "}
+                    llamadas contestadas.
+                    {math.oneOfEvery > 0 && (
+                      <span className="text-muted-foreground/50">
+                        {" "}Es decir, 1 de cada {math.oneOfEvery} llama y contrata.
+                      </span>
+                    )}
+                  </p>
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">+ Coste personal</span>
-                  <span className="text-sm font-display font-bold text-brand-rose">€{inputs.receptionistCost.toLocaleString("es-ES")}</span>
+
+                {/* Step 4 - THE PUNCHLINE */}
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-lg bg-brand-rose/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-brand-rose">4</span>
+                  </div>
+                  <p className="text-sm text-foreground/80 leading-relaxed">
+                    Si ese mismo ratio aplica a las{" "}
+                    <span className="font-display font-bold text-brand-rose">{math.missedMonth}</span>{" "}
+                    que NO contestáis…
+                    {math.lostClients > 0 ? (
+                      <>
+                        {" "}estáis perdiendo{" "}
+                        <span className="font-display font-bold text-brand-rose">{math.lostClients} clientes</span>{" "}
+                        cada mes.
+                      </>
+                    ) : (
+                      <> el impacto es mínimo. ¡Bien!</>
+                    )}
+                  </p>
                 </div>
-              </div>
-              <div className="border-t border-brand-rose/10 pt-3">
-                <ResultCard
-                  label="Pierdes cada mes"
-                  value={roi.revenueLost + inputs.receptionistCost}
-                  prefix="€"
-                  color="brand-rose"
-                  large
-                />
               </div>
             </div>
 
-            {/* With CALLA */}
-            <div className="rounded-2xl border border-brand-emerald/15 bg-brand-emerald/[0.02] p-5">
-              <p className="text-[10px] text-brand-emerald/50 uppercase tracking-wider font-semibold mb-4 flex items-center gap-1.5">
-                <TrendingUp className="w-3.5 h-3.5" />
-                Con CALLA
-              </p>
-              <div className="space-y-3 mb-4">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Llamadas perdidas</span>
-                  <span className="text-sm font-display font-bold text-brand-emerald">0</span>
-                </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Coste CALLA</span>
-                  <span className="text-sm font-display font-bold text-foreground">€{roi.callaMinuteCost.toLocaleString("es-ES")}/mes</span>
-                </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-muted-foreground/60">Ahorro anual</span>
-                  <span className="text-sm font-display font-bold text-brand-emerald">€{roi.annualSaving.toLocaleString("es-ES")}</span>
-                </div>
+            {/* The big number */}
+            {math.lostRevenue > 0 && (
+              <div className="rounded-2xl border border-brand-rose/20 bg-brand-rose/[0.03] p-5 sm:p-6 text-center">
+                <p className="text-xs text-brand-rose/50 uppercase tracking-wider font-semibold mb-2">
+                  {math.lostClients} clientes × €{clientValue.toLocaleString("es-ES")} =
+                </p>
+                <p className="text-3xl sm:text-4xl font-display font-extrabold text-brand-rose mb-1">
+                  €{math.lostRevenue.toLocaleString("es-ES")}
+                  <span className="text-lg font-normal text-brand-rose/60">/mes</span>
+                </p>
+                <p className="text-xs text-brand-rose/40">
+                  en ingresos que se van a tu competencia
+                </p>
               </div>
-              <div className="border-t border-brand-emerald/10 pt-3 flex items-center justify-between">
-                <ResultCard
-                  label="Ahorras al mes"
-                  value={roi.monthlySaving}
-                  prefix="€"
-                  color="brand-emerald"
-                  large
-                />
-                <div className="text-center px-3">
-                  <p className="text-[10px] text-muted-foreground/30 uppercase tracking-wider mb-0.5">ROI</p>
-                  <p className="text-3xl font-display font-extrabold text-foreground">
-                    {roi.roiMultiple}x
-                  </p>
+            )}
+
+            {/* With CALLA */}
+            <div className="rounded-2xl border border-brand-emerald/20 bg-brand-emerald/[0.03] p-5 sm:p-6">
+              <p className="text-xs text-brand-emerald/50 uppercase tracking-wider font-semibold mb-4">
+                Con CALLA, esas {math.missedMonth} llamadas se contestan solas
+              </p>
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-sm text-muted-foreground/60">Coste de CALLA</span>
+                <span className="text-sm font-display font-bold text-foreground">
+                  €{math.callaCost.toLocaleString("es-ES")}/mes
+                </span>
+              </div>
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-sm text-muted-foreground/60">Te ahorras en personal</span>
+                <span className="text-sm font-display font-bold text-brand-emerald">
+                  €{staffCost.toLocaleString("es-ES")}/mes
+                </span>
+              </div>
+              <div className="border-t border-brand-emerald/15 pt-3 mt-3">
+                <div className="flex items-baseline justify-between">
+                  <span className="text-sm font-medium text-foreground">Recuperas al año</span>
+                  <span className="text-2xl font-display font-extrabold text-brand-emerald">
+                    €{math.annualSaving.toLocaleString("es-ES")}
+                  </span>
                 </div>
               </div>
             </div>
@@ -427,11 +421,11 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
               onClick={onContact}
             >
               <Sparkles className="mr-2 h-4 w-4" />
-              Reservar consulta gratuita
+              Quiero dejar de perder clientes
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <p className="text-[10px] text-muted-foreground/30 text-center">
-              30 min · Sin compromiso · Análisis personalizado
+              Consulta gratuita · 30 min · Sin compromiso
             </p>
           </motion.div>
         </div>
