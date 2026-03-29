@@ -43,7 +43,7 @@ const About = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Sobre nosotros
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 md:mb-6 tracking-tight">
             Conócenos
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-4 text-lg font-light">
