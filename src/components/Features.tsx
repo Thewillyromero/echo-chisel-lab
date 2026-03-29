@@ -79,7 +79,7 @@ const Features = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Empleados IA 24/7
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Tu equipo de IA que{" "}
             <span className="text-gradient">nunca duerme</span>
           </h2>
