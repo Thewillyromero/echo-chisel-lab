@@ -6,10 +6,10 @@ import agentAnalytics from "@/assets/characters/agent-analytics.png";
 
 const About = () => {
   return (
-    <section id="about" className="py-28 px-6 relative overflow-hidden">
+    <section id="about" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
-      <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
+      <div className="container mx-auto flex flex-col lg:flex-row items-center gap-10 md:gap-16 relative z-10">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -43,10 +43,10 @@ const About = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Sobre nosotros
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 md:mb-6 tracking-tight">
             Conócenos
           </h2>
-          <p className="text-muted-foreground leading-relaxed mb-4 text-lg font-light">
+          <p className="text-muted-foreground leading-relaxed mb-4 text-base md:text-lg font-light">
             Contamos con un equipo de profesionales especializados en IA conversacional. Entrenamos y adaptamos tu asistente virtual para que tus clientes reciban la mejor experiencia posible.
           </p>
           <p className="text-muted-foreground/70 leading-relaxed mb-8 font-light">

@@ -43,7 +43,7 @@ const cardVariants = {
 
 const Blog = () => {
   return (
-    <section id="blog" className="py-28 px-6 relative">
+    <section id="blog" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
@@ -58,7 +58,7 @@ const Blog = () => {
             <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
               Mantente al día
             </p>
-            <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
               Infórmate de nuestros <span className="text-gradient">avances</span>
             </h2>
           </div>

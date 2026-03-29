@@ -42,7 +42,7 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
   }, [started, target]);
 
   return (
-    <div ref={ref} className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+    <div ref={ref} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
       {count}<span className="text-primary">{suffix}</span>
     </div>
   );
@@ -59,11 +59,11 @@ const statVariants = {
 
 const Stats = () => {
   return (
-    <section id="stats" className="py-28 px-6 relative overflow-hidden">
+    <section id="stats" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
+        <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -88,10 +88,10 @@ const Stats = () => {
               <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
                 Resultados probados
               </p>
-              <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
                 Innovación en <span className="text-gradient">IA conversacional</span>
               </h2>
-              <p className="text-muted-foreground max-w-xl mb-12 text-lg font-light">
+              <p className="text-muted-foreground max-w-xl mb-8 md:mb-12 text-base md:text-lg font-light">
                 Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
               </p>
             </motion.div>
@@ -100,7 +100,7 @@ const Stats = () => {
               whileInView="visible"
               viewport={{ once: false, amount: 0.2 }}
               transition={{ staggerChildren: 0.1 }}
-              className="grid grid-cols-2 gap-x-10 gap-y-8"
+              className="grid grid-cols-2 gap-x-6 md:gap-x-10 gap-y-6 md:gap-y-8"
             >
               {stats.map((s, i) => (
                 <motion.div key={i} variants={statVariants} className="group">

@@ -44,13 +44,13 @@ const LogoMarquee = () => {
   const tripled = [...logos, ...logos, ...logos];
 
   return (
-    <section className="py-8 border-y border-border/10 overflow-hidden relative">
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+    <section className="py-5 md:py-8 border-y border-border/10 overflow-hidden relative">
+      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <div className="flex animate-marquee items-center">
         {tripled.map((item, i) => (
-          <div key={i} className="mx-7 flex items-center justify-center min-w-[120px] shrink-0">
+          <div key={i} className="mx-4 md:mx-7 flex items-center justify-center min-w-[90px] md:min-w-[120px] shrink-0">
             {item.logo ? (
               <img
                 src={item.logo}

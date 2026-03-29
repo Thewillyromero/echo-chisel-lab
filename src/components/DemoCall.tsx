@@ -77,7 +77,7 @@ const DemoCall = () => {
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <section id="demo" className="py-28 px-6 relative overflow-hidden">
+    <section id="demo" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       {/* Ambient glows */}
@@ -96,10 +96,10 @@ const DemoCall = () => {
             <Sparkles className="w-3.5 h-3.5 text-brand-emerald" />
             <span className="text-xs text-brand-emerald font-medium">Prueba en vivo</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Escucha a <span className="text-gradient">CALLA en acción</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light">
             Introduce tu nombre y número de teléfono. Recibirás una llamada de demo de nuestro asistente IA en segundos.
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ const DemoCall = () => {
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-emerald/[0.04] via-card/80 to-primary/[0.03]" />
 
-            <div className="relative p-8 md:p-10">
+            <div className="relative p-5 sm:p-8 md:p-10">
               <AnimatePresence mode="wait">
                 {!submitted ? (
                   <motion.form

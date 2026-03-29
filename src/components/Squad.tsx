@@ -40,7 +40,7 @@ const cardVariants = {
 
 const Squad = () => {
   return (
-    <section id="squad" className="py-28 px-6 relative overflow-hidden">
+    <section id="squad" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
@@ -54,10 +54,10 @@ const Squad = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Automatización completa
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Así <span className="text-gradient">trabajan juntos</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg font-light">
             Cada agente sabe cuándo actuar y a quién pasar el testigo. Tú no haces nada.
           </p>
         </motion.div>

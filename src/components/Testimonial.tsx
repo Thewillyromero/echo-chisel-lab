@@ -89,7 +89,7 @@ const cardVariants = {
 
 const Testimonial = () => {
   return (
-    <section id="testimonials" className="py-28 px-6 relative">
+    <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
@@ -103,20 +103,20 @@ const Testimonial = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Resultados reales
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Lo que dicen <span className="text-gradient">nuestros clientes</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light mb-10">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light mb-8 md:mb-10">
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-4">
             {[
               { label: "Google Reviews", rating: "4.9", color: "fill-brand-amber text-brand-amber" },
               { label: "Trustpilot", rating: "4.8", color: "fill-brand-emerald text-brand-emerald" },
               { label: "Clutch.co", rating: "5.0", color: "fill-brand-rose text-brand-rose" },
             ].map((badge) => (
-              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-5 py-3 flex items-center gap-3 hover:border-primary/20 transition-all duration-300">
+              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2.5 md:gap-3 hover:border-primary/20 transition-all duration-300">
                 <div>
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-bold text-foreground">{badge.rating}</span>
@@ -139,7 +139,7 @@ const Testimonial = () => {
           whileInView="visible"
           viewport={{ once: false, amount: 0.05 }}
           transition={{ staggerChildren: 0.08 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
           {testimonials.map((t, i) => (
             <motion.div key={i} variants={cardVariants}>
@@ -183,7 +183,7 @@ const Testimonial = () => {
           viewport={{ once: false, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
-          <div className="bg-card/40 rounded-2xl border border-border/30 p-8 md:p-10 relative overflow-hidden">
+          <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block">
               <img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" />
             </div>

@@ -5,7 +5,7 @@ import heroRobot from "@/assets/hero-robot.png";
 
 const CTA = ({ onContact }: { onContact?: () => void }) => {
   return (
-    <section className="py-28 px-6 relative overflow-hidden">
+    <section className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto max-w-4xl relative z-10">
@@ -18,12 +18,12 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-card/80 to-accent/[0.04]" />
 
-            <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center gap-10">
+            <div className="relative p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 md:gap-10">
               <div className="flex-1 text-center md:text-left">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
                   Empieza <span className="text-gradient">hoy mismo</span>
                 </h2>
-                <p className="text-muted-foreground text-lg mb-8 font-light max-w-md">
+                <p className="text-muted-foreground text-base md:text-lg mb-6 md:mb-8 font-light max-w-md">
                   En menos de 30 minutos, puedes tener un asistente virtual gestionando todas tus llamadas y citas.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">

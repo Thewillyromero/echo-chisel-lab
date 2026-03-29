@@ -67,7 +67,7 @@ const cardVariants = {
 
 const Features = () => {
   return (
-    <section id="features" className="py-28 px-6 relative">
+    <section id="features" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,11 +79,11 @@ const Features = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Empleados IA 24/7
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Tu equipo de IA que{" "}
             <span className="text-gradient">nunca duerme</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light">
             Cada agente está diseñado para un rol específico. Delega y escala sin añadir personal.
           </p>
         </motion.div>
@@ -99,14 +99,14 @@ const Features = () => {
             <motion.div
               key={i}
               variants={cardVariants}
-              className={`group relative bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
+              className={`group relative bg-card/40 rounded-2xl border border-border/30 p-5 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
             >
-              <div className="flex items-start gap-5">
+                <div className="flex items-start gap-4 md:gap-5">
                 <div className="shrink-0">
                   <img
                     src={f.image}
                     alt={f.agent}
-                    className="w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    className="w-16 sm:w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
                     style={{ animation: "none" }}
                     onMouseEnter={(e) => { e.currentTarget.style.animation = `${f.animationName} ${f.animationDuration} ease-in-out`; }}
                     onMouseLeave={(e) => { e.currentTarget.style.animation = "none"; }}
