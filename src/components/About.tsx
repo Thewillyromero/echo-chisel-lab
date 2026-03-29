@@ -6,7 +6,7 @@ import agentAnalytics from "@/assets/characters/agent-analytics.png";
 
 const About = () => {
   return (
-    <section id="about" className="py-28 px-6 relative overflow-hidden">
+    <section id="about" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
