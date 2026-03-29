@@ -3,7 +3,7 @@ import heroRobot from "@/assets/hero-robot.png";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border/20 pt-16 pb-8 px-6">
+    <footer className="border-t border-border/20 pt-12 md:pt-16 pb-8 px-5 md:px-6">
       <div className="container mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Brand */}
