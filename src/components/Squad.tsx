@@ -54,7 +54,7 @@ const Squad = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Automatización completa
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Así <span className="text-gradient">trabajan juntos</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light">
