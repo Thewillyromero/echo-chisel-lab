@@ -110,13 +110,13 @@ const Testimonial = () => {
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-4">
             {[
               { label: "Google Reviews", rating: "4.9", color: "fill-brand-amber text-brand-amber" },
               { label: "Trustpilot", rating: "4.8", color: "fill-brand-emerald text-brand-emerald" },
               { label: "Clutch.co", rating: "5.0", color: "fill-brand-rose text-brand-rose" },
             ].map((badge) => (
-              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-5 py-3 flex items-center gap-3 hover:border-primary/20 transition-all duration-300">
+              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2.5 md:gap-3 hover:border-primary/20 transition-all duration-300">
                 <div>
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-bold text-foreground">{badge.rating}</span>
