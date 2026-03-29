@@ -99,7 +99,7 @@ const DemoCall = () => {
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Escucha a <span className="text-gradient">CALLA en acción</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light">
             Introduce tu nombre y número de teléfono. Recibirás una llamada de demo de nuestro asistente IA en segundos.
           </p>
         </motion.div>
