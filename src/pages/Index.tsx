@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import SocialProof from "@/components/SocialProof";
 import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
 import DemoCall from "@/components/DemoCall";
@@ -27,6 +28,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar onContact={() => openContact("navbar")} />
       <Hero onContact={() => openContact("hero")} />
+      <SocialProof />
       <LogoMarquee />
       <Features />
       <DemoCall />
