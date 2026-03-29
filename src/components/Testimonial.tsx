@@ -106,7 +106,7 @@ const Testimonial = () => {
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Lo que dicen <span className="text-gradient">nuestros clientes</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light mb-10">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light mb-8 md:mb-10">
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
