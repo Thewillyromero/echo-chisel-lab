@@ -31,13 +31,13 @@ const logos = [
   { name: "Direct Public Funding", logo: null },
   { name: "Capify", logo: null },
   { name: "Dental 101", logo: null },
-  { name: "Advanced Plumbing Systems", logo: null },
-  { name: "Marketing Automation Group", logo: null },
-  { name: "Crowdfund Mafia", logo: null },
-  { name: "DLC Consulting", logo: null },
+  { name: "Advanced Plumbing", logo: null },
+  { name: "Tesla Energy", logo: null },
+  { name: "Houwzer", logo: null },
+  { name: "COX Business", logo: null },
   { name: "USHealth Group", logo: null },
+  { name: "Kobe Digital", logo: null },
   { name: "Northwest Lighting", logo: null },
-  { name: "Kobedigtau Financial", logo: null },
 ];
 
 const LogoMarquee = () => {
@@ -45,21 +45,32 @@ const LogoMarquee = () => {
 
   return (
     <section className="py-5 md:py-8 border-y border-border/10 overflow-hidden relative">
-      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <div className="flex animate-marquee items-center">
         {tripled.map((item, i) => (
-          <div key={i} className="mx-4 md:mx-7 flex items-center justify-center min-w-[90px] md:min-w-[120px] shrink-0">
+          <div
+            key={i}
+            className="mx-5 md:mx-8 flex items-center justify-center min-w-[100px] md:min-w-[130px] shrink-0 group"
+          >
             {item.logo ? (
-              <img
-                src={item.logo}
-                alt={item.name}
-                className="h-7 w-auto object-contain max-w-[85px] mix-blend-screen opacity-40 hover:opacity-70 transition-opacity duration-300"
-                loading="lazy"
-              />
+              <div className="relative">
+                {/* Glow behind logo */}
+                <div className="absolute inset-0 bg-white/[0.04] rounded-lg blur-xl scale-150 group-hover:bg-white/[0.08] transition-all duration-500" />
+                <img
+                  src={item.logo}
+                  alt={item.name}
+                  className="h-8 md:h-9 w-auto object-contain max-w-[100px] relative z-10 opacity-50 group-hover:opacity-80 transition-all duration-500"
+                  style={{
+                    filter: "brightness(2) grayscale(1) contrast(0.8)",
+                    mixBlendMode: "screen",
+                  }}
+                  loading="lazy"
+                />
+              </div>
             ) : (
-              <span className="text-muted-foreground/25 font-display font-semibold text-xs tracking-wide whitespace-nowrap hover:text-muted-foreground/50 transition-colors duration-300">
+              <span className="text-muted-foreground/20 font-display font-semibold text-xs tracking-wide whitespace-nowrap group-hover:text-muted-foreground/40 transition-colors duration-500">
                 {item.name}
               </span>
             )}
