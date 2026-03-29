@@ -101,12 +101,12 @@ const Features = () => {
               variants={cardVariants}
               className={`group relative bg-card/40 rounded-2xl border border-border/30 p-5 md:p-8 transition-all duration-500 cursor-pointer ${f.borderColor} ${f.glowColor} hover:-translate-y-1`}
             >
-              <div className="flex items-start gap-5">
+                <div className="flex items-start gap-4 md:gap-5">
                 <div className="shrink-0">
                   <img
                     src={f.image}
                     alt={f.agent}
-                    className="w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    className="w-16 sm:w-20 md:w-24 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
                     style={{ animation: "none" }}
                     onMouseEnter={(e) => { e.currentTarget.style.animation = `${f.animationName} ${f.animationDuration} ease-in-out`; }}
                     onMouseLeave={(e) => { e.currentTarget.style.animation = "none"; }}

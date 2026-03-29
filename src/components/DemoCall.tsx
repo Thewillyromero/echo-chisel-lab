@@ -114,7 +114,7 @@ const DemoCall = () => {
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-emerald/[0.04] via-card/80 to-primary/[0.03]" />
 
-            <div className="relative p-8 md:p-10">
+            <div className="relative p-5 sm:p-8 md:p-10">
               <AnimatePresence mode="wait">
                 {!submitted ? (
                   <motion.form

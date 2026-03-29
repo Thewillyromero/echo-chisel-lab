@@ -46,7 +46,7 @@ const About = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 md:mb-6 tracking-tight">
             Conócenos
           </h2>
-          <p className="text-muted-foreground leading-relaxed mb-4 text-lg font-light">
+          <p className="text-muted-foreground leading-relaxed mb-4 text-base md:text-lg font-light">
             Contamos con un equipo de profesionales especializados en IA conversacional. Entrenamos y adaptamos tu asistente virtual para que tus clientes reciban la mejor experiencia posible.
           </p>
           <p className="text-muted-foreground/70 leading-relaxed mb-8 font-light">

@@ -183,7 +183,7 @@ const Testimonial = () => {
           viewport={{ once: false, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
-          <div className="bg-card/40 rounded-2xl border border-border/30 p-8 md:p-10 relative overflow-hidden">
+          <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block">
               <img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" />
             </div>

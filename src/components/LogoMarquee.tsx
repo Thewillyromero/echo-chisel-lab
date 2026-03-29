@@ -50,7 +50,7 @@ const LogoMarquee = () => {
 
       <div className="flex animate-marquee items-center">
         {tripled.map((item, i) => (
-          <div key={i} className="mx-7 flex items-center justify-center min-w-[120px] shrink-0">
+          <div key={i} className="mx-4 md:mx-7 flex items-center justify-center min-w-[90px] md:min-w-[120px] shrink-0">
             {item.logo ? (
               <img
                 src={item.logo}

@@ -68,7 +68,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <img
               src={heroRobot}
               alt="CALLA Asistente Virtual"
-              className="w-72 md:w-96 lg:w-[26rem] animate-float drop-shadow-2xl relative z-10"
+              className="w-48 sm:w-72 md:w-96 lg:w-[26rem] animate-float drop-shadow-2xl relative z-10"
               width={1024}
               height={1024}
             />

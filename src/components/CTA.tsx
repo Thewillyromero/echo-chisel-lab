@@ -23,7 +23,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
                   Empieza <span className="text-gradient">hoy mismo</span>
                 </h2>
-                <p className="text-muted-foreground text-lg mb-8 font-light max-w-md">
+                <p className="text-muted-foreground text-base md:text-lg mb-6 md:mb-8 font-light max-w-md">
                   En menos de 30 minutos, puedes tener un asistente virtual gestionando todas tus llamadas y citas.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">

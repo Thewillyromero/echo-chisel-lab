@@ -57,7 +57,7 @@ const Squad = () => {
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Así <span className="text-gradient">trabajan juntos</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg font-light">
             Cada agente sabe cuándo actuar y a quién pasar el testigo. Tú no haces nada.
           </p>
         </motion.div>

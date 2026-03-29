@@ -100,7 +100,7 @@ const Stats = () => {
               whileInView="visible"
               viewport={{ once: false, amount: 0.2 }}
               transition={{ staggerChildren: 0.1 }}
-              className="grid grid-cols-2 gap-x-10 gap-y-8"
+              className="grid grid-cols-2 gap-x-6 md:gap-x-10 gap-y-6 md:gap-y-8"
             >
               {stats.map((s, i) => (
                 <motion.div key={i} variants={statVariants} className="group">
