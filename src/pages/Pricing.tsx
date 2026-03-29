@@ -102,6 +102,8 @@ const cardVariants = (i: number) => ({
   },
 });
 
+const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/30-min-meeting333-5466de86-217d-4157-a735-59dcb4fcc11f-444718d0-b968-4988-a435-8a8529fcab09";
+
 const Pricing = () => {
   const [contactOpen, setContactOpen] = useState(false);
   const [annual, setAnnual] = useState(false);
@@ -207,7 +209,7 @@ const Pricing = () => {
                       size="lg"
                       className={`w-full mb-5 sm:mb-6 text-sm sm:text-base rounded-xl ${tier.popular ? "glow-box" : ""}`}
                       variant={tier.popular ? "default" : "outline"}
-                      onClick={() => setContactOpen(true)}
+                      onClick={() => window.open(BOOKING_URL, "_blank")}
                     >
                       {tier.cta}
                       <ArrowRight className="ml-2 h-4 w-4" />
