@@ -96,7 +96,7 @@ const DemoCall = () => {
             <Sparkles className="w-3.5 h-3.5 text-brand-emerald" />
             <span className="text-xs text-brand-emerald font-medium">Prueba en vivo</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
             Escucha a <span className="text-gradient">CALLA en acción</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
