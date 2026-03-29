@@ -48,14 +48,15 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+const itemVariants = (i: number) => ({
+  hidden: { opacity: 0, y: 15, x: i % 2 === 0 ? -25 : 25 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    x: 0,
+    transition: { duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] },
   },
-};
+});
 
 const FAQ = () => {
   return (
@@ -92,7 +93,7 @@ const FAQ = () => {
         >
           <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, i) => (
-              <motion.div key={i} variants={itemVariants}>
+              <motion.div key={i} variants={itemVariants(i)}>
                 <AccordionItem
                   value={`faq-${i}`}
                   className="bg-card/40 rounded-2xl border border-border/30 px-6 hover:border-primary/20 transition-colors duration-300 data-[state=open]:border-primary/30 data-[state=open]:shadow-lg data-[state=open]:shadow-primary/5"
