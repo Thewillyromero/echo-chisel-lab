@@ -20,7 +20,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
 
             <div className="relative p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 md:gap-10">
               <div className="flex-1 text-center md:text-left">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-4 md:mb-5 tracking-tight">
                   Empieza <span className="text-gradient">hoy mismo</span>
                 </h2>
                 <p className="text-muted-foreground text-lg mb-8 font-light max-w-md">
