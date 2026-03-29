@@ -18,7 +18,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-card/80 to-accent/[0.04]" />
 
-            <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center gap-10">
+            <div className="relative p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 md:gap-10">
               <div className="flex-1 text-center md:text-left">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 tracking-tight">
                   Empieza <span className="text-gradient">hoy mismo</span>
