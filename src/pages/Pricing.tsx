@@ -26,7 +26,7 @@ const tiers = [
       "Soporte por email",
       "Panel de métricas básico",
     ],
-    cta: "Reservar consulta gratuita",
+    cta: "Empezar ahora",
     popular: false,
     paymentLinks: {
       monthly: "https://buy.stripe.com/28E5kD9ZR0Mwf1fa2yfEk00",
@@ -53,7 +53,7 @@ const tiers = [
       "Personalización de voz y tono",
       "Webhook e integraciones API",
     ],
-    cta: "Reservar consulta gratuita",
+    cta: "Elegir Pro",
     popular: true,
     paymentLinks: {
       monthly: "https://buy.stripe.com/3cI7sL1tlfHq6uJ2A6fEk01",
@@ -81,7 +81,7 @@ const tiers = [
       "Multi-idioma y multi-sede",
       "Facturación personalizada",
     ],
-    cta: "Hablar con el equipo",
+    cta: "Contactar",
     popular: false,
     paymentLinks: null,
   },
@@ -207,7 +207,14 @@ const Pricing = () => {
                       size="lg"
                       className={`w-full mb-5 sm:mb-6 text-sm sm:text-base rounded-xl ${tier.popular ? "glow-box" : ""}`}
                       variant={tier.popular ? "default" : "outline"}
-                      onClick={() => setContactOpen(true)}
+                      onClick={() => {
+                        if (tier.paymentLinks) {
+                          const link = annual ? tier.paymentLinks.annual : tier.paymentLinks.monthly;
+                          window.open(link, "_blank");
+                        } else {
+                          setContactOpen(true);
+                        }
+                      }}
                     >
                       {tier.cta}
                       <ArrowRight className="ml-2 h-4 w-4" />

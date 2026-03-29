@@ -6,7 +6,6 @@ import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
 import DemoCall from "@/components/DemoCall";
 import CallPlayer from "@/components/CallPlayer";
-import ROICalculator from "@/components/ROICalculator";
 import CampaignResults from "@/components/CampaignResults";
 import Squad from "@/components/Squad";
 import About from "@/components/About";
@@ -34,9 +33,8 @@ const Index = () => {
       <SocialProof />
       <LogoMarquee />
       <Features />
-      <DemoCall />
-      <ROICalculator onContact={() => openContact("roi-calculator")} />
       <CallPlayer />
+      <DemoCall />
       <CampaignResults />
       <Squad />
       <About />
