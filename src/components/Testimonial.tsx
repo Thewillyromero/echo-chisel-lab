@@ -78,14 +78,15 @@ const caseStudies = [
   { company: "Debt Relief", logo: null, result: "<$10", description: "por lead cualificado", metric: "Citas a $27-$35", detail: "Cientos de leads generados" },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 25 },
+const cardVariants = (i: number, cols: number = 3) => ({
+  hidden: { opacity: 0, y: 30, x: (i % cols === 0) ? -30 : (i % cols === cols - 1) ? 30 : 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    x: 0,
+    transition: { duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
   },
-};
+});
 
 const Testimonial = () => {
   return (
@@ -142,7 +143,7 @@ const Testimonial = () => {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
           {testimonials.map((t, i) => (
-            <motion.div key={i} variants={cardVariants}>
+            <motion.div key={i} variants={cardVariants(i, 3)}>
               <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 transition-all duration-500 h-full flex flex-col group">
                 <Quote className="h-5 w-5 text-primary/30 mb-3 shrink-0" />
                 <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
@@ -199,7 +200,7 @@ const Testimonial = () => {
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
               {caseStudies.map((cs, i) => (
-                <motion.div key={i} variants={cardVariants} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 transition-all duration-300">
+                <motion.div key={i} variants={cardVariants(i, 3)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 transition-all duration-300">
                   <div className="flex items-center gap-2 mb-3">
                     {cs.logo ? (
                       <img src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
