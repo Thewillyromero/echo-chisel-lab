@@ -83,7 +83,7 @@ const Features = () => {
             Tu equipo de IA que{" "}
             <span className="text-gradient">nunca duerme</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light">
             Cada agente está diseñado para un rol específico. Delega y escala sin añadir personal.
           </p>
         </motion.div>
