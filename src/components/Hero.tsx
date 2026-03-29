@@ -38,7 +38,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
           <p className="text-base md:text-xl text-muted-foreground mb-3 md:mb-4 leading-relaxed font-light max-w-xl">
             CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Lanza campañas outbound para appointment setting.
           </p>
-          <p className="text-base text-muted-foreground/50 mb-8">
+          <p className="text-sm md:text-base text-muted-foreground/50 mb-6 md:mb-8">
             Inbound + Outbound. Todo en una sola plataforma.
           </p>
           <motion.div
