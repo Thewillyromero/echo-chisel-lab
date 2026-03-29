@@ -91,7 +91,7 @@ const Stats = () => {
               <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
                 Innovación en <span className="text-gradient">IA conversacional</span>
               </h2>
-              <p className="text-muted-foreground max-w-xl mb-12 text-lg font-light">
+              <p className="text-muted-foreground max-w-xl mb-8 md:mb-12 text-base md:text-lg font-light">
                 Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.
               </p>
             </motion.div>
