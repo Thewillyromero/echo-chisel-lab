@@ -42,7 +42,7 @@ const AnimatedNumber = ({ target, suffix }: { target: number; suffix: string }) 
   }, [started, target]);
 
   return (
-    <div ref={ref} className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+    <div ref={ref} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
       {count}<span className="text-primary">{suffix}</span>
     </div>
   );
