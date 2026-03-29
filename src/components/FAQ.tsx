@@ -59,7 +59,7 @@ const itemVariants = {
 
 const FAQ = () => {
   return (
-    <section id="faq" className="py-28 px-6 relative">
+    <section id="faq" className="py-16 md:py-28 px-5 md:px-6 relative">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       {/* Ambient glow */}
