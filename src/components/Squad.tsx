@@ -29,14 +29,15 @@ const workflows = [
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+const cardVariants = (i?: number) => ({
+  hidden: { opacity: 0, y: 30, x: i !== undefined ? (i % 2 === 0 ? -35 : 35) : 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    x: 0,
+    transition: { duration: 0.6, delay: i !== undefined ? i * 0.1 : 0, ease: [0.22, 1, 0.36, 1] },
   },
-};
+});
 
 const Squad = () => {
   return (
@@ -71,7 +72,7 @@ const Squad = () => {
           className="flex flex-wrap justify-center gap-4 md:gap-6 mb-14"
         >
           {agents.map((agent) => (
-            <motion.div key={agent.name} variants={cardVariants} className="flex flex-col items-center group cursor-pointer">
+            <motion.div key={agent.name} variants={cardVariants()} className="flex flex-col items-center group cursor-pointer">
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card/60 border border-border/30 flex items-center justify-center mb-2 group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-300 group-hover:-translate-y-1">
                 <img src={agent.image} alt={agent.name} className="w-12 h-12 md:w-14 md:h-14 object-contain" width={512} height={512} loading="lazy" />
               </div>
@@ -89,7 +90,7 @@ const Squad = () => {
           className="space-y-5"
         >
           {workflows.map((workflow) => (
-            <motion.div key={workflow.title} variants={cardVariants}>
+            <motion.div key={workflow.title} variants={cardVariants(workflows.indexOf(workflow))}>
               <div className="bg-card/40 rounded-2xl border border-border/30 p-6 md:p-8">
                 <div className="mb-6">
                   <h4 className="font-display font-bold text-lg text-foreground">{workflow.title}</h4>
