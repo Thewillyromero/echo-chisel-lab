@@ -5,8 +5,10 @@ import SocialProof from "@/components/SocialProof";
 import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
 import DemoCall from "@/components/DemoCall";
-import About from "@/components/About";
+import CallPlayer from "@/components/CallPlayer";
+import CampaignResults from "@/components/CampaignResults";
 import Squad from "@/components/Squad";
+import About from "@/components/About";
 import Stats from "@/components/Stats";
 import Testimonial from "@/components/Testimonial";
 import Blog from "@/components/Blog";
@@ -31,7 +33,9 @@ const Index = () => {
       <SocialProof />
       <LogoMarquee />
       <Features />
+      <CallPlayer />
       <DemoCall />
+      <CampaignResults />
       <Squad />
       <About />
       <Stats />
