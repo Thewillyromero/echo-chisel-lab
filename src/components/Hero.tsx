@@ -31,7 +31,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs text-primary font-medium">Atención telefónica inteligente</span>
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.05] mb-6 tracking-tight text-foreground">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.05] mb-5 md:mb-6 tracking-tight text-foreground">
             Tus llamadas,{" "}
             <span className="text-gradient">resueltas por IA</span>
           </h1>
