@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactFormDialog from "@/components/ContactFormDialog";
@@ -14,7 +15,7 @@ const tiers = [
     description: "Ideal para negocios que quieren automatizar sus llamadas entrantes.",
     accent: "brand-teal",
     accentClass: "text-brand-teal",
-    glowClass: "hover:shadow-[0_0_40px_hsl(190_55%_58%/0.15)]",
+    hsl: "190 60% 55%",
     badge: null,
     features: [
       "1 agente IA (Inbound)",
@@ -36,7 +37,7 @@ const tiers = [
     description: "Para equipos que necesitan inbound + outbound y analítica avanzada.",
     accent: "brand-lavender",
     accentClass: "text-brand-lavender",
-    glowClass: "shadow-[0_0_50px_hsl(260_45%_65%/0.12)] hover:shadow-[0_0_60px_hsl(260_45%_65%/0.2)]",
+    hsl: "260 50% 65%",
     badge: "Más popular",
     features: [
       "3 agentes IA (Inbound + Outbound)",
@@ -59,7 +60,7 @@ const tiers = [
     description: "Solución a medida para grandes volúmenes y necesidades específicas.",
     accent: "brand-amber",
     accentClass: "text-brand-amber",
-    glowClass: "hover:shadow-[0_0_40px_hsl(35_65%_62%/0.15)]",
+    hsl: "35 70% 58%",
     badge: null,
     features: [
       "Agentes IA ilimitados",
@@ -78,23 +79,19 @@ const tiers = [
 ];
 
 const faqs = [
-  {
-    q: "¿Puedo cambiar de plan en cualquier momento?",
-    a: "Sí, puedes subir o bajar de plan cuando quieras. Los cambios se aplican en el siguiente ciclo de facturación.",
-  },
-  {
-    q: "¿Qué pasa si supero el límite de llamadas?",
-    a: "Te avisamos antes de llegar al límite. Las llamadas extra se facturan a tarifa reducida, sin cortes de servicio.",
-  },
-  {
-    q: "¿Hay periodo de permanencia?",
-    a: "No. Todos los planes son mensuales sin permanencia. Cancela cuando quieras.",
-  },
-  {
-    q: "¿Cuánto tarda el setup?",
-    a: "Menos de 30 minutos. Nuestro equipo configura todo por ti y te entrega tu agente listo para funcionar.",
-  },
+  { q: "¿Puedo cambiar de plan en cualquier momento?", a: "Sí, puedes subir o bajar de plan cuando quieras. Los cambios se aplican en el siguiente ciclo de facturación." },
+  { q: "¿Qué pasa si supero el límite de llamadas?", a: "Te avisamos antes de llegar al límite. Las llamadas extra se facturan a tarifa reducida, sin cortes de servicio." },
+  { q: "¿Hay periodo de permanencia?", a: "No. Todos los planes son mensuales sin permanencia. Cancela cuando quieras." },
+  { q: "¿Cuánto tarda el setup?", a: "Menos de 30 minutos. Nuestro equipo configura todo por ti y te entrega tu agente listo para funcionar." },
 ];
+
+const cardVariants = (i: number) => ({
+  hidden: { opacity: 0, y: 40, x: i === 0 ? -30 : i === 2 ? 30 : 0 },
+  visible: {
+    opacity: 1, y: 0, x: 0,
+    transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  },
+});
 
 const Pricing = () => {
   const [contactOpen, setContactOpen] = useState(false);
@@ -104,108 +101,102 @@ const Pricing = () => {
     <div className="min-h-screen bg-background noise-overlay">
       <Navbar onContact={() => setContactOpen(true)} />
 
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        {/* Ambient glows */}
+      <section className="pt-28 sm:pt-32 pb-16 md:pb-20 px-5 md:px-6 relative overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[600px] h-[400px] rounded-full bg-brand-lavender/[0.05] blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] rounded-full bg-brand-teal/[0.04] blur-[100px]" />
 
         <div className="container mx-auto relative z-10">
           {/* Header */}
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <p className="text-primary/80 font-display text-sm tracking-[0.2em] uppercase mb-3 font-medium">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center mb-12 md:mb-16 max-w-2xl mx-auto"
+          >
+            <p className="text-primary/80 font-display text-xs sm:text-sm tracking-[0.2em] uppercase mb-3 font-medium">
               Planes y precios
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight leading-[1.1]">
               Elige tu <span className="text-gradient">plan perfecto</span>
             </h1>
-            <p className="text-muted-foreground text-lg font-light">
+            <p className="text-muted-foreground text-base md:text-lg font-light">
               Sin permanencia. Sin sorpresas. Escala cuando lo necesites.
             </p>
 
             {/* Billing toggle */}
             <div className="flex items-center justify-center gap-3 mt-8">
-              <span className={`text-sm font-medium transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
-                Mensual
-              </span>
+              <span className={`text-sm font-medium transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}>Mensual</span>
               <button
                 onClick={() => setAnnual(!annual)}
                 className={`relative w-14 h-7 rounded-full transition-colors duration-300 ${annual ? "bg-primary" : "bg-secondary"}`}
               >
-                <div className={`absolute top-0.5 w-6 h-6 rounded-full bg-foreground transition-transform duration-300 ${annual ? "translate-x-7" : "translate-x-0.5"}`} />
+                <div className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-foreground transition-transform duration-300 ${annual ? "translate-x-7" : "translate-x-0"}`} />
               </button>
-              <span className={`text-sm font-medium transition-colors ${annual ? "text-foreground" : "text-muted-foreground"}`}>
-                Anual
-              </span>
+              <span className={`text-sm font-medium transition-colors ${annual ? "text-foreground" : "text-muted-foreground"}`}>Anual</span>
               {annual && (
-                <span className="text-xs font-bold text-brand-emerald bg-brand-emerald/10 px-2 py-0.5 rounded-full">
-                  -20%
-                </span>
+                <span className="text-xs font-bold text-brand-emerald bg-brand-emerald/10 px-2 py-0.5 rounded-full">-20%</span>
               )}
             </div>
-          </div>
+          </motion.div>
 
           {/* Pricing cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-start">
-            {tiers.map((tier) => {
-              const displayPrice = tier.price === "Custom"
-                ? "Custom"
-                : annual
-                  ? Math.round(parseInt(tier.price) * 0.8).toString()
-                  : tier.price;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto items-start">
+            {tiers.map((tier, i) => {
+              const displayPrice = tier.price === "Custom" ? "Custom" : annual ? Math.round(parseInt(tier.price) * 0.8).toString() : tier.price;
 
               return (
-                <div
+                <motion.div
                   key={tier.name}
-                  className={`relative rounded-2xl p-[1px] transition-all duration-500 ${tier.glowClass} ${
-                    tier.popular
-                      ? "md:-mt-4 md:mb-4"
-                      : ""
-                  }`}
+                  variants={cardVariants(i)}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: false, margin: "-60px" }}
+                  className={`relative transition-all duration-500 ${tier.popular ? "md:-mt-4 md:mb-4" : ""}`}
+                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
                 >
-                  {/* Gradient border for popular */}
-                  <div className={`rounded-2xl p-6 lg:p-8 h-full ${
-                    tier.popular
-                      ? "glass-warm border border-brand-lavender/20"
-                      : "glass border-border/20"
-                  }`}>
+                  <div
+                    className={`rounded-2xl p-5 sm:p-6 lg:p-8 h-full transition-all duration-500 ${
+                      tier.popular
+                        ? "glass-warm border border-brand-lavender/20"
+                        : "glass border-border/20 hover:border-border/30"
+                    }`}
+                    style={{
+                      boxShadow: tier.popular
+                        ? `0 0 50px hsl(${tier.hsl} / 0.12)`
+                        : undefined,
+                    }}
+                  >
                     {tier.badge && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span className="bg-gradient-to-r from-brand-lavender to-brand-rose text-primary-foreground text-xs font-bold px-4 py-1 rounded-full shadow-lg">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                        <span className="bg-gradient-to-r from-brand-lavender to-brand-rose text-primary-foreground text-[11px] font-bold px-4 py-1 rounded-full shadow-lg whitespace-nowrap">
                           {tier.badge}
                         </span>
                       </div>
                     )}
 
-                    {/* Icon + Name */}
                     <div className="flex items-center gap-3 mb-4">
-                      <div className={`w-10 h-10 rounded-xl bg-${tier.accent}/10 flex items-center justify-center`}>
+                      <div className={`w-10 h-10 rounded-xl bg-${tier.accent}/10 flex items-center justify-center shrink-0`}>
                         <tier.icon className={`h-5 w-5 ${tier.accentClass}`} />
                       </div>
-                      <h3 className="font-display font-bold text-xl text-foreground">{tier.name}</h3>
+                      <h3 className="font-display font-bold text-lg sm:text-xl text-foreground">{tier.name}</h3>
                     </div>
 
-                    {/* Price */}
                     <div className="mb-4">
                       {displayPrice === "Custom" ? (
-                        <span className="text-4xl font-display font-extrabold text-gradient">A medida</span>
+                        <span className="text-3xl sm:text-4xl font-display font-extrabold text-gradient">A medida</span>
                       ) : (
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl lg:text-5xl font-display font-extrabold text-foreground">
-                            €{displayPrice}
-                          </span>
+                          <span className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-foreground">€{displayPrice}</span>
                           <span className="text-muted-foreground text-sm">{tier.period}</span>
                         </div>
                       )}
                     </div>
 
-                    <p className="text-sm text-muted-foreground mb-6 font-light leading-relaxed">
-                      {tier.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground mb-5 sm:mb-6 font-light leading-relaxed">{tier.description}</p>
 
-                    {/* CTA */}
                     <Button
                       size="lg"
-                      className={`w-full mb-6 text-base ${tier.popular ? "glow-box" : ""}`}
+                      className={`w-full mb-5 sm:mb-6 text-sm sm:text-base rounded-xl ${tier.popular ? "glow-box" : ""}`}
                       variant={tier.popular ? "default" : "outline"}
                       onClick={() => setContactOpen(true)}
                     >
@@ -213,37 +204,49 @@ const Pricing = () => {
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
 
-                    {/* Features */}
-                    <ul className="space-y-3">
+                    <ul className="space-y-2.5 sm:space-y-3">
                       {tier.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-3 text-sm">
+                        <li key={feature} className="flex items-start gap-2.5 sm:gap-3 text-sm">
                           <Check className={`h-4 w-4 mt-0.5 shrink-0 ${tier.accentClass}`} />
-                          <span className="text-muted-foreground">{feature}</span>
+                          <span className="text-muted-foreground text-[13px] sm:text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
 
           {/* FAQ */}
-          <div className="mt-24 max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-display font-extrabold text-center mb-10 tracking-tight">
+          <div className="mt-16 md:mt-24 max-w-3xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.6 }}
+              className="text-2xl md:text-3xl font-display font-extrabold text-center mb-8 md:mb-10 tracking-tight"
+            >
               Preguntas <span className="text-gradient">frecuentes</span>
-            </h2>
-            <div className="space-y-4">
-              {faqs.map((faq) => (
-                <details key={faq.q} className="glass rounded-xl group">
-                  <summary className="flex items-center justify-between p-5 cursor-pointer list-none font-display font-semibold text-foreground hover:text-primary transition-colors">
+            </motion.h2>
+            <div className="space-y-3 sm:space-y-4">
+              {faqs.map((faq, i) => (
+                <motion.details
+                  key={faq.q}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="glass rounded-xl group"
+                >
+                  <summary className="flex items-center justify-between p-4 sm:p-5 cursor-pointer list-none font-display font-semibold text-foreground hover:text-primary transition-colors text-sm sm:text-base">
                     {faq.q}
-                    <span className="text-muted-foreground group-open:rotate-45 transition-transform duration-200 text-xl">+</span>
+                    <span className="text-muted-foreground group-open:rotate-45 transition-transform duration-200 text-xl ml-4 shrink-0">+</span>
                   </summary>
-                  <div className="px-5 pb-5 text-sm text-muted-foreground font-light leading-relaxed">
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-sm text-muted-foreground font-light leading-relaxed">
                     {faq.a}
                   </div>
-                </details>
+                </motion.details>
               ))}
             </div>
           </div>
