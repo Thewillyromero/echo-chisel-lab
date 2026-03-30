@@ -45,7 +45,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
                 <CharacterReveal
                   src={heroRobot}
                   alt="CALLA"
-                  className="w-32 md:w-56 lg:w-72"
+                  className="w-44 md:w-56"
                   glowColor="hsl(190 60% 55%)"
                   revealOffset={[0.1, 0.45]}
                 />

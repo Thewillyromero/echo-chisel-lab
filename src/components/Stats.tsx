@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import CharacterReveal from "@/components/CharacterReveal";
 
 const stats = [
   { value: 2, suffix: "M+", label: "Llamadas gestionadas" },
@@ -71,15 +72,13 @@ const Stats = () => {
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
             className="lg:w-1/3 flex justify-center"
           >
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full blur-3xl opacity-20 scale-[1.8]" style={{ background: "hsl(35 70% 58%)" }} />
-              <img
-                src={agentAnalytics}
-                alt="BYTE analiza los datos"
-                className="w-56 md:w-72 object-contain animate-float drop-shadow-2xl relative z-10"
-                width={512} height={512} loading="lazy"
-              />
-            </div>
+            <CharacterReveal
+              src={agentAnalytics}
+              alt="BYTE analiza los datos"
+              className="w-48 md:w-64"
+              glowColor="hsl(35 70% 58%)"
+              revealOffset={[0.1, 0.45]}
+            />
           </motion.div>
           <div className="lg:w-2/3">
             <motion.div

@@ -109,13 +109,13 @@ const Features = () => {
       {/* Subtle background accents */}
       <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-primary/[0.02] blur-[160px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[140px] pointer-events-none" />
-      {/* Background character — ARIA with reveal */}
+      {/* Background character — NOVA with reveal */}
       <div className="absolute -right-10 top-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block">
         <CharacterReveal
-          src={agentInbound}
+          src={agentOutbound}
           alt=""
           className="w-[300px] md:w-[500px] opacity-[0.06]"
-          glowColor="hsl(190 60% 55%)"
+          glowColor="hsl(260 50% 65%)"
           revealOffset={[0.05, 0.3]}
         />
       </div>
@@ -179,7 +179,7 @@ const Features = () => {
                   transform: isHovered ? "translateY(-4px)" : "translateY(0)",
                 }}
               >
-                <div className="p-6 md:p-8 flex items-start gap-5 md:gap-6">
+                <div className="p-6 md:p-8 flex items-start gap-5 md:gap-6 bg-card/80 backdrop-blur-sm rounded-2xl">
                   {/* Character container with stop-motion pop-in — oversized, peeking above card */}
                   <motion.div
                     variants={characterVariants}
@@ -198,7 +198,7 @@ const Features = () => {
                     <motion.img
                       src={f.image}
                       alt={f.agent}
-                      className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain relative z-10 drop-shadow-2xl"
+                      className="w-28 h-28 md:w-36 md:h-36 object-contain relative z-10 drop-shadow-2xl"
                       width={512}
                       height={512}
                       loading="lazy"

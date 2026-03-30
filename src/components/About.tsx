@@ -25,7 +25,7 @@ const About = () => {
                 <CharacterReveal
                   src={agentOutbound}
                   alt="NOVA"
-                  className="w-32 md:w-44"
+                  className="w-24 md:w-32"
                   glowColor="hsl(260 50% 65%)"
                   revealOffset={[0.1, 0.45]}
                 />
@@ -34,7 +34,7 @@ const About = () => {
                 <CharacterReveal
                   src={agentInbound}
                   alt="ARIA"
-                  className="w-48 md:w-64"
+                  className="w-36 md:w-48"
                   glowColor="hsl(190 60% 55%)"
                   revealOffset={[0.08, 0.4]}
                 />
@@ -43,7 +43,7 @@ const About = () => {
                 <CharacterReveal
                   src={agentAnalytics}
                   alt="BYTE"
-                  className="w-32 md:w-44"
+                  className="w-24 md:w-32"
                   glowColor="hsl(35 70% 58%)"
                   revealOffset={[0.12, 0.5]}
                 />

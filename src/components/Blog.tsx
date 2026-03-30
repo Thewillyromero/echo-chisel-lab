@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import iconPublications from "@/assets/icons/icon-publications.png";
 import iconUpdates from "@/assets/icons/icon-updates.png";
 import iconNews from "@/assets/icons/icon-news.png";
-import CharacterReveal from "@/components/CharacterReveal";
 
 const items = [
   {
@@ -63,15 +61,6 @@ const Blog = () => {
             <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
               Infórmate de nuestros <span className="text-gradient">avances</span>
             </h2>
-          </div>
-          <div className="hidden lg:block shrink-0">
-            <CharacterReveal
-              src={agentScheduler}
-              alt="LUMI"
-              className="w-40 md:w-52"
-              glowColor="hsl(160 50% 48%)"
-              revealOffset={[0.1, 0.45]}
-            />
           </div>
         </motion.div>
 
