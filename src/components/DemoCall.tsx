@@ -220,9 +220,9 @@ const DemoCall = () => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-brand-teal/[0.04] blur-[200px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
-      {/* Background character — ARIA */}
-      <div className="absolute -right-16 top-1/4 pointer-events-none select-none">
-        <img src={agentInbound} alt="" className="w-[250px] md:w-[600px] opacity-[0.05] -rotate-6 blur-[0.5px]" loading="lazy" />
+      {/* Background character — ARIA (left) */}
+      <div className="absolute -left-10 top-1/4 pointer-events-none select-none hidden md:block">
+        <img src={agentInbound} alt="" className="w-[300px] md:w-[500px] opacity-[0.12] rotate-6" loading="lazy" />
       </div>
 
       <div className="container mx-auto max-w-6xl relative z-10">

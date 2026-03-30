@@ -69,11 +69,11 @@ const FAQ = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
 
       {/* Large background character — LUMI with reveal */}
-      <div className="absolute -right-8 bottom-10 pointer-events-none select-none hidden lg:block">
+      <div className="absolute -left-8 bottom-10 pointer-events-none select-none hidden lg:block">
         <CharacterReveal
           src={agentScheduler}
           alt=""
-          className="w-[280px] md:w-[420px] opacity-[0.08]"
+          className="w-[280px] md:w-[420px] opacity-[0.12]"
           glowColor="hsl(160 50% 48%)"
           revealOffset={[0.05, 0.35]}
         />
