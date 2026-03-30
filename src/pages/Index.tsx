@@ -47,7 +47,7 @@ const Index = () => {
         <About />
         <Stats />
         <Testimonial />
-        <Blog />
+        
         <FAQ />
         <CTA onContact={() => openContact("cta")} />
         <Footer />
