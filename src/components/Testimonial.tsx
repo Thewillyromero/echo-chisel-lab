@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.webp";
@@ -134,6 +135,10 @@ const cardVariants = (i: number, fromLeft: boolean) => ({
 });
 
 const Testimonial = () => {
+  const [expanded, setExpanded] = useState(false);
+  const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 3);
+  const visibleCaseStudies = expanded ? caseStudies : caseStudies.slice(0, 3);
+
   return (
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
@@ -196,67 +201,74 @@ const Testimonial = () => {
         </motion.div>
 
         {/* Testimonials Grid */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ staggerChildren: 0.12 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
-        >
-          {testimonials.map((t, i) => {
-            const fromLeft = i % 2 === 0;
-            return (
-              <motion.div key={i} variants={cardVariants(i, fromLeft)}>
-                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
-                  {/* Stars row */}
-                  <div className="flex items-center justify-between mb-4">
-                    <TrustpilotStars rating={5} size={18} />
-                    <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
-                  </div>
-
-                  {/* Quote */}
-                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
-                    {t.quote}
-                  </blockquote>
-
-                  {/* Result badge */}
-                  <div className="mb-4">
-                    <span
-                      className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
-                      style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
-                    >
-                      {t.result}
-                    </span>
-                  </div>
-
-                  {/* Separator */}
-                  <div className="h-px bg-border/20 mb-4" />
-
-                  {/* Author */}
-                  <div className="flex items-center gap-3">
-                    {t.logo ? (
-                      <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1 ring-1 ring-border/20">
-                        <img loading="lazy" src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
-                      </div>
-                    ) : (
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
-                        <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
-                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+        <div className="relative mb-12 md:mb-16">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ staggerChildren: 0.12 }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+          >
+            {visibleTestimonials.map((t, i) => {
+              const fromLeft = i % 2 === 0;
+              return (
+                <motion.div key={i} variants={cardVariants(i, fromLeft)}>
+                  <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                    {/* Stars row */}
+                    <div className="flex items-center justify-between mb-4">
+                      <TrustpilotStars rating={5} size={18} />
+                      <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
                     </div>
-                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
-                      {t.context}
-                    </span>
+
+                    {/* Quote */}
+                    <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                      <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
+                      {t.quote}
+                    </blockquote>
+
+                    {/* Result badge */}
+                    <div className="mb-4">
+                      <span
+                        className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
+                        style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
+                      >
+                        {t.result}
+                      </span>
+                    </div>
+
+                    {/* Separator */}
+                    <div className="h-px bg-border/20 mb-4" />
+
+                    {/* Author */}
+                    <div className="flex items-center gap-3">
+                      {t.logo ? (
+                        <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1 ring-1 ring-border/20">
+                          <img loading="lazy" src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
+                        </div>
+                      ) : (
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
+                          <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                        <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
+                        {t.context}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* Fade overlay when collapsed */}
+          {!expanded && (
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+          )}
+        </div>
 
         {/* Case Studies */}
         <motion.div
@@ -280,7 +292,7 @@ const Testimonial = () => {
               transition={{ staggerChildren: 0.12 }}
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
-              {caseStudies.map((cs, i) => (
+              {visibleCaseStudies.map((cs, i) => (
                 <motion.div
                   key={i}
                   variants={cardVariants(i, i % 2 === 0)}
@@ -313,6 +325,37 @@ const Testimonial = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Expand/Collapse bar */}
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group"
+          >
+            <div className="flex -space-x-2">
+              {["TB", "CC", "LF", "TV", "MT"].map((initials, i) => (
+                <div
+                  key={i}
+                  className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-teal/40 to-brand-emerald/30 flex items-center justify-center ring-2 ring-background text-[9px] font-bold text-foreground/70"
+                >
+                  {initials}
+                </div>
+              ))}
+            </div>
+            <span className="text-sm text-foreground/70 font-medium">
+              +200 empresas confían en CALLA
+            </span>
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
+              {expanded ? "Ver menos" : "Ver más"}
+              <svg
+                className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+        </div>
       </div>
     </section>
   );
