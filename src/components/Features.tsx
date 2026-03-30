@@ -154,7 +154,7 @@ const Features = () => {
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 onClick={() => window.open("https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT", "_blank")}
-                className="group relative rounded-2xl border border-border/25 overflow-hidden cursor-pointer transition-all duration-500"
+                className="group relative rounded-2xl border border-border/25 overflow-visible cursor-pointer transition-all duration-500"
                 style={{
                   background: isHovered
                     ? `linear-gradient(135deg, hsl(${f.hsl} / 0.06) 0%, hsl(var(--card) / 0.5) 60%)`
@@ -169,17 +169,17 @@ const Features = () => {
                 }}
               >
                 <div className="p-6 md:p-8 flex items-start gap-5 md:gap-6">
-                  {/* Character container with stop-motion pop-in */}
+                  {/* Character container with stop-motion pop-in — oversized, peeking above card */}
                   <motion.div
                     variants={characterVariants}
-                    className="shrink-0 relative"
+                    className="shrink-0 relative -mt-12"
                   >
                     {/* Glow behind character */}
                     <div
-                      className="absolute inset-0 rounded-full blur-2xl transition-opacity duration-500"
+                      className="absolute inset-0 rounded-full blur-3xl transition-opacity duration-500"
                       style={{
-                        background: `radial-gradient(circle, hsl(${f.hsl} / ${isHovered ? 0.2 : 0.05}) 0%, transparent 70%)`,
-                        transform: "scale(1.8)",
+                        background: `radial-gradient(circle, hsl(${f.hsl} / ${isHovered ? 0.25 : 0.1}) 0%, transparent 70%)`,
+                        transform: "scale(2.2)",
                       }}
                     />
 
@@ -187,7 +187,7 @@ const Features = () => {
                     <motion.img
                       src={f.image}
                       alt={f.agent}
-                      className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain relative z-10 drop-shadow-xl"
+                      className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain relative z-10 drop-shadow-2xl"
                       width={512}
                       height={512}
                       loading="lazy"

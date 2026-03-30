@@ -27,17 +27,17 @@ const ScrollRobot = () => {
         transform: "translateY(-50%)",
       }}
     >
-      <img
-        src={heroRobot}
-        alt=""
-        className="w-16 md:w-20 object-contain animate-float drop-shadow-2xl opacity-40 hover:opacity-70 transition-opacity duration-500 pointer-events-auto"
-        style={{
-          filter: "drop-shadow(0 0 20px hsl(190 60% 50% / 0.15))",
-        }}
-        width={256}
-        height={256}
-        loading="eager"
-      />
+      <div className="relative">
+        <div className="absolute inset-0 rounded-full blur-2xl opacity-15 scale-[2]" style={{ background: "hsl(190 60% 55%)" }} />
+        <img
+          src={heroRobot}
+          alt=""
+          className="w-20 md:w-24 object-contain animate-float drop-shadow-2xl opacity-50 hover:opacity-70 transition-opacity duration-500 pointer-events-auto relative z-10"
+          width={256}
+          height={256}
+          loading="eager"
+        />
+      </div>
     </div>
   );
 };

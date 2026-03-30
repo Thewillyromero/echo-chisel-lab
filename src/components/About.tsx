@@ -19,16 +19,27 @@ const About = () => {
         >
           <div className="bg-card/40 rounded-3xl border border-border/30 p-8 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-accent/[0.03]" />
-            <div className="relative h-48 md:h-60 flex items-end justify-center">
-              <img src={agentOutbound} alt="NOVA"
-                className="absolute left-[10%] bottom-0 w-20 md:w-24 object-contain -rotate-6 hover:rotate-0 transition-transform duration-500 drop-shadow-lg"
-                width={512} height={512} loading="lazy" />
-              <img src={agentInbound} alt="ARIA"
-                className="relative z-10 w-28 md:w-36 object-contain drop-shadow-2xl animate-float"
-                width={512} height={512} loading="lazy" />
-              <img src={agentAnalytics} alt="BYTE"
-                className="absolute right-[10%] bottom-0 w-20 md:w-24 object-contain rotate-6 hover:rotate-0 transition-transform duration-500 drop-shadow-lg"
-                width={512} height={512} loading="lazy" />
+            <div className="relative h-56 md:h-72 flex items-end justify-center">
+              <div className="absolute left-[10%] bottom-0">
+                <div className="absolute inset-0 rounded-full blur-2xl opacity-20 scale-150" style={{ background: "hsl(260 50% 65%)" }} />
+                <img src={agentOutbound} alt="NOVA"
+                  className="w-28 md:w-36 object-contain -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 drop-shadow-2xl animate-float relative z-10"
+                  style={{ animationDelay: "0.5s" }}
+                  width={512} height={512} loading="lazy" />
+              </div>
+              <div className="relative z-10">
+                <div className="absolute inset-0 rounded-full blur-3xl opacity-20 scale-[1.8]" style={{ background: "hsl(190 60% 55%)" }} />
+                <img src={agentInbound} alt="ARIA"
+                  className="w-40 md:w-52 object-contain drop-shadow-2xl animate-float relative z-10"
+                  width={512} height={512} loading="lazy" />
+              </div>
+              <div className="absolute right-[10%] bottom-0">
+                <div className="absolute inset-0 rounded-full blur-2xl opacity-20 scale-150" style={{ background: "hsl(35 70% 58%)" }} />
+                <img src={agentAnalytics} alt="BYTE"
+                  className="w-28 md:w-36 object-contain rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 drop-shadow-2xl animate-float relative z-10"
+                  style={{ animationDelay: "1s" }}
+                  width={512} height={512} loading="lazy" />
+              </div>
             </div>
           </div>
         </motion.div>

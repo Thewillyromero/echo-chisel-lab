@@ -36,8 +36,11 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
                   </Button>
                 </div>
               </div>
-              <div className="shrink-0 hidden md:block">
-                <img src={heroRobot} alt="" className="w-40 lg:w-48 object-contain animate-float drop-shadow-2xl" width={1024} height={1024} loading="lazy" />
+              <div className="shrink-0 flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-full blur-3xl opacity-15 scale-[2]" style={{ background: "hsl(190 60% 55%)" }} />
+                  <img src={heroRobot} alt="" className="w-24 md:w-52 lg:w-64 object-contain animate-float drop-shadow-2xl relative z-10" width={1024} height={1024} loading="lazy" />
+                </div>
               </div>
             </div>
           </div>

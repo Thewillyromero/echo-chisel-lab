@@ -71,12 +71,15 @@ const Stats = () => {
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
             className="lg:w-1/3 flex justify-center"
           >
-            <img
-              src={agentAnalytics}
-              alt="BYTE analiza los datos"
-              className="w-40 md:w-56 object-contain animate-float drop-shadow-2xl"
-              width={512} height={512} loading="lazy"
-            />
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full blur-3xl opacity-20 scale-[1.8]" style={{ background: "hsl(35 70% 58%)" }} />
+              <img
+                src={agentAnalytics}
+                alt="BYTE analiza los datos"
+                className="w-56 md:w-72 object-contain animate-float drop-shadow-2xl relative z-10"
+                width={512} height={512} loading="lazy"
+              />
+            </div>
           </motion.div>
           <div className="lg:w-2/3">
             <motion.div

@@ -20,7 +20,14 @@ import ContactFormDialog from "@/components/ContactFormDialog";
 import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
 import ScrollRobot from "@/components/ScrollRobot";
+import FloatingAgent from "@/components/FloatingAgent";
 import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
+
+import agentInbound from "@/assets/characters/agent-inbound.png";
+import agentOutbound from "@/assets/characters/agent-outbound.png";
+import agentScheduler from "@/assets/characters/agent-scheduler.png";
+import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import agentSupport from "@/assets/characters/agent-support.png";
 
 const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
@@ -39,17 +46,32 @@ const Index = () => {
         <Hero onContact={() => openContact("hero")} />
         <SocialProof />
         <LogoMarquee />
+        <div className="relative">
+          <FloatingAgent src={agentInbound} position="right" color="hsl(190 60% 55%)" />
+        </div>
         <Features />
         <DemoCall />
+        <div className="relative">
+          <FloatingAgent src={agentOutbound} position="left" color="hsl(260 50% 65%)" />
+        </div>
         <ROICalculator onContact={() => openContact("roi-calculator")} />
         <CallPlayer />
         <CampaignResults />
+        <div className="relative">
+          <FloatingAgent src={agentAnalytics} position="right" color="hsl(35 70% 58%)" />
+        </div>
         <Squad />
         <About />
         <Stats />
         <Testimonial />
+        <div className="relative">
+          <FloatingAgent src={agentSupport} position="left" color="hsl(340 55% 60%)" />
+        </div>
         <Blog />
         <FAQ />
+        <div className="relative">
+          <FloatingAgent src={agentScheduler} position="right" color="hsl(160 50% 48%)" />
+        </div>
         <CTA onContact={() => openContact("cta")} />
         <Footer />
         <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />

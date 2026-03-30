@@ -64,11 +64,11 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
           className="flex-1 flex justify-center lg:justify-end"
         >
           <div className="relative">
-            <div className="absolute inset-0 scale-150 rounded-full bg-primary/[0.04] blur-[100px]" />
+            <div className="absolute inset-0 scale-[2] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(190 60% 55% / 0.2), transparent 70%)" }} />
             <img
               src={heroRobot}
               alt="CALLA Asistente Virtual"
-              className="w-48 sm:w-72 md:w-96 lg:w-[26rem] animate-float drop-shadow-2xl relative z-10"
+              className="w-56 sm:w-72 md:w-96 lg:w-[28rem] animate-float drop-shadow-2xl relative z-10"
               width={1024}
               height={1024}
             />

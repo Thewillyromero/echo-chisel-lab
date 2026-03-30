@@ -64,7 +64,7 @@ const Blog = () => {
             </h2>
           </div>
           <div className="hidden lg:block shrink-0">
-            <img src={agentScheduler} alt="" className="w-20 object-contain drop-shadow-lg -rotate-6 hover:rotate-0 transition-transform duration-500 opacity-60" width={512} height={512} loading="lazy" />
+            <img src={agentScheduler} alt="" className="w-28 md:w-36 object-contain drop-shadow-2xl -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 animate-float" width={512} height={512} loading="lazy" />
           </div>
         </motion.div>
 
