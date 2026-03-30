@@ -4,6 +4,7 @@ import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
 import agentSupport from "@/assets/characters/agent-support.png";
+import CharacterReveal from "@/components/CharacterReveal";
 import { ArrowRight, Phone, PhoneOutgoing, CalendarCheck, BarChart3, Heart } from "lucide-react";
 
 const agents = [
