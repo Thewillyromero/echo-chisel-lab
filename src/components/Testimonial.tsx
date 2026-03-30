@@ -106,7 +106,7 @@ const barAvatars = [avatarSergio, avatarElena, avatarTim, avatarPatricia, avatar
 
 const Testimonial = () => {
   const [expanded, setExpanded] = useState(false);
-  const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 7);
+  const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 6);
   const visibleCaseStudies = expanded ? caseStudies : caseStudies.slice(0, 3);
 
   return (
