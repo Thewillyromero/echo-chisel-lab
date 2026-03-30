@@ -68,6 +68,21 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+    text-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.12),
+      0 -1px 0 hsl(0 0% 0% / 0.4),
+      0 2px 4px hsl(0 0% 0% / 0.3),
+      0 5px 10px hsl(0 0% 0% / 0.12),
+      0 8px 20px hsl(0 0% 0% / 0.06);
+    -webkit-text-stroke: 0.2px hsl(0 0% 100% / 0.05);
+  }
+
+  /* Gradient text inside headings needs drop-shadow instead of text-shadow */
+  h1 .text-gradient, h2 .text-gradient, h3 .text-gradient,
+  h1 .text-gradient-warm, h2 .text-gradient-warm, h3 .text-gradient-warm,
+  h1 .text-gradient-blue, h2 .text-gradient-blue, h3 .text-gradient-blue {
+    text-shadow: none;
+    filter: drop-shadow(0 2px 4px hsl(0 0% 0% / 0.4)) drop-shadow(0 6px 16px hsl(0 0% 0% / 0.15));
   }
 }
 
