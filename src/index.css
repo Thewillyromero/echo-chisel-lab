@@ -2,7 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Baloo+2:wght@600;700;800&family=Lilita+One&family=Rubik+Bubbles&display=swap');
+
+.font-puffy-1 {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+}
+
+.font-puffy-2 {
+  font-family: 'Lilita One', cursive;
+}
+
+.font-puffy-3 {
+  font-family: 'Rubik Bubbles', cursive;
+}
 
 @layer base {
   :root {

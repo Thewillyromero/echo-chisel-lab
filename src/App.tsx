@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import FontTest from "./pages/FontTest.tsx";
 import Chatbot from "./components/Chatbot.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/precios" element={<Pricing />} />
           <Route path="/sectores/:slug" element={<SectorPage />} />
+          <Route path="/font-test" element={<FontTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
