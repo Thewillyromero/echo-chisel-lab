@@ -14,6 +14,7 @@ import Vapi from "@vapi-ai/web";
 
 const VAPI_PUBLIC_KEY = "47ea7042-5d4a-4bb0-9995-0762b2f51ee2";
 const ASSISTANT_ID = "c54bd4a1-68ef-4913-9207-906c44d625b0";
+const CALENDAR_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
 type CallState = "idle" | "connecting" | "active" | "ended";
 
@@ -92,16 +93,32 @@ const DemoCall = () => {
 
   const startWebCall = useCallback(() => {
     try {
+      /* Create Vapi instance INSIDE the click handler so the browser
+         grants microphone access (requires direct user gesture). */
       const vapi = new Vapi(VAPI_PUBLIC_KEY);
       vapiRef.current = vapi;
       setCallState("connecting");
 
+      /* Fallback: if call-start doesn't fire in 10s, open calendar */
+      const fallbackTimer = setTimeout(() => {
+        if (vapiRef.current) {
+          try { vapiRef.current.stop(); } catch {}
+        }
+        toast.error("No se pudo conectar. Te redirigimos para agendar una demo.");
+        window.open(CALENDAR_URL, "_blank");
+        setCallState("idle");
+        vapiRef.current = null;
+      }, 10000);
+
       vapi.on("call-start", () => {
+        clearTimeout(fallbackTimer);
         setCallState("active");
         setCallStartTime(Date.now());
+        toast.success("Conectado con ARIA");
       });
 
       vapi.on("call-end", () => {
+        clearTimeout(fallbackTimer);
         setCallState("ended");
         vapiRef.current = null;
       });
@@ -114,26 +131,24 @@ const DemoCall = () => {
       });
 
       vapi.on("error", (err: unknown) => {
-        console.error("VAPI error:", err);
+        clearTimeout(fallbackTimer);
+        console.error("Web call error:", JSON.stringify(err, null, 2));
+        console.error("Error type:", typeof err, "Keys:", err && typeof err === "object" ? Object.keys(err) : "N/A");
         toast.error("Error en la conexión. Inténtalo de nuevo.");
         setCallState("idle");
         vapiRef.current = null;
       });
 
-      vapi.start(ASSISTANT_ID, {
-        metadata: {
-          userName: form.name,
-          userPhone: form.phone,
-          userEmail: form.email,
-          source: "calla-landing-demo",
-        },
+      /* Use object form: { assistantId } instead of positional args */
+      vapi.start({
+        assistantId: ASSISTANT_ID,
       });
     } catch (err) {
       console.error("Failed to start call:", err);
       toast.error("Error al iniciar la llamada.");
       setCallState("idle");
     }
-  }, [form]);
+  }, []);
 
   const endCall = useCallback(() => {
     if (vapiRef.current) {
@@ -513,11 +528,9 @@ const DemoCall = () => {
                             size="sm"
                             className="rounded-full text-sm"
                             style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
-                            onClick={() => {
-                              document.querySelector("#features")?.scrollIntoView({ behavior: "smooth" });
-                            }}
+                            onClick={() => window.open(CALENDAR_URL, "_blank")}
                           >
-                            Explorar agentes
+                            Agendar demo personalizada
                           </Button>
                         </div>
                       </motion.div>

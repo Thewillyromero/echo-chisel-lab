@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play, Pause, Volume2, Headphones, Clock, Star } from "lucide-react";
+import { Play, Pause, Volume2, Headphones, Clock } from "lucide-react";
+import { toast } from "sonner";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 
@@ -13,7 +14,7 @@ interface CallSample {
   agentImage: string;
   agentColor: string;
   description: string;
-  audioSrc?: string;
+  audioSrc: string;
 }
 
 const callSamples: CallSample[] = [
@@ -21,11 +22,12 @@ const callSamples: CallSample[] = [
     id: "1",
     title: "Cita en clínica dental",
     sector: "Salud",
-    duration: "1:42",
+    duration: "1:30",
     agent: "ARIA",
     agentImage: agentInbound,
     agentColor: "brand-teal",
     description: "ARIA recibe una llamada, identifica disponibilidad y agenda una cita de limpieza dental para el jueves.",
+    audioSrc: "/audio/call-inbound-demo.mp3",
   },
   {
     id: "2",
@@ -36,20 +38,30 @@ const callSamples: CallSample[] = [
     agentImage: agentOutbound,
     agentColor: "brand-lavender",
     description: "NOVA llama a un lead interesado en una vivienda, califica su presupuesto y agenda visita con el agente comercial.",
+    audioSrc: "/audio/call-outbound-1.mp3",
   },
   {
     id: "3",
-    title: "Reserva en restaurante",
-    sector: "Hostelería",
-    duration: "0:58",
-    agent: "ARIA",
-    agentImage: agentInbound,
-    agentColor: "brand-teal",
-    description: "ARIA gestiona una reserva para 4 personas el sábado a las 21h, confirma alergias y envía confirmación.",
+    title: "Seguimiento de lead cualificado",
+    sector: "Servicios",
+    duration: "1:58",
+    agent: "NOVA",
+    agentImage: agentOutbound,
+    agentColor: "brand-lavender",
+    description: "NOVA contacta a un lead que solicitó información, confirma interés y agenda reunión con el equipo comercial.",
+    audioSrc: "/audio/call-outbound-2.mp3",
   },
 ];
 
-const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: boolean; onPlay: () => void }) => {
+const CallCard = ({
+  call,
+  isPlaying,
+  onToggle,
+}: {
+  call: CallSample;
+  isPlaying: boolean;
+  onToggle: () => void;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,11 +69,11 @@ const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: bool
       viewport={{ once: false }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`group rounded-2xl border overflow-hidden transition-all duration-400 cursor-pointer ${
-        isActive
+        isPlaying
           ? `border-${call.agentColor}/30 bg-${call.agentColor}/[0.04]`
           : "border-border/25 bg-card/35 hover:border-border/40"
       }`}
-      onClick={onPlay}
+      onClick={onToggle}
     >
       <div className="p-5 md:p-6">
         {/* Top row: agent + play */}
@@ -76,7 +88,7 @@ const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: bool
                 height={512}
                 loading="lazy"
               />
-              {isActive && (
+              {isPlaying && (
                 <motion.div
                   className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-background"
                   animate={{ scale: [1, 1.2, 1] }}
@@ -95,12 +107,12 @@ const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: bool
           {/* Play button */}
           <button
             className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-              isActive
+              isPlaying
                 ? "bg-foreground text-background shadow-lg"
                 : "bg-secondary/60 text-muted-foreground hover:bg-secondary hover:text-foreground"
             }`}
           >
-            {isActive ? (
+            {isPlaying ? (
               <Pause className="w-4 h-4" />
             ) : (
               <Play className="w-4 h-4 ml-0.5" />
@@ -116,16 +128,16 @@ const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: bool
         <div className="flex items-center gap-3">
           <div className="flex-1 flex items-end gap-[2px] h-6">
             {[...Array(40)].map((_, i) => {
-              const height = isActive
+              const height = isPlaying
                 ? 4 + Math.sin(i * 0.5) * 12 + Math.random() * 8
                 : 3 + Math.sin(i * 0.3) * 6;
               return (
                 <motion.div
                   key={i}
-                  className={`flex-1 rounded-full ${isActive ? `bg-${call.agentColor}` : "bg-muted-foreground/20"}`}
-                  animate={isActive ? { height: [height, height * 0.6, height] } : { height }}
+                  className={`flex-1 rounded-full ${isPlaying ? `bg-${call.agentColor}` : "bg-muted-foreground/20"}`}
+                  animate={isPlaying ? { height: [height, height * 0.6, height] } : { height }}
                   transition={
-                    isActive
+                    isPlaying
                       ? { duration: 0.5 + Math.random() * 0.3, repeat: Infinity, repeatType: "reverse", delay: i * 0.02 }
                       : { duration: 0.3 }
                   }
@@ -145,10 +157,61 @@ const CallCard = ({ call, isActive, onPlay }: { call: CallSample; isActive: bool
 };
 
 const CallPlayer = () => {
-  const [activeCall, setActiveCall] = useState<string | null>(null);
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const togglePlay = (id: string) => {
-    setActiveCall((prev) => (prev === id ? null : id));
+  /* Stop audio when component unmounts */
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const togglePlay = (call: CallSample) => {
+    /* If same call is playing, pause it */
+    if (playingId === call.id) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      setPlayingId(null);
+      return;
+    }
+
+    /* Stop any currently playing audio */
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
+    /* Start new audio */
+    try {
+      const audio = new Audio(call.audioSrc);
+      audioRef.current = audio;
+
+      audio.addEventListener("ended", () => {
+        setPlayingId(null);
+        audioRef.current = null;
+      });
+
+      audio.addEventListener("error", () => {
+        toast.info("Próximamente — preparando grabaciones");
+        setPlayingId(null);
+        audioRef.current = null;
+      });
+
+      audio.play().then(() => {
+        setPlayingId(call.id);
+      }).catch(() => {
+        toast.info("Próximamente — preparando grabaciones");
+        setPlayingId(null);
+      });
+    } catch {
+      toast.info("Próximamente — preparando grabaciones");
+    }
   };
 
   return (
@@ -184,8 +247,8 @@ const CallPlayer = () => {
             <CallCard
               key={call.id}
               call={call}
-              isActive={activeCall === call.id}
-              onPlay={() => togglePlay(call.id)}
+              isPlaying={playingId === call.id}
+              onToggle={() => togglePlay(call)}
             />
           ))}
         </div>

@@ -153,6 +153,7 @@ const Features = () => {
                 variants={cardVariants}
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
+                onClick={() => window.open("https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT", "_blank")}
                 className="group relative rounded-2xl border border-border/25 overflow-hidden cursor-pointer transition-all duration-500"
                 style={{
                   background: isHovered

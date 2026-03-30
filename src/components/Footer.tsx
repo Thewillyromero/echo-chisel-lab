@@ -44,9 +44,9 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Legal</h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidad</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Términos</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contacto</a></li>
+              <li><a href="https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidad</a></li>
+              <li><a href="https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Términos</a></li>
+              <li><a href="https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contacto</a></li>
             </ul>
           </div>
         </div>

@@ -50,11 +50,11 @@ const LogoMarquee = () => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
-      <div className="flex animate-marquee items-center">
+      <div className="flex animate-marquee items-center" style={{ willChange: 'transform' }}>
         {tripled.map((logo, i) => (
           <div
             key={i}
-            className="mx-7 md:mx-10 flex items-center justify-center min-w-[100px] md:min-w-[130px] shrink-0 group cursor-default"
+            className="mx-5 md:mx-10 flex items-center justify-center min-w-[80px] md:min-w-[130px] shrink-0 group cursor-default"
           >
             <div className="relative py-1">
               {/* Glow orb behind logo on hover */}
@@ -69,7 +69,7 @@ const LogoMarquee = () => {
               <img
                 src={logo}
                 alt=""
-                className="h-6 md:h-7 w-auto object-contain max-w-[110px] md:max-w-[130px] relative z-10 transition-all duration-700"
+                className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px] relative z-10 transition-all duration-700"
                 style={{
                   opacity: 0.4,
                   filter: "grayscale(1) brightness(2.2) contrast(0.7)",

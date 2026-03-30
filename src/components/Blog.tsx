@@ -33,7 +33,7 @@ const items = [
 ];
 
 const cardVariants = (i: number) => ({
-  hidden: { opacity: 0, y: 25, x: i === 0 ? -40 : i === 2 ? 40 : 0 },
+  hidden: { opacity: 0, y: 20, x: i === 0 ? -20 : i === 2 ? 20 : 0 },
   visible: {
     opacity: 1,
     y: 0,
@@ -77,7 +77,10 @@ const Blog = () => {
         >
           {items.map((item, i) => (
             <motion.div key={i} variants={cardVariants(i)}>
-              <div className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}>
+              <div
+                onClick={() => window.open("https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT", "_blank")}
+                className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}
+              >
                 <div className="mb-5">
                   <img src={item.icon} alt="" className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md" width={512} height={512} loading="lazy" />
                 </div>
