@@ -127,7 +127,7 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 6s ease-in-out infinite",
-        marquee: "marquee 15s linear infinite",
+        marquee: "marquee 45s linear infinite",
         "fade-in-up": "fade-in-up 0.8s ease-out forwards",
         wave: "wave 4s ease-in-out infinite",
         "bounce-subtle": "bounce-subtle 3s ease-in-out infinite",

@@ -70,9 +70,11 @@ const LogoMarquee = () => {
                 src={logo}
                 alt=""
                 className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px] relative z-10 transition-all duration-700"
+                draggable={false}
                 style={{
                   opacity: 0.4,
                   filter: "grayscale(1) brightness(2.2) contrast(0.7)",
+                  mixBlendMode: "lighten",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
