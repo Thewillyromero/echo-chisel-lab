@@ -114,7 +114,7 @@ const Features = () => {
         <CharacterReveal
           src={agentOutbound}
           alt=""
-          className="w-[300px] md:w-[500px] opacity-[0.06]"
+          className="w-[300px] md:w-[500px] opacity-[0.12]"
           glowColor="hsl(260 50% 65%)"
           revealOffset={[0.05, 0.3]}
         />
