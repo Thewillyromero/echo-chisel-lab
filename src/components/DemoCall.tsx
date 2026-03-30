@@ -93,25 +93,41 @@ const DemoCall = () => {
     };
   }, []);
 
-  const startWebCall = useCallback(() => {
+  const startWebCall = useCallback(async () => {
     try {
-      /* Create Vapi instance INSIDE the click handler so the browser
-         grants microphone access (requires direct user gesture). */
-      const vapi = new Vapi(VAPI_PUBLIC_KEY);
-      vapiRef.current = vapi;
       setCallState("connecting");
 
-      /* Fallback: if call-start doesn't fire in 10s, open calendar */
+      /* STEP 1: Request microphone permission EXPLICITLY inside the click handler.
+         getUserMedia MUST be called as a direct result of a user gesture (click).
+         VAPI's internal getUserMedia call happens too late and the browser blocks it. */
+      let micStream: MediaStream;
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        console.log("✅ Microphone permission granted");
+      } catch (micErr) {
+        console.error("❌ Microphone denied:", micErr);
+        toast.error("Necesitamos acceso al micrófono para hablar con ARIA. Permite el acceso e inténtalo de nuevo.");
+        setCallState("idle");
+        return;
+      }
+
+      /* STEP 2: Create Vapi instance AFTER we have mic permission */
+      const vapi = new Vapi(VAPI_PUBLIC_KEY);
+      vapiRef.current = vapi;
+
+      /* STEP 3: Fallback timer — if call doesn't start in 12s, redirect */
       const fallbackTimer = setTimeout(() => {
         if (vapiRef.current) {
           try { vapiRef.current.stop(); } catch {}
         }
+        micStream.getTracks().forEach(t => t.stop());
         toast.error("No se pudo conectar. Te redirigimos para agendar una demo.");
         window.open(CALENDAR_URL, "_blank");
         setCallState("idle");
         vapiRef.current = null;
-      }, 10000);
+      }, 12000);
 
+      /* STEP 4: Event handlers */
       vapi.on("call-start", () => {
         clearTimeout(fallbackTimer);
         setCallState("active");
@@ -123,6 +139,7 @@ const DemoCall = () => {
       vapi.on("call-end", () => {
         clearTimeout(fallbackTimer);
         setCallState("ended");
+        micStream.getTracks().forEach(t => t.stop());
         vapiRef.current = null;
       });
 
@@ -136,20 +153,20 @@ const DemoCall = () => {
       vapi.on("error", (err: unknown) => {
         clearTimeout(fallbackTimer);
         console.error("Web call error:", JSON.stringify(err, null, 2));
-        console.error("Error type:", typeof err, "Keys:", err && typeof err === "object" ? Object.keys(err) : "N/A");
+        micStream.getTracks().forEach(t => t.stop());
         toast.error("Error en la conexión. Inténtalo de nuevo.");
         setCallState("idle");
         vapiRef.current = null;
       });
 
-      /* Use positional arg for assistant ID */
+      /* STEP 5: Start the call — browser already has mic permission from step 1 */
       vapi.start(ASSISTANT_ID);
     } catch (err) {
       console.error("Failed to start call:", err);
       toast.error("Error al iniciar la llamada.");
       setCallState("idle");
     }
-  }, []);
+  }, [incrementTest]);
 
   const endCall = useCallback(() => {
     if (vapiRef.current) {
