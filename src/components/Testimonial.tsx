@@ -3,10 +3,6 @@ import { motion } from "framer-motion";
 import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.webp";
 import CharacterReveal from "@/components/CharacterReveal";
-import logoReputationLoop from "@/assets/logos/reputation-loop.webp";
-import logoTutorDoctor from "@/assets/logos/tutor-doctor.webp";
-import logoRehabSystem from "@/assets/logos/rehab-system.webp";
-import logoMonitronics from "@/assets/logos/monitronics.webp";
 
 import avatarTim from "@/assets/avatars/tim-bissonnette.webp";
 import avatarCarin from "@/assets/avatars/carin-cowell.webp";
@@ -80,15 +76,15 @@ const testimonials = [
 ];
 
 const caseStudies = [
-  { company: "Tutor Doctor", logo: logoTutorDoctor, result: "$5,000", description: "en ventas primera semana", metric: "25 leads a $30/lead", detail: "Leads reducidos a $13.28 en segunda fase" },
-  { company: "Rehab System", logo: logoRehabSystem, result: "$400K", description: "en capital captado", metric: "Inversores acreditados a <$15", detail: "Estrategia de pre-framing y retargeting" },
-  { company: "Advanced Plumbing", logo: null, result: "$7,200", description: "en ventas en 14 días", metric: "Leads a $6 · Citas a $26", detail: "Posicionamiento en cuidado preventivo" },
+  { company: "Clínica Dental", logo: null, result: "$5,000", description: "en ventas primera semana", metric: "25 leads a $30/lead", detail: "ROI positivo desde la primera semana" },
+  { company: "Startup Médica", logo: null, result: "$400K", description: "en capital captado", metric: "Inversores a <$15/lead", detail: "Estrategia de pre-framing y retargeting" },
+  { company: "Empresa de Fontanería", logo: null, result: "$7,200", description: "en ventas en 14 días", metric: "Leads a $6 · Citas a $26", detail: "Posicionamiento en cuidado preventivo" },
   { company: "Empresa de Suelos", logo: null, result: "$18K", description: "en ventas el primer mes", metric: "Presupuestos a $10.53", detail: "Leads desde $0.93" },
-  { company: "Monitronics", logo: logoMonitronics, result: "$6", description: "por lead cualificado", metric: "Citas agendadas por $26", detail: "Sector seguridad · Appointment setting" },
-  { company: "Debt Relief", logo: null, result: "<$10", description: "por lead cualificado", metric: "Citas a $27-$35", detail: "Cientos de leads generados" },
-  { company: "Agencia Marketing", logo: null, result: "+$25K", description: "en ingresos recurrentes al mes", metric: "En solo 45 días", detail: "Estrategia integral: voz + captación + nurturing" },
-  { company: "Programa Formativo", logo: null, result: "$48K", description: "en ventas la primera semana", metric: "Leads a <$3", detail: "Combinando llamadas automáticas + campaña digital" },
-  { company: "Ecommerce Skincare", logo: null, result: "Sold out", description: "el primer mes de campaña", metric: "Leads a $7.12", detail: "Voz IA + estrategia de marketing integrada" },
+  { company: "Agente Inmobiliario", logo: null, result: "$17-25", description: "por lead cualificado", metric: "Evaluaciones agendadas", detail: "Vendedores interesados cualificados" },
+  { company: "Agencia de Marketing", logo: null, result: "+$25K/mes", description: "en ingresos recurrentes", metric: "En solo 45 días", detail: "Estrategia integral: voz + captación" },
+  { company: "Programa Formativo", logo: null, result: "$48K", description: "en ventas primera semana", metric: "Leads a <$3", detail: "Llamadas automáticas + campaña digital" },
+  { company: "Empresa Solar", logo: null, result: "<$10/lead", description: "cualificados con cita", metric: "Citas a <$50", detail: "Leads consistentes bajo coste" },
+  { company: "Ecommerce Cosmética", logo: null, result: "Sold out", description: "primer mes de campaña", metric: "Leads a $7.12", detail: "Voz IA + marketing integrado" },
 ];
 
 const avatarGradients = [
@@ -107,7 +103,6 @@ const barAvatars = [avatarSergio, avatarElena, avatarTim, avatarPatricia, avatar
 const Testimonial = () => {
   const [expanded, setExpanded] = useState(false);
   const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 6);
-  const visibleCaseStudies = expanded ? caseStudies : caseStudies.slice(0, 3);
 
   return (
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
@@ -171,16 +166,32 @@ const Testimonial = () => {
           ))}
         </motion.div>
 
-        {/* Case Studies */}
+        {/* Expand/Collapse — BETWEEN testimonials and case studies */}
+        <div className="flex justify-center mb-12">
+          <button onClick={() => setExpanded(!expanded)} className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group">
+            <div className="flex -space-x-2">
+              {barAvatars.map((av, i) => <img key={i} src={av} alt="" className="w-7 h-7 rounded-full object-cover ring-2 ring-background" loading="lazy" />)}
+            </div>
+            <span className="text-sm text-foreground/70 font-medium">+200 empresas confían en CALLA</span>
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
+              {expanded ? "Ver menos" : "Ver más"}
+              <svg className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        {/* Case Studies — ALWAYS visible, ALL 9, never collapsed */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}>
           <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block"><img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" /></div>
             <div className="flex items-center gap-2 mb-8"><TrendingUp className="h-5 w-5 text-primary" /><h3 className="font-display font-bold text-lg text-foreground">Resultados probados en +20 industrias</h3></div>
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {visibleCaseStudies.map((cs, i) => (
+              {caseStudies.map((cs, i) => (
                 <motion.div key={cs.company + cs.result} variants={cardVariants(i, i % 2 === 0)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300">
                   <div className="flex items-center gap-2 mb-3">
-                    {cs.logo ? <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" /> : <Building2 className="h-4 w-4 text-muted-foreground/40" />}
+                    <Building2 className="h-4 w-4 text-muted-foreground/40" />
                     <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
                   </div>
                   <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
@@ -196,22 +207,6 @@ const Testimonial = () => {
             </div>
           </div>
         </motion.div>
-
-        {/* Expand/Collapse */}
-        <div className="flex justify-center mt-10">
-          <button onClick={() => setExpanded(!expanded)} className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group">
-            <div className="flex -space-x-2">
-              {barAvatars.map((av, i) => <img key={i} src={av} alt="" className="w-7 h-7 rounded-full object-cover ring-2 ring-background" loading="lazy" />)}
-            </div>
-            <span className="text-sm text-foreground/70 font-medium">+200 empresas confían en CALLA</span>
-            <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
-              {expanded ? "Ver menos" : "Ver más"}
-              <svg className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </span>
-          </button>
-        </div>
       </div>
     </section>
   );
