@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import agentInbound from "@/assets/characters/agent-inbound.png";
+import agentOutbound from "@/assets/characters/agent-outbound.png";
 import Vapi from "@vapi-ai/web";
 import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
@@ -222,6 +223,10 @@ const DemoCall = () => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-brand-teal/[0.04] blur-[200px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
+      {/* Background character — NOVA */}
+      <div className="absolute -left-32 bottom-0 pointer-events-none select-none">
+        <img src={agentOutbound} alt="" className="w-[250px] md:w-[600px] opacity-[0.03] blur-[0.5px] -rotate-12" loading="lazy" />
+      </div>
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import {
   Accordion,
   AccordionContent,
@@ -60,11 +61,15 @@ const itemVariants = (i: number) => ({
 
 const FAQ = () => {
   return (
-    <section id="faq" className="py-16 md:py-28 px-5 md:px-6 relative">
+    <section id="faq" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
+      {/* Background character — LUMI */}
+      <div className="absolute -right-16 bottom-0 pointer-events-none select-none">
+        <img src={agentScheduler} alt="" className="w-[220px] md:w-[500px] opacity-[0.04] rotate-12" loading="lazy" />
+      </div>
 
       <div className="container mx-auto max-w-3xl relative z-10">
         <motion.div

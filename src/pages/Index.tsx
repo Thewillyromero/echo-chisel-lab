@@ -19,7 +19,7 @@ import Footer from "@/components/Footer";
 import ContactFormDialog from "@/components/ContactFormDialog";
 import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
-import ScrollRobot from "@/components/ScrollRobot";
+import InteractiveRobot from "@/components/InteractiveRobot";
 import FloatingAgent from "@/components/FloatingAgent";
 import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
 
@@ -75,7 +75,7 @@ const Index = () => {
         <CTA onContact={() => openContact("cta")} />
         <Footer />
         <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
-        <ScrollRobot />
+        <InteractiveRobot />
         <FOMONotifications />
         <LiveViewers />
       </div>

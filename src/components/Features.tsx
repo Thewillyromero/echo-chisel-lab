@@ -104,10 +104,14 @@ const Features = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <section id="features" className="py-20 md:py-32 px-5 md:px-6 relative">
+    <section id="features" className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
       {/* Subtle background accents */}
       <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-primary/[0.02] blur-[160px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[140px] pointer-events-none" />
+      {/* Background character — ARIA */}
+      <div className="absolute -right-20 top-1/2 -translate-y-1/2 pointer-events-none select-none">
+        <img src={agentInbound} alt="" className="w-[300px] md:w-[700px] opacity-[0.04] blur-[1px]" loading="lazy" />
+      </div>
 
       <div className="container mx-auto relative z-10">
         {/* Section header */}
