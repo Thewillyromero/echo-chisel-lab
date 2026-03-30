@@ -4,6 +4,7 @@ import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import CharacterReveal from "@/components/CharacterReveal";
 import { Phone, PhoneOutgoing, CalendarCheck, BarChart3, ArrowRight, Sparkles } from "lucide-react";
 
 const features = [
