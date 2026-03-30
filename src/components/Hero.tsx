@@ -64,7 +64,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
               Empezar ahora
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full text-base px-8 border-border/50 hover:bg-secondary/50" onClick={onContact}>
+            <Button size="lg" variant="outline" className="rounded-full text-base px-8 border-border/50 hover:bg-secondary/50" onClick={() => document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" })}>
               Ver demo
             </Button>
           </motion.div>

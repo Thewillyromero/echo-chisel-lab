@@ -74,7 +74,7 @@ const Blog = () => {
           {items.map((item, i) => (
             <motion.div key={i} variants={cardVariants(i)}>
               <div
-                onClick={() => window.open("https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT", "_blank")}
+                onClick={() => document.getElementById("testimonials")?.scrollIntoView({ behavior: "smooth" })}
                 className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}
               >
                 <div className="mb-5">
