@@ -18,6 +18,8 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ContactFormDialog from "@/components/ContactFormDialog";
 import FOMONotifications from "@/components/FOMONotifications";
+import LiveViewers from "@/components/LiveViewers";
+import ScrollRobot from "@/components/ScrollRobot";
 
 const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
@@ -30,7 +32,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-8">
       <Navbar onContact={() => openContact("navbar")} />
       <Hero onContact={() => openContact("hero")} />
       <SocialProof />
@@ -49,7 +51,9 @@ const Index = () => {
       <CTA onContact={() => openContact("cta")} />
       <Footer />
       <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
+      <ScrollRobot />
       <FOMONotifications />
+      <LiveViewers />
     </div>
   );
 };

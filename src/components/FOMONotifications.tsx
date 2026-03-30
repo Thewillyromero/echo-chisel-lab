@@ -3,22 +3,57 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 const pool = [
+  // Demos
   { type: "demo", text: "María L. de Madrid acaba de probar ARIA", icon: "🎤" },
   { type: "demo", text: "Un despacho legal de Barcelona ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Dra. García de Málaga acaba de hablar con ARIA", icon: "🎤" },
+  { type: "demo", text: "Antonio G. de Zaragoza ha completado la demo", icon: "🎤" },
+  { type: "demo", text: "Laura M. de Granada ha probado ARIA ahora mismo", icon: "🎤" },
+  { type: "demo", text: "Centro dental en Valencia ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Pedro R. de Bilbao acaba de hablar con ARIA", icon: "🎤" },
+  { type: "demo", text: "Un fisioterapeuta de Sevilla ha probado ARIA", icon: "🎤" },
+  { type: "demo", text: "Carmen S. de Alicante ha completado la demo", icon: "🎤" },
+  { type: "demo", text: "Clínica estética en Madrid ha probado ARIA", icon: "🎤" },
+  { type: "demo", text: "Asesoría fiscal de Pamplona ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Juan M. de Murcia acaba de probar ARIA", icon: "🎤" },
+  { type: "demo", text: "Taller mecánico de Córdoba ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Elena P. de Santander ha hablado con ARIA", icon: "🎤" },
+  { type: "demo", text: "Inmobiliaria de Las Palmas ha probado ARIA", icon: "🎤" },
+  { type: "demo", text: "Andrea V. de Gijón acaba de probar la demo", icon: "🎤" },
+  { type: "demo", text: "Gabinete psicológico de Vitoria ha probado ARIA", icon: "🎤" },
+  // Bookings
   { type: "booking", text: "Carlos R. de Valencia ha reservado una consulta", icon: "📅" },
   { type: "booking", text: "Una clínica dental de Sevilla ha agendado demo", icon: "📅" },
-  { type: "viewing", text: "{n} personas están viendo esta página ahora", icon: "👥" },
-  { type: "demo", text: "Dra. García de Málaga acaba de hablar con ARIA", icon: "🎤" },
   { type: "booking", text: "Inmobiliaria en Bilbao ha reservado consulta", icon: "📅" },
-  { type: "viewing", text: "{n} empresas están explorando CALLA ahora mismo", icon: "👥" },
-  { type: "demo", text: "Antonio G. de Zaragoza ha completado la demo", icon: "🎤" },
   { type: "booking", text: "Centro médico de Alicante ha agendado llamada", icon: "📅" },
-  { type: "signup", text: "Una academia de Murcia se acaba de registrar", icon: "🎉" },
-  { type: "demo", text: "Laura M. de Granada ha probado ARIA ahora mismo", icon: "🎤" },
-  { type: "viewing", text: "{n} personas están mirando los planes ahora", icon: "👥" },
   { type: "booking", text: "Taller mecánico de Valladolid ha reservado demo", icon: "📅" },
-  { type: "result", text: "Clínica en Madrid: 200+ llamadas gestionadas esta semana", icon: "📊" },
-  { type: "result", text: "Inmobiliaria en BCN: 15 citas agendadas hoy con CALLA", icon: "📊" },
+  { type: "booking", text: "Marta F. de Madrid ha agendado una consulta", icon: "📅" },
+  { type: "booking", text: "Despacho legal de Zaragoza ha reservado demo", icon: "📅" },
+  { type: "booking", text: "Restaurante en Barcelona ha agendado consulta", icon: "📅" },
+  { type: "booking", text: "Clínica estética de Málaga ha reservado demo", icon: "📅" },
+  { type: "booking", text: "Luis A. de Palma ha reservado una consulta", icon: "📅" },
+  { type: "booking", text: "Academia de idiomas de Granada ha agendado demo", icon: "📅" },
+  { type: "booking", text: "Instalador solar de Cádiz ha reservado consulta", icon: "📅" },
+  { type: "booking", text: "Asesoría de Vigo ha agendado demo personalizada", icon: "📅" },
+  { type: "booking", text: "Patricia M. de Oviedo ha reservado consulta", icon: "📅" },
+  { type: "booking", text: "Centro veterinario de Toledo ha agendado demo", icon: "📅" },
+  // Viewing
+  { type: "viewing", text: "{n} personas están viendo esta página ahora", icon: "👥" },
+  { type: "viewing", text: "{n} empresas están explorando CALLA ahora mismo", icon: "👥" },
+  { type: "viewing", text: "{n} personas están mirando los planes ahora", icon: "👥" },
+  { type: "viewing", text: "{n} personas están viendo la demo ahora", icon: "👥" },
+  { type: "viewing", text: "{n} profesionales están explorando CALLA", icon: "👥" },
+  // Signup / purchase
+  { type: "signup", text: "Una academia de Murcia se acaba de registrar", icon: "🎉" },
+  { type: "signup", text: "Clínica dental de Madrid ha activado su cuenta", icon: "🎉" },
+  { type: "signup", text: "Inmobiliaria de BCN ha contratado el plan Pro", icon: "🎉" },
+  { type: "signup", text: "Centro médico de Sevilla se acaba de registrar", icon: "🎉" },
+  { type: "signup", text: "Asesoría legal de Valencia ha activado CALLA", icon: "🎉" },
+  { type: "signup", text: "Empresa de reformas de Bilbao ha contratado CALLA", icon: "🎉" },
+  { type: "signup", text: "Clínica estética de Málaga ha activado su plan", icon: "🎉" },
+  { type: "signup", text: "Restaurante de A Coruña ha contratado el plan Starter", icon: "🎉" },
+  { type: "signup", text: "Taller de Zaragoza se ha registrado en CALLA", icon: "🎉" },
+  { type: "signup", text: "Consulta dental de Alicante ha activado su cuenta", icon: "🎉" },
 ];
 
 interface Notification {
@@ -52,18 +87,13 @@ const FOMONotifications = () => {
     setCurrent({ text, icon: item.icon, minutesAgo });
     setVisible(true);
 
-    // Auto-hide after 4s
-    setTimeout(() => {
-      setVisible(false);
-    }, 4000);
+    setTimeout(() => setVisible(false), 4000);
 
-    // Schedule next
-    const delay = Math.random() * 10000 + 15000;
+    const delay = Math.random() * 4000 + 18000;
     timerRef.current = setTimeout(showNext, delay);
   }, []);
 
   useEffect(() => {
-    // First notification after 8s
     timerRef.current = setTimeout(showNext, 8000);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -80,7 +110,7 @@ const FOMONotifications = () => {
   };
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:right-auto z-50 md:max-w-[320px]">
+    <div className="fixed bottom-12 left-4 right-4 md:right-auto z-50 md:max-w-[320px]">
       <AnimatePresence>
         {visible && current && (
           <motion.div
@@ -96,7 +126,6 @@ const FOMONotifications = () => {
             >
               <X className="w-3.5 h-3.5" />
             </button>
-
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-secondary/60 flex items-center justify-center shrink-0 text-sm">
                 {current.icon}
