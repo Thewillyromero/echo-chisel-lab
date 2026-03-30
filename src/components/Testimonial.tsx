@@ -137,9 +137,15 @@ const Testimonial = () => {
   return (
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-      {/* Background character — CARE */}
-      <div className="absolute -left-20 top-1/3 pointer-events-none select-none">
-        <img src={agentSupport} alt="" className="w-[250px] md:w-[550px] opacity-[0.035] -rotate-6 blur-[0.5px]" loading="lazy" />
+      {/* Background character — CARE with reveal */}
+      <div className="absolute -left-10 top-1/4 pointer-events-none select-none hidden lg:block">
+        <CharacterReveal
+          src={agentSupport}
+          alt=""
+          className="w-[300px] md:w-[450px] opacity-[0.07]"
+          glowColor="hsl(340 55% 60%)"
+          revealOffset={[0.05, 0.3]}
+        />
       </div>
 
       <div className="container mx-auto relative z-10">
