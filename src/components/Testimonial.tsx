@@ -8,12 +8,18 @@ import logoTutorDoctor from "@/assets/logos/tutor-doctor.webp";
 import logoRehabSystem from "@/assets/logos/rehab-system.webp";
 import logoMonitronics from "@/assets/logos/monitronics.webp";
 
-import avatarTim from "@/assets/avatars/tim-b.webp";
-import avatarCarin from "@/assets/avatars/carin-c.webp";
-import avatarLaurence from "@/assets/avatars/laurence-f.webp";
-import avatarTimV from "@/assets/avatars/tim-v.webp";
-import avatarMichael from "@/assets/avatars/michael-t.webp";
+import avatarTim from "@/assets/avatars/tim-bissonnette.webp";
+import avatarCarin from "@/assets/avatars/carin-cowell.webp";
+import avatarLaurence from "@/assets/avatars/laurence-fendrich.webp";
+import avatarTimV from "@/assets/avatars/tim-virga.webp";
+import avatarMichael from "@/assets/avatars/michael-torres.webp";
 import avatarDirector from "@/assets/avatars/director-td.webp";
+import avatarRoberto from "@/assets/avatars/roberto-mendez.webp";
+import avatarElena from "@/assets/avatars/elena-garcia.webp";
+import avatarDavid from "@/assets/avatars/david-martinez.webp";
+import avatarLucia from "@/assets/avatars/lucia-fernandez.webp";
+import avatarSergio from "@/assets/avatars/sergio-lopez.webp";
+import avatarPatricia from "@/assets/avatars/patricia-ruiz.webp";
 
 const TrustpilotStar = ({ size = 20, filled = true }: { size?: number; filled?: boolean }) => (
   <svg width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +63,6 @@ const testimonials = [
     company: "Direct Public Funding",
     initials: "TB",
     result: "$300K+ generados",
-    logo: null,
     context: "Finanzas",
     avatar: avatarTim,
   },
@@ -68,7 +73,6 @@ const testimonials = [
     company: "Reputation Loop",
     initials: "CC",
     result: "Campaña exitosa desde día 1",
-    logo: logoReputationLoop,
     context: "Lead Generation",
     avatar: avatarCarin,
   },
@@ -79,7 +83,6 @@ const testimonials = [
     company: "Dental 101",
     initials: "LF",
     result: "200+ leads/mes",
-    logo: null,
     context: "Salud dental",
     avatar: avatarLaurence,
   },
@@ -90,7 +93,6 @@ const testimonials = [
     company: "Capify",
     initials: "TV",
     result: "ROI excepcional",
-    logo: null,
     context: "Fintech",
     avatar: avatarTimV,
   },
@@ -101,7 +103,6 @@ const testimonials = [
     company: "Advanced Plumbing",
     initials: "MT",
     result: "$7.2K en 14 días",
-    logo: null,
     context: "Servicios",
     avatar: avatarMichael,
   },
@@ -110,11 +111,70 @@ const testimonials = [
     name: "Director Regional",
     role: "Franquiciado",
     company: "Tutor Doctor",
-    initials: "TD",
+    initials: "DR",
     result: "$5K primera semana",
-    logo: logoTutorDoctor,
     context: "Educación",
     avatar: avatarDirector,
+  },
+  {
+    quote: "Generaron leads cualificados por menos de $17 y nos agendaron evaluaciones con propietarios realmente interesados en vender.",
+    name: "Roberto Méndez",
+    role: "Director Comercial",
+    company: "Inmobiliaria Premium",
+    initials: "RM",
+    result: "Leads a $17",
+    context: "Inmobiliaria",
+    avatar: avatarRoberto,
+  },
+  {
+    quote: "Pasamos de no tener presencia digital a generar $48,000 en ventas en la primera semana de campaña. Increíble.",
+    name: "Elena García",
+    role: "CEO",
+    company: "Programa Formativo",
+    initials: "EG",
+    result: "$48K primera semana",
+    context: "Educación",
+    avatar: avatarElena,
+  },
+  {
+    quote: "Nos añadieron $25,000 al mes en ingresos recurrentes en solo 45 días. Transformó nuestro negocio completamente.",
+    name: "David Martínez",
+    role: "Fundador",
+    company: "Agencia de Marketing",
+    initials: "DM",
+    result: "+$25K/mes recurrente",
+    context: "Marketing",
+    avatar: avatarDavid,
+  },
+  {
+    quote: "Generaron cientos de leads cualificados por menos de $7 y citas por $10-$20. Los números hablan solos.",
+    name: "Lucía Fernández",
+    role: "Directora",
+    company: "Hipotecas Express",
+    initials: "LF",
+    result: "Leads a <$7",
+    context: "Hipotecas",
+    avatar: avatarLucia,
+  },
+  {
+    quote: "Conseguimos leads para nuestra clínica dental por $14-$20 con citas ya agendadas. Nunca habíamos visto estos costes.",
+    name: "Sergio López",
+    role: "Propietario",
+    company: "Clínica Dental López",
+    initials: "SL",
+    result: "Citas a $14-$20",
+    context: "Dental",
+    avatar: avatarSergio,
+  },
+  {
+    quote: "En las primeras 6 semanas generamos $30,000 en ventas directas. La estrategia fue impecable desde el día uno.",
+    name: "Patricia Ruiz",
+    role: "Directora",
+    company: "Programa de Copywriting",
+    initials: "PR",
+    result: "$30K en 6 semanas",
+    context: "Formación",
+    avatar: avatarPatricia,
   },
 ];
 
@@ -148,6 +208,7 @@ const cardVariants = (i: number, fromLeft: boolean) => ({
 
 const Testimonial = () => {
   const [expanded, setExpanded] = useState(false);
+  const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 6);
   const visibleCaseStudies = expanded ? caseStudies : caseStudies.slice(0, 3);
 
   return (
@@ -208,61 +269,66 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Testimonials Grid — always show all 6 */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ staggerChildren: 0.12 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
-        >
-          {testimonials.map((t, i) => {
-            const fromLeft = i % 2 === 0;
-            return (
-              <motion.div key={i} variants={cardVariants(i, fromLeft)}>
-                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
-                  <div className="flex items-center justify-between mb-4">
-                    <TrustpilotStars rating={5} size={18} />
-                    <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
-                  </div>
-
-                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
-                    {t.quote}
-                  </blockquote>
-
-                  <div className="mb-4">
-                    <span
-                      className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
-                      style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
-                    >
-                      {t.result}
-                    </span>
-                  </div>
-
-                  <div className="h-px bg-border/20 mb-4" />
-
-                  <div className="flex items-center gap-3">
-                    {t.avatar ? (
-                      <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
-                    ) : (
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
-                        <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
-                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+        {/* Testimonials Grid — 6 default, 12 expanded */}
+        <div className="relative mb-12 md:mb-16">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ staggerChildren: 0.12 }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+          >
+            {visibleTestimonials.map((t, i) => {
+              const fromLeft = i % 2 === 0;
+              return (
+                <motion.div key={t.name} variants={cardVariants(i, fromLeft)}>
+                  <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                    <div className="flex items-center justify-between mb-4">
+                      <TrustpilotStars rating={5} size={18} />
+                      <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
                     </div>
-                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
-                      {t.context}
-                    </span>
+
+                    <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                      <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
+                      {t.quote}
+                    </blockquote>
+
+                    <div className="mb-4">
+                      <span
+                        className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
+                        style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
+                      >
+                        {t.result}
+                      </span>
+                    </div>
+
+                    <div className="h-px bg-border/20 mb-4" />
+
+                    <div className="flex items-center gap-3">
+                      {t.avatar ? (
+                        <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
+                      ) : (
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
+                          <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                        <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
+                        {t.context}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+          {!expanded && (
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+          )}
+        </div>
 
         {/* Case Studies */}
         <motion.div
@@ -289,7 +355,7 @@ const Testimonial = () => {
               >
                 {visibleCaseStudies.map((cs, i) => (
                   <motion.div
-                    key={i}
+                    key={cs.company}
                     variants={cardVariants(i, i % 2 === 0)}
                     className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
                   >
@@ -325,27 +391,22 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Expand/Collapse bar — controls case studies only */}
+        {/* Expand/Collapse bar */}
         <div className="flex justify-center mt-10">
           <button
             onClick={() => setExpanded(!expanded)}
             className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group"
           >
             <div className="flex -space-x-2">
-              {["TB", "CC", "LF", "TV", "MT"].map((initials, i) => (
-                <div
-                  key={i}
-                  className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-teal/40 to-brand-emerald/30 flex items-center justify-center ring-2 ring-background text-[9px] font-bold text-foreground/70"
-                >
-                  {initials}
-                </div>
+              {[avatarTim, avatarCarin, avatarLaurence, avatarTimV, avatarMichael].map((av, i) => (
+                <img key={i} src={av} alt="" className="w-7 h-7 rounded-full object-cover ring-2 ring-background" loading="lazy" />
               ))}
             </div>
             <span className="text-sm text-foreground/70 font-medium">
               +200 empresas confían en CALLA
             </span>
             <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
-              {expanded ? "Ver menos" : "Ver más casos"}
+              {expanded ? "Ver menos" : "Ver más"}
               <svg
                 className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
