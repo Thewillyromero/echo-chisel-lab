@@ -69,6 +69,22 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
+
+  /* 3D puffy / inflated text effect for display headings */
+  .text-3d-puffy {
+    text-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.15),
+      0 -1px 0 hsl(0 0% 0% / 0.35),
+      0 2px 3px hsl(0 0% 0% / 0.25),
+      0 4px 8px hsl(0 0% 0% / 0.15),
+      0 6px 15px hsl(0 0% 0% / 0.08);
+    -webkit-text-stroke: 0.3px hsl(0 0% 100% / 0.06);
+  }
+
+  /* Gradient-based 3D for colored/gradient text (can't use text-shadow with bg-clip) */
+  .text-3d-gradient {
+    filter: drop-shadow(0 2px 3px hsl(0 0% 0% / 0.35)) drop-shadow(0 5px 12px hsl(0 0% 0% / 0.15));
+  }
 }
 
 @layer utilities {
