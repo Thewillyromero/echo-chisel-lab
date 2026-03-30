@@ -13,22 +13,18 @@ import avatarCarin from "@/assets/avatars/carin-cowell.webp";
 import avatarLaurence from "@/assets/avatars/laurence-fendrich.webp";
 import avatarTimV from "@/assets/avatars/tim-virga.webp";
 import avatarMichael from "@/assets/avatars/michael-torres.webp";
-import avatarDirector from "@/assets/avatars/director-td.webp";
-import avatarRoberto from "@/assets/avatars/roberto-mendez.webp";
-import avatarElena from "@/assets/avatars/elena-garcia.webp";
-import avatarDavid from "@/assets/avatars/david-martinez.webp";
-import avatarLucia from "@/assets/avatars/lucia-fernandez.webp";
 import avatarSergio from "@/assets/avatars/sergio-lopez.webp";
+import avatarRoberto from "@/assets/avatars/roberto-mendez.webp";
+import avatarDavid from "@/assets/avatars/david-martinez.webp";
+import avatarElena from "@/assets/avatars/elena-garcia.webp";
+import avatarLucia from "@/assets/avatars/lucia-fernandez.webp";
 import avatarPatricia from "@/assets/avatars/patricia-ruiz.webp";
+import avatarCarmen from "@/assets/avatars/carmen-ortega.webp";
 
 const TrustpilotStar = ({ size = 20, filled = true }: { size?: number; filled?: boolean }) => (
   <svg width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="20" height="20" rx="2" fill={filled ? "#00b67a" : "#dcdce6"} />
-    <path
-      d="M10 3.5l1.95 4.1 4.35.6-3.15 3.05.75 4.35L10 13.35 6.1 15.6l.75-4.35L3.7 8.2l4.35-.6L10 3.5z"
-      fill="#fff"
-      fillOpacity={filled ? 1 : 0.3}
-    />
+    <path d="M10 3.5l1.95 4.1 4.35.6-3.15 3.05.75 4.35L10 13.35 6.1 15.6l.75-4.35L3.7 8.2l4.35-.6L10 3.5z" fill="#fff" fillOpacity={filled ? 1 : 0.3} />
   </svg>
 );
 
@@ -39,16 +35,12 @@ const TrustpilotStars = ({ rating = 5, size = 20 }: { rating?: number; size?: nu
     <div className="flex items-center" style={{ gap: '2px' }}>
       {[...Array(5)].map((_, i) => {
         if (i < fullStars) return <TrustpilotStar key={i} size={size} filled />;
-        if (i === fullStars && hasPartial) {
-          return (
-            <div key={i} className="relative" style={{ width: size, height: size }}>
-              <TrustpilotStar size={size} filled={false} />
-              <div className="absolute inset-0 overflow-hidden" style={{ width: `${(rating % 1) * 100}%` }}>
-                <TrustpilotStar size={size} filled />
-              </div>
-            </div>
-          );
-        }
+        if (i === fullStars && hasPartial) return (
+          <div key={i} className="relative" style={{ width: size, height: size }}>
+            <TrustpilotStar size={size} filled={false} />
+            <div className="absolute inset-0 overflow-hidden" style={{ width: `${(rating % 1) * 100}%` }}><TrustpilotStar size={size} filled /></div>
+          </div>
+        );
         return <TrustpilotStar key={i} size={size} filled={false} />;
       })}
     </div>
@@ -56,6 +48,27 @@ const TrustpilotStars = ({ rating = 5, size = 20 }: { rating?: number; size?: nu
 };
 
 const testimonials = [
+  // ESPAÑOLES — primer impacto para mercado español
+  {
+    quote: "CALLA ha transformado nuestra clínica. Ya no perdemos ni una llamada y las citas se agendan solas. En el primer mes duplicamos las consultas.",
+    name: "Dr. Sergio López",
+    role: "Director",
+    company: "Clínica Dental López",
+    initials: "SL",
+    result: "2x consultas en 1 mes",
+    context: "Dental",
+    avatar: avatarSergio,
+  },
+  {
+    quote: "Antes perdíamos 15 llamadas al día. Ahora CALLA las atiende todas, agenda las visitas y nos envía un resumen. Literalmente se paga solo.",
+    name: "Elena García",
+    role: "Directora de Operaciones",
+    company: "Inmobiliaria Mediterráneo",
+    initials: "EG",
+    result: "15 llamadas rescatadas/día",
+    context: "Inmobiliaria",
+    avatar: avatarElena,
+  },
   {
     quote: "Contratamos a 3 equipos distintos para encontrar al mejor, y Guillermo destacó por encima de todos. Nos generaron más de $300K en nuevos ingresos.",
     name: "Tim Michael Bissonnette",
@@ -67,14 +80,14 @@ const testimonials = [
     avatar: avatarTim,
   },
   {
-    quote: "Fue un placer trabajar con Guillermo y su equipo. Son expertos en su campo. Me ayudaron a ejecutar una campaña muy exitosa desde el primer día.",
-    name: "Carin Cowell",
-    role: "Marketing Manager",
-    company: "Reputation Loop",
-    initials: "CC",
-    result: "Campaña exitosa desde día 1",
-    context: "Lead Generation",
-    avatar: avatarCarin,
+    quote: "Nuestros pacientes no notan que hablan con una IA. La voz es natural, agenda correctamente y nunca se equivoca con los horarios.",
+    name: "Patricia Ruiz",
+    role: "Gerente",
+    company: "Centro Médico Salud Plus",
+    initials: "PR",
+    result: "0 errores en agenda",
+    context: "Centro médico",
+    avatar: avatarPatricia,
   },
   {
     quote: "El sistema que nos implementaron genera más de 200 leads al mes y citas consistentes para procedimientos de alto valor.",
@@ -87,6 +100,37 @@ const testimonials = [
     avatar: avatarLaurence,
   },
   {
+    quote: "Mis recepcionistas ahora se dedican a lo importante. CALLA gestiona el teléfono 24/7 y no se queja ni pide vacaciones.",
+    name: "Roberto Méndez",
+    role: "Propietario",
+    company: "Taller Méndez e Hijos",
+    initials: "RM",
+    result: "Recepción 24/7",
+    context: "Taller mecánico",
+    avatar: avatarRoberto,
+  },
+  // SEGUNDO BLOQUE — se ve al expandir
+  {
+    quote: "Fue un placer trabajar con Guillermo y su equipo. Son expertos en su campo. Me ayudaron a ejecutar una campaña muy exitosa desde el primer día.",
+    name: "Carin Cowell",
+    role: "Marketing Manager",
+    company: "Reputation Loop",
+    initials: "CC",
+    result: "Campaña exitosa desde día 1",
+    context: "Lead Generation",
+    avatar: avatarCarin,
+  },
+  {
+    quote: "En la primera semana generamos más de 40 citas cualificadas con nuestro outbound. El ROI fue positivo desde el día uno.",
+    name: "David Martínez",
+    role: "Director Comercial",
+    company: "SolarTech España",
+    initials: "DM",
+    result: "40 citas primera semana",
+    context: "Energía solar",
+    avatar: avatarDavid,
+  },
+  {
     quote: "Son comunicadores excepcionales, proporcionando explicaciones detalladas de la metodología. Decir que prestan atención al detalle sería quedarse corto.",
     name: "Tim Virga",
     role: "Director",
@@ -95,6 +139,16 @@ const testimonials = [
     result: "ROI excepcional",
     context: "Fintech",
     avatar: avatarTimV,
+  },
+  {
+    quote: "Implementamos CALLA en nuestro despacho y en dos semanas teníamos la agenda llena. Los clientes nos dicen que la atención telefónica es impecable.",
+    name: "Lucía Fernández",
+    role: "Socia Directora",
+    company: "Fernández & Asociados Abogados",
+    initials: "LF",
+    result: "Agenda llena en 2 semanas",
+    context: "Despacho legal",
+    avatar: avatarLucia,
   },
   {
     quote: "En 14 días ya habíamos generado $7,200 en nuevos clientes con un coste por lead de solo $6.",
@@ -107,74 +161,14 @@ const testimonials = [
     avatar: avatarMichael,
   },
   {
-    quote: "En la primera semana cerramos aproximadamente $5,000 en ventas solo con los leads que nos generaron. ROI positivo inmediatamente.",
-    name: "Director Regional",
-    role: "Franquiciado",
-    company: "Tutor Doctor",
-    initials: "DR",
-    result: "$5K primera semana",
-    context: "Educación",
-    avatar: avatarDirector,
-  },
-  {
-    quote: "Generaron leads cualificados por menos de $17 y nos agendaron evaluaciones con propietarios realmente interesados en vender.",
-    name: "Roberto Méndez",
-    role: "Director Comercial",
-    company: "Inmobiliaria Premium",
-    initials: "RM",
-    result: "Leads a $17",
-    context: "Inmobiliaria",
-    avatar: avatarRoberto,
-  },
-  {
-    quote: "Pasamos de no tener presencia digital a generar $48,000 en ventas en la primera semana de campaña. Increíble.",
-    name: "Elena García",
-    role: "CEO",
-    company: "Programa Formativo",
-    initials: "EG",
-    result: "$48K primera semana",
-    context: "Educación",
-    avatar: avatarElena,
-  },
-  {
-    quote: "Nos añadieron $25,000 al mes en ingresos recurrentes en solo 45 días. Transformó nuestro negocio completamente.",
-    name: "David Martínez",
-    role: "Fundador",
-    company: "Agencia de Marketing",
-    initials: "DM",
-    result: "+$25K/mes recurrente",
-    context: "Marketing",
-    avatar: avatarDavid,
-  },
-  {
-    quote: "Generaron cientos de leads cualificados por menos de $7 y citas por $10-$20. Los números hablan solos.",
-    name: "Lucía Fernández",
+    quote: "Nuestro centro de estética recibe ahora un 60% más de llamadas que antes. CALLA las atiende todas y agenda sin errores.",
+    name: "Carmen Ortega",
     role: "Directora",
-    company: "Hipotecas Express",
-    initials: "LF",
-    result: "Leads a <$7",
-    context: "Hipotecas",
-    avatar: avatarLucia,
-  },
-  {
-    quote: "Conseguimos leads para nuestra clínica dental por $14-$20 con citas ya agendadas. Nunca habíamos visto estos costes.",
-    name: "Sergio López",
-    role: "Propietario",
-    company: "Clínica Dental López",
-    initials: "SL",
-    result: "Citas a $14-$20",
-    context: "Dental",
-    avatar: avatarSergio,
-  },
-  {
-    quote: "En las primeras 6 semanas generamos $30,000 en ventas directas. La estrategia fue impecable desde el día uno.",
-    name: "Patricia Ruiz",
-    role: "Directora",
-    company: "Programa de Copywriting",
-    initials: "PR",
-    result: "$30K en 6 semanas",
-    context: "Formación",
-    avatar: avatarPatricia,
+    company: "Estética Carmen",
+    initials: "CO",
+    result: "+60% llamadas atendidas",
+    context: "Estética",
+    avatar: avatarCarmen,
   },
 ];
 
@@ -198,13 +192,10 @@ const avatarGradients = [
 
 const cardVariants = (i: number, fromLeft: boolean) => ({
   hidden: { opacity: 0, y: 30, x: fromLeft ? -40 : 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    x: 0,
-    transition: { duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as const },
-  },
+  visible: { opacity: 1, y: 0, x: 0, transition: { duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as const } },
 });
+
+const barAvatars = [avatarSergio, avatarElena, avatarTim, avatarPatricia, avatarLaurence];
 
 const Testimonial = () => {
   const [expanded, setExpanded] = useState(false);
@@ -215,40 +206,20 @@ const Testimonial = () => {
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
       <div className="absolute -right-10 top-1/4 pointer-events-none select-none hidden lg:block">
-        <CharacterReveal
-          src={agentSupport}
-          alt=""
-          className="w-[300px] md:w-[450px] opacity-[0.12]"
-          glowColor="hsl(340 55% 60%)"
-          revealOffset={[0.05, 0.3]}
-        />
+        <CharacterReveal src={agentSupport} alt="" className="w-[300px] md:w-[450px] opacity-[0.12]" glowColor="hsl(340 55% 60%)" revealOffset={[0.05, 0.3]} />
       </div>
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-          className="text-center mb-16"
-        >
-          <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
-            Resultados reales
-          </p>
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }} className="text-center mb-16">
+          <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">Resultados reales</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-glow">
             Lo que dicen <span className="text-gradient text-glow-teal">nuestros clientes</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light mb-8 md:mb-10">
-            Más de 20 industrias, cientos de campañas exitosas.
-          </p>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light mb-8 md:mb-10">Más de 20 industrias, cientos de campañas exitosas.</p>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-4">
-            {[
-              { label: "Google Reviews", rating: 4.9 },
-              { label: "Trustpilot", rating: 4.8 },
-              { label: "Clutch.co", rating: 5.0 },
-            ].map((badge) => (
+            {[{ label: "Google Reviews", rating: 4.9 }, { label: "Trustpilot", rating: 4.8 }, { label: "Clutch.co", rating: 5.0 }].map((badge) => (
               <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2.5 md:gap-3 hover:border-border/50 transition-all duration-300">
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
@@ -269,61 +240,40 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Testimonials Grid — 6 default, 12 expanded */}
+        {/* Testimonials Grid */}
         <div className="relative mb-12 md:mb-16">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ staggerChildren: 0.12 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-          >
-            {visibleTestimonials.map((t, i) => {
-              const fromLeft = i % 2 === 0;
-              return (
-                <motion.div key={t.name} variants={cardVariants(i, fromLeft)}>
-                  <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
-                    <div className="flex items-center justify-between mb-4">
-                      <TrustpilotStars rating={5} size={18} />
-                      <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
-                    </div>
-
-                    <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                      <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
-                      {t.quote}
-                    </blockquote>
-
-                    <div className="mb-4">
-                      <span
-                        className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
-                        style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
-                      >
-                        {t.result}
-                      </span>
-                    </div>
-
-                    <div className="h-px bg-border/20 mb-4" />
-
-                    <div className="flex items-center gap-3">
-                      {t.avatar ? (
-                        <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
-                      ) : (
-                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
-                          <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
-                        <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
-                      </div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
-                        {t.context}
-                      </span>
-                    </div>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {visibleTestimonials.map((t, i) => (
+              <motion.div key={t.name} variants={cardVariants(i, i % 2 === 0)}>
+                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                  <div className="flex items-center justify-between mb-4">
+                    <TrustpilotStars rating={5} size={18} />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: '#00b67a40' }} />
                   </div>
-                </motion.div>
-              );
-            })}
+                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />{t.quote}
+                  </blockquote>
+                  <div className="mb-4">
+                    <span className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full" style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}>{t.result}</span>
+                  </div>
+                  <div className="h-px bg-border/20 mb-4" />
+                  <div className="flex items-center gap-3">
+                    {t.avatar ? (
+                      <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
+                    ) : (
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
+                        <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+                    </div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">{t.context}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
           {!expanded && (
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
@@ -331,12 +281,7 @@ const Testimonial = () => {
         </div>
 
         {/* Case Studies */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}>
           <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block">
               <img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" />
@@ -346,25 +291,11 @@ const Testimonial = () => {
               <h3 className="font-display font-bold text-lg text-foreground">Resultados probados en +20 industrias</h3>
             </div>
             <div className="relative">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ staggerChildren: 0.12 }}
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
-              >
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
                 {visibleCaseStudies.map((cs, i) => (
-                  <motion.div
-                    key={cs.company}
-                    variants={cardVariants(i, i % 2 === 0)}
-                    className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
-                  >
+                  <motion.div key={cs.company} variants={cardVariants(i, i % 2 === 0)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300">
                     <div className="flex items-center gap-2 mb-3">
-                      {cs.logo ? (
-                        <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
-                      ) : (
-                        <Building2 className="h-4 w-4 text-muted-foreground/40" />
-                      )}
+                      {cs.logo ? <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" /> : <Building2 className="h-4 w-4 text-muted-foreground/40" />}
                       <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
                     </div>
                     <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
@@ -379,38 +310,24 @@ const Testimonial = () => {
               )}
             </div>
             <div className="mt-8 pt-6 border-t border-border/20 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />
-                Datos verificados
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ArrowRight className="h-3 w-3 text-primary" />
-                Campañas gestionadas por Guillermo y equipo
-              </span>
+              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />Datos verificados</span>
+              <span className="flex items-center gap-1.5"><ArrowRight className="h-3 w-3 text-primary" />Campañas gestionadas por Guillermo y equipo</span>
             </div>
           </div>
         </motion.div>
 
         {/* Expand/Collapse bar */}
         <div className="flex justify-center mt-10">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group"
-          >
+          <button onClick={() => setExpanded(!expanded)} className="flex items-center gap-3 bg-card/80 backdrop-blur-md border border-border/30 rounded-full px-6 py-3 hover:border-border/50 transition-all duration-300 group">
             <div className="flex -space-x-2">
-              {[avatarTim, avatarCarin, avatarLaurence, avatarTimV, avatarMichael].map((av, i) => (
+              {barAvatars.map((av, i) => (
                 <img key={i} src={av} alt="" className="w-7 h-7 rounded-full object-cover ring-2 ring-background" loading="lazy" />
               ))}
             </div>
-            <span className="text-sm text-foreground/70 font-medium">
-              +200 empresas confían en CALLA
-            </span>
+            <span className="text-sm text-foreground/70 font-medium">+200 empresas confían en CALLA</span>
             <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
               {expanded ? "Ver menos" : "Ver más"}
-              <svg
-                className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-              >
+              <svg className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </span>
