@@ -1,12 +1,25 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef } from "react";
 import heroRobot from "@/assets/hero-robot.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const Hero = ({ onContact }: { onContact?: () => void }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Character starts "looking down" and lifts head as page loads / user sees it
+  const rawRotateX = useTransform(scrollYProgress, [0, 0.3], [0, 15]);
+  const rawY = useTransform(scrollYProgress, [0, 0.4], [0, 40]);
+  const rotateX = useSpring(rawRotateX, { stiffness: 60, damping: 20 });
+  const y = useSpring(rawY, { stiffness: 60, damping: 20 });
+
   return (
-    <section className="relative min-h-[100svh] flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
       <img
         src={heroBg}
         alt=""
@@ -58,19 +71,25 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          initial={{ opacity: 0, rotateX: 30, scale: 0.8 }}
+          animate={{ opacity: 1, rotateX: 0, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="flex-1 flex justify-center lg:justify-end"
+          style={{ perspective: "800px" }}
         >
           <div className="relative">
-            <div className="absolute inset-0 scale-[2] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(190 60% 55% / 0.2), transparent 70%)" }} />
-            <img
+            <div className="absolute inset-0 scale-[2.5] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(190 60% 55% / 0.2), transparent 70%)" }} />
+            <motion.img
               src={heroRobot}
               alt="CALLA Asistente Virtual"
-              className="w-56 sm:w-72 md:w-96 lg:w-[28rem] animate-float drop-shadow-2xl relative z-10"
+              className="w-64 sm:w-80 md:w-[26rem] lg:w-[32rem] drop-shadow-2xl relative z-10"
               width={1024}
               height={1024}
+              style={{
+                rotateX,
+                y,
+                transformOrigin: "center bottom",
+              }}
             />
           </div>
         </motion.div>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
+import CharacterReveal from "@/components/CharacterReveal";
 import {
   Accordion,
   AccordionContent,
@@ -38,14 +39,14 @@ const faqs = [
   },
   {
     q: "¿Qué métricas puedo ver sobre las llamadas?",
-    a: "BYTE, nuestro agente de analítica, te proporciona métricas en tiempo real: volumen de llamadas, tasa de conversión, duración media, motivos de contacto, sentimiento del cliente y ROI de cada campaña outbound.",
+    a: "BYTE, nuestro agente de analytics, ofrece métricas en tiempo real: duración de llamadas, tasa de resolución, citas agendadas, sentimiento del cliente, horas pico, y mucho más. Todo accesible desde tu panel de control.",
   },
 ];
 
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
   },
 };
 
@@ -66,9 +67,16 @@ const FAQ = () => {
 
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
-      {/* Background character — LUMI */}
-      <div className="absolute -right-16 bottom-0 pointer-events-none select-none">
-        <img src={agentScheduler} alt="" className="w-[220px] md:w-[500px] opacity-[0.04] rotate-12" loading="lazy" />
+
+      {/* Large background character — LUMI with reveal */}
+      <div className="absolute -right-8 bottom-10 pointer-events-none select-none hidden lg:block">
+        <CharacterReveal
+          src={agentScheduler}
+          alt=""
+          className="w-[280px] md:w-[420px] opacity-[0.08]"
+          glowColor="hsl(160 50% 48%)"
+          revealOffset={[0.05, 0.35]}
+        />
       </div>
 
       <div className="container mx-auto max-w-3xl relative z-10">
@@ -76,7 +84,7 @@ const FAQ = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="text-center mb-14"
         >
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">

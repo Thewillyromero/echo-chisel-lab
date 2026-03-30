@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import CharacterReveal from "@/components/CharacterReveal";
 
 const About = () => {
   return (
@@ -19,26 +20,33 @@ const About = () => {
         >
           <div className="bg-card/40 rounded-3xl border border-border/30 p-8 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-accent/[0.03]" />
-            <div className="relative h-56 md:h-72 flex items-end justify-center">
-              <div className="absolute left-[10%] bottom-0">
-                <div className="absolute inset-0 rounded-full blur-2xl opacity-20 scale-150" style={{ background: "hsl(260 50% 65%)" }} />
-                <img src={agentOutbound} alt="NOVA"
-                  className="w-28 md:w-36 object-contain -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 drop-shadow-2xl animate-float relative z-10"
-                  style={{ animationDelay: "0.5s" }}
-                  width={512} height={512} loading="lazy" />
+            <div className="relative h-64 md:h-80 flex items-end justify-center">
+              <div className="absolute left-[5%] bottom-0">
+                <CharacterReveal
+                  src={agentOutbound}
+                  alt="NOVA"
+                  className="w-32 md:w-44"
+                  glowColor="hsl(260 50% 65%)"
+                  revealOffset={[0.1, 0.45]}
+                />
               </div>
               <div className="relative z-10">
-                <div className="absolute inset-0 rounded-full blur-3xl opacity-20 scale-[1.8]" style={{ background: "hsl(190 60% 55%)" }} />
-                <img src={agentInbound} alt="ARIA"
-                  className="w-40 md:w-52 object-contain drop-shadow-2xl animate-float relative z-10"
-                  width={512} height={512} loading="lazy" />
+                <CharacterReveal
+                  src={agentInbound}
+                  alt="ARIA"
+                  className="w-48 md:w-64"
+                  glowColor="hsl(190 60% 55%)"
+                  revealOffset={[0.08, 0.4]}
+                />
               </div>
-              <div className="absolute right-[10%] bottom-0">
-                <div className="absolute inset-0 rounded-full blur-2xl opacity-20 scale-150" style={{ background: "hsl(35 70% 58%)" }} />
-                <img src={agentAnalytics} alt="BYTE"
-                  className="w-28 md:w-36 object-contain rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 drop-shadow-2xl animate-float relative z-10"
-                  style={{ animationDelay: "1s" }}
-                  width={512} height={512} loading="lazy" />
+              <div className="absolute right-[5%] bottom-0">
+                <CharacterReveal
+                  src={agentAnalytics}
+                  alt="BYTE"
+                  className="w-32 md:w-44"
+                  glowColor="hsl(35 70% 58%)"
+                  revealOffset={[0.12, 0.5]}
+                />
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import agentInbound from "@/assets/characters/agent-inbound.png";
 import agentOutbound from "@/assets/characters/agent-outbound.png";
 import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import CharacterReveal from "@/components/CharacterReveal";
 import { Phone, PhoneOutgoing, CalendarCheck, BarChart3, ArrowRight, Sparkles } from "lucide-react";
 
 const features = [
@@ -108,9 +109,15 @@ const Features = () => {
       {/* Subtle background accents */}
       <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-primary/[0.02] blur-[160px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[140px] pointer-events-none" />
-      {/* Background character — ARIA */}
-      <div className="absolute -right-20 top-1/2 -translate-y-1/2 pointer-events-none select-none">
-        <img src={agentInbound} alt="" className="w-[300px] md:w-[700px] opacity-[0.04] blur-[1px]" loading="lazy" />
+      {/* Background character — ARIA with reveal */}
+      <div className="absolute -right-10 top-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block">
+        <CharacterReveal
+          src={agentInbound}
+          alt=""
+          className="w-[300px] md:w-[500px] opacity-[0.06]"
+          glowColor="hsl(190 60% 55%)"
+          revealOffset={[0.05, 0.3]}
+        />
       </div>
 
       <div className="container mx-auto relative z-10">

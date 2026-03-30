@@ -4,6 +4,7 @@ import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import iconPublications from "@/assets/icons/icon-publications.png";
 import iconUpdates from "@/assets/icons/icon-updates.png";
 import iconNews from "@/assets/icons/icon-news.png";
+import CharacterReveal from "@/components/CharacterReveal";
 
 const items = [
   {
@@ -64,7 +65,13 @@ const Blog = () => {
             </h2>
           </div>
           <div className="hidden lg:block shrink-0">
-            <img src={agentScheduler} alt="" className="w-28 md:w-36 object-contain drop-shadow-2xl -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 animate-float" width={512} height={512} loading="lazy" />
+            <CharacterReveal
+              src={agentScheduler}
+              alt="LUMI"
+              className="w-40 md:w-52"
+              glowColor="hsl(160 50% 48%)"
+              revealOffset={[0.1, 0.45]}
+            />
           </div>
         </motion.div>
 
