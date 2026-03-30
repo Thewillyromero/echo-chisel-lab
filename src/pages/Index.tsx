@@ -12,7 +12,7 @@ import Squad from "@/components/Squad";
 import About from "@/components/About";
 import Stats from "@/components/Stats";
 import Testimonial from "@/components/Testimonial";
-import Blog from "@/components/Blog";
+
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
@@ -47,7 +47,7 @@ const Index = () => {
         <About />
         <Stats />
         <Testimonial />
-        <Blog />
+        
         <FAQ />
         <CTA onContact={() => openContact("cta")} />
         <Footer />
