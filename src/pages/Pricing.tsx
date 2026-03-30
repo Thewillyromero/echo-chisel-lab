@@ -102,7 +102,7 @@ const cardVariants = (i: number) => ({
   },
 });
 
-const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/30-min-meeting333-5466de86-217d-4157-a735-59dcb4fcc11f-444718d0-b968-4988-a435-8a8529fcab09";
+const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
 const Pricing = () => {
   const [contactOpen, setContactOpen] = useState(false);
