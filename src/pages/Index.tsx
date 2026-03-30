@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
@@ -12,46 +11,40 @@ import Squad from "@/components/Squad";
 import About from "@/components/About";
 import Stats from "@/components/Stats";
 import Testimonial from "@/components/Testimonial";
-
+import Blog from "@/components/Blog";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
-import ContactFormDialog from "@/components/ContactFormDialog";
 import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
 import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
-
-const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
+import { BOOKING_URL } from "@/lib/constants";
 
 const Index = () => {
-  const [contactOpen, setContactOpen] = useState(false);
-  const [contactSource, setContactSource] = useState("general");
-
-  const openContact = (source: string = "general") => {
+  const openContact = () => {
     window.open(BOOKING_URL, "_blank");
   };
 
   return (
     <LiveMetricsProvider>
       <div className="min-h-screen bg-background pb-8">
-        <Navbar onContact={() => openContact("navbar")} />
-        <Hero onContact={() => openContact("hero")} />
+        <Navbar onContact={openContact} />
+        <Hero onContact={openContact} />
         <SocialProof />
         <LogoMarquee />
         <Features />
         <DemoCall />
-        <ROICalculator onContact={() => openContact("roi-calculator")} />
+        <ROICalculator onContact={openContact} />
         <CallPlayer />
         <CampaignResults />
         <Squad />
         <About />
         <Stats />
         <Testimonial />
-        
+        <Blog />
         <FAQ />
-        <CTA onContact={() => openContact("cta")} />
+        <CTA onContact={openContact} />
         <Footer />
-        <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
         <FOMONotifications />
         <LiveViewers />
       </div>

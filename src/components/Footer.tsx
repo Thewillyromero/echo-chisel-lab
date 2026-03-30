@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
 import heroRobot from "@/assets/hero-robot.webp";
+import { BOOKING_URL } from "@/lib/constants";
+
+const scrollTo = (id: string) => (e: React.MouseEvent) => {
+  e.preventDefault();
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+};
 
 const Footer = () => {
   return (
@@ -23,10 +29,10 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Producto</h4>
             <ul className="space-y-2.5">
-              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Servicios</a></li>
+              <li><a href="#features" onClick={scrollTo("features")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Servicios</a></li>
               <li><Link to="/precios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Precios</Link></li>
-              <li><a href="#squad" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Squad</a></li>
-              <li><a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resultados</a></li>
+              <li><a href="#squad" onClick={scrollTo("squad")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Squad</a></li>
+              <li><a href="#stats" onClick={scrollTo("stats")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resultados</a></li>
             </ul>
           </div>
 
@@ -34,9 +40,9 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Recursos</h4>
             <ul className="space-y-2.5">
-              <li><a href="#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
-              <li><a href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonios</a></li>
-              <li><a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre nosotros</a></li>
+              <li><a href="#blog" onClick={scrollTo("blog")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+              <li><a href="#testimonials" onClick={scrollTo("testimonials")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonios</a></li>
+              <li><a href="#about" onClick={scrollTo("about")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre nosotros</a></li>
             </ul>
           </div>
 
@@ -44,9 +50,8 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Legal</h4>
             <ul className="space-y-2.5">
-              <li><a href="#faq" onClick={(e) => { e.preventDefault(); document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" }); }} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidad</a></li>
-              <li><a href="#faq" onClick={(e) => { e.preventDefault(); document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" }); }} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Términos</a></li>
-              <li><a href="https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contacto</a></li>
+              <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Política de privacidad</a></li>
+              <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contacto</a></li>
             </ul>
           </div>
         </div>

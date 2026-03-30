@@ -106,9 +106,6 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-            Iniciar sesión
-          </Button>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5 shadow-lg shadow-primary/20" onClick={onContact}>
             Empezar gratis
           </Button>

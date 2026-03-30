@@ -8,7 +8,7 @@ import agentScheduler from "@/assets/characters/agent-scheduler.webp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const CALENDAR_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
+import { BOOKING_URL as CALENDAR_URL } from "@/lib/constants";
 
 const sectors = [
   { id: "dental", label: "Clínica dental", hint: 400 },

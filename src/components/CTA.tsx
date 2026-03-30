@@ -36,8 +36,8 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
                     Comenzar ahora
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                  <Button size="lg" variant="outline" className="rounded-full px-8 text-base border-border/50 hover:bg-secondary/50" onClick={onContact}>
-                    Ver demo
+                  <Button size="lg" variant="outline" className="rounded-full px-8 text-base border-border/50 hover:bg-secondary/50" onClick={() => document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" })}>
+                    Probar ARIA gratis
                   </Button>
                 </div>
               </div>

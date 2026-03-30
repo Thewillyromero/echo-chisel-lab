@@ -12,10 +12,10 @@ import { toast } from "sonner";
 import agentInbound from "@/assets/characters/agent-inbound.webp";
 import Vapi from "@vapi-ai/web";
 import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
+import { BOOKING_URL as CALENDAR_URL } from "@/lib/constants";
 
 const VAPI_PUBLIC_KEY = "47ea7042-5d4a-4bb0-9995-0762b2f51ee2";
 const ASSISTANT_ID = "c54bd4a1-68ef-4913-9207-906c44d625b0";
-const CALENDAR_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
 type CallState = "idle" | "connecting" | "active" | "ended";
 

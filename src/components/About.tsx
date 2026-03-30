@@ -71,7 +71,7 @@ const About = () => {
           <p className="text-muted-foreground/70 leading-relaxed mb-8 font-light">
             Tanto en llamadas entrantes como en campañas outbound, nuestros agentes trabajan 24/7 para que tú puedas centrarte en lo que importa.
           </p>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 shadow-lg shadow-primary/20">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 shadow-lg shadow-primary/20" onClick={() => document.getElementById("squad")?.scrollIntoView({ behavior: "smooth" })}>
             Conoce al equipo
           </Button>
         </motion.div>

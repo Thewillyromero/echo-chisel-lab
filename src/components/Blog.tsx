@@ -9,7 +9,7 @@ const items = [
     icon: iconPublications,
     title: "Publicaciones",
     description: "Novedades y contenido de nuestras redes sociales.",
-    cta: "Ver publicaciones",
+    cta: "Próximamente",
     color: "text-brand-teal",
     hoverBorder: "hover:border-brand-teal/30",
   },
@@ -17,7 +17,7 @@ const items = [
     icon: iconUpdates,
     title: "Actualizaciones",
     description: "Avances y nuevas funcionalidades de la plataforma.",
-    cta: "Ir al blog",
+    cta: "Próximamente",
     color: "text-brand-lavender",
     hoverBorder: "hover:border-brand-lavender/30",
   },
@@ -25,7 +25,7 @@ const items = [
     icon: iconNews,
     title: "Noticias",
     description: "Hitos y logros de CALLA. ¡No te los pierdas!",
-    cta: "Ver noticias",
+    cta: "Próximamente",
     color: "text-brand-rose",
     hoverBorder: "hover:border-brand-rose/30",
   },
@@ -74,8 +74,7 @@ const Blog = () => {
           {items.map((item, i) => (
             <motion.div key={i} variants={cardVariants(i)}>
               <div
-                onClick={() => document.getElementById("testimonials")?.scrollIntoView({ behavior: "smooth" })}
-                className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col cursor-pointer h-full hover:-translate-y-1`}
+                className={`bg-card/40 rounded-2xl border border-border/30 p-6 ${item.hoverBorder} transition-all duration-500 group flex flex-col h-full`}
               >
                 <div className="mb-5">
                   <img src={item.icon} alt="" className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md" width={512} height={512} loading="lazy" />

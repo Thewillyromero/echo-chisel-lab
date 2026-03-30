@@ -19,7 +19,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
   const y = useSpring(rawY, { stiffness: 60, damping: 20 });
 
   return (
-    <section ref={sectionRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
+    <section id="hero" ref={sectionRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
       <img
         src={heroBg}
         alt=""
