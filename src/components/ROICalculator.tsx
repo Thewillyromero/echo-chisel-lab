@@ -4,7 +4,7 @@ import {
   Calculator, ArrowRight, Sparkles, ChevronDown,
   UserX, Check,
 } from "lucide-react";
-import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import agentScheduler from "@/assets/characters/agent-scheduler.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
