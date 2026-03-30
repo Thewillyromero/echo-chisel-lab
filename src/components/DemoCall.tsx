@@ -143,10 +143,8 @@ const DemoCall = () => {
         vapiRef.current = null;
       });
 
-      /* Use object form: { assistantId } instead of positional args */
-      vapi.start({
-        assistantId: ASSISTANT_ID,
-      });
+      /* Use positional arg for assistant ID */
+      vapi.start(ASSISTANT_ID);
     } catch (err) {
       console.error("Failed to start call:", err);
       toast.error("Error al iniciar la llamada.");

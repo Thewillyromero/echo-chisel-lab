@@ -96,7 +96,7 @@ const badgeVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
