@@ -90,8 +90,8 @@ const Stats = () => {
               <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
                 Resultados probados
               </p>
-              <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight">
-                Innovación en <span className="text-gradient">IA conversacional</span>
+              <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight text-puffy">
+                Innovación en <span className="text-gradient text-puffy-teal">IA conversacional</span>
               </h2>
               <p className="text-muted-foreground max-w-xl mb-8 md:mb-12 text-base md:text-lg font-light">
                 Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.

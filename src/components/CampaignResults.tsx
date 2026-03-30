@@ -73,9 +73,9 @@ const CampaignResults = () => {
               Resultados reales
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight leading-[1.1]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold mb-5 tracking-tight leading-[1.1] text-puffy">
             Datos de una{" "}
-            <span className="text-gradient-warm">campaña real</span>
+            <span className="text-gradient-warm text-puffy-warm">campaña real</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
             Sin capturas retocadas ni promesas vacías. Estos son los números reales de una campaña de 662 leads ejecutada con CALLA.

@@ -58,8 +58,8 @@ const Blog = () => {
             <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
               Mantente al día
             </p>
-            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight">
-              Infórmate de nuestros <span className="text-gradient">avances</span>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 tracking-tight text-puffy">
+              Infórmate de nuestros <span className="text-gradient text-puffy-teal">avances</span>
             </h2>
           </div>
         </motion.div>
