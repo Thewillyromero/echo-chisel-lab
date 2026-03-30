@@ -8,7 +8,13 @@ import logoTutorDoctor from "@/assets/logos/tutor-doctor.webp";
 import logoRehabSystem from "@/assets/logos/rehab-system.webp";
 import logoMonitronics from "@/assets/logos/monitronics.webp";
 
-/** Trustpilot-style star: green square with white star inside */
+import avatarTim from "@/assets/avatars/tim-b.webp";
+import avatarCarin from "@/assets/avatars/carin-c.webp";
+import avatarLaurence from "@/assets/avatars/laurence-f.webp";
+import avatarTimV from "@/assets/avatars/tim-v.webp";
+import avatarMichael from "@/assets/avatars/michael-t.webp";
+import avatarDirector from "@/assets/avatars/director-td.webp";
+
 const TrustpilotStar = ({ size = 20, filled = true }: { size?: number; filled?: boolean }) => (
   <svg width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="20" height="20" rx="2" fill={filled ? "#00b67a" : "#dcdce6"} />
@@ -53,6 +59,7 @@ const testimonials = [
     result: "$300K+ generados",
     logo: null,
     context: "Finanzas",
+    avatar: avatarTim,
   },
   {
     quote: "Fue un placer trabajar con Guillermo y su equipo. Son expertos en su campo. Me ayudaron a ejecutar una campaña muy exitosa desde el primer día.",
@@ -63,6 +70,7 @@ const testimonials = [
     result: "Campaña exitosa desde día 1",
     logo: logoReputationLoop,
     context: "Lead Generation",
+    avatar: avatarCarin,
   },
   {
     quote: "El sistema que nos implementaron genera más de 200 leads al mes y citas consistentes para procedimientos de alto valor.",
@@ -73,6 +81,7 @@ const testimonials = [
     result: "200+ leads/mes",
     logo: null,
     context: "Salud dental",
+    avatar: avatarLaurence,
   },
   {
     quote: "Son comunicadores excepcionales, proporcionando explicaciones detalladas de la metodología. Decir que prestan atención al detalle sería quedarse corto.",
@@ -83,6 +92,7 @@ const testimonials = [
     result: "ROI excepcional",
     logo: null,
     context: "Fintech",
+    avatar: avatarTimV,
   },
   {
     quote: "En 14 días ya habíamos generado $7,200 en nuevos clientes con un coste por lead de solo $6.",
@@ -93,6 +103,7 @@ const testimonials = [
     result: "$7.2K en 14 días",
     logo: null,
     context: "Servicios",
+    avatar: avatarMichael,
   },
   {
     quote: "En la primera semana cerramos aproximadamente $5,000 en ventas solo con los leads que nos generaron. ROI positivo inmediatamente.",
@@ -103,6 +114,7 @@ const testimonials = [
     result: "$5K primera semana",
     logo: logoTutorDoctor,
     context: "Educación",
+    avatar: avatarDirector,
   },
 ];
 
@@ -136,13 +148,11 @@ const cardVariants = (i: number, fromLeft: boolean) => ({
 
 const Testimonial = () => {
   const [expanded, setExpanded] = useState(false);
-  const visibleTestimonials = expanded ? testimonials : testimonials.slice(0, 3);
   const visibleCaseStudies = expanded ? caseStudies : caseStudies.slice(0, 3);
 
   return (
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-      {/* Background character — CARE with reveal */}
       <div className="absolute -right-10 top-1/4 pointer-events-none select-none hidden lg:block">
         <CharacterReveal
           src={agentSupport}
@@ -172,7 +182,6 @@ const Testimonial = () => {
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
-          {/* Trustpilot-style rating badges */}
           <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-4">
             {[
               { label: "Google Reviews", rating: 4.9 },
@@ -189,7 +198,6 @@ const Testimonial = () => {
                 </div>
               </div>
             ))}
-            {/* Verified badge */}
             <div className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2">
               <ShieldCheck className="w-5 h-5" style={{ color: '#00b67a' }} />
               <div>
@@ -200,75 +208,61 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="relative mb-12 md:mb-16">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ staggerChildren: 0.12 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-          >
-            {visibleTestimonials.map((t, i) => {
-              const fromLeft = i % 2 === 0;
-              return (
-                <motion.div key={i} variants={cardVariants(i, fromLeft)}>
-                  <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
-                    {/* Stars row */}
-                    <div className="flex items-center justify-between mb-4">
-                      <TrustpilotStars rating={5} size={18} />
-                      <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
-                    </div>
-
-                    {/* Quote */}
-                    <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                      <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
-                      {t.quote}
-                    </blockquote>
-
-                    {/* Result badge */}
-                    <div className="mb-4">
-                      <span
-                        className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
-                        style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
-                      >
-                        {t.result}
-                      </span>
-                    </div>
-
-                    {/* Separator */}
-                    <div className="h-px bg-border/20 mb-4" />
-
-                    {/* Author */}
-                    <div className="flex items-center gap-3">
-                      {t.logo ? (
-                        <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1 ring-1 ring-border/20">
-                          <img loading="lazy" src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
-                        </div>
-                      ) : (
-                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
-                          <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
-                        <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
-                      </div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
-                        {t.context}
-                      </span>
-                    </div>
+        {/* Testimonials Grid — always show all 6 */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ staggerChildren: 0.12 }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
+        >
+          {testimonials.map((t, i) => {
+            const fromLeft = i % 2 === 0;
+            return (
+              <motion.div key={i} variants={cardVariants(i, fromLeft)}>
+                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                  <div className="flex items-center justify-between mb-4">
+                    <TrustpilotStars rating={5} size={18} />
+                    <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
                   </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
 
-          {/* Fade overlay when collapsed */}
-          {!expanded && (
-            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-          )}
-        </div>
+                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
+                    {t.quote}
+                  </blockquote>
+
+                  <div className="mb-4">
+                    <span
+                      className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
+                      style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
+                    >
+                      {t.result}
+                    </span>
+                  </div>
+
+                  <div className="h-px bg-border/20 mb-4" />
+
+                  <div className="flex items-center gap-3">
+                    {t.avatar ? (
+                      <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
+                    ) : (
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
+                        <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+                    </div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
+                      {t.context}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
         {/* Case Studies */}
         <motion.div
@@ -285,34 +279,39 @@ const Testimonial = () => {
               <TrendingUp className="h-5 w-5 text-primary" />
               <h3 className="font-display font-bold text-lg text-foreground">Resultados probados en +20 industrias</h3>
             </div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ staggerChildren: 0.12 }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
-            >
-              {visibleCaseStudies.map((cs, i) => (
-                <motion.div
-                  key={i}
-                  variants={cardVariants(i, i % 2 === 0)}
-                  className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    {cs.logo ? (
-                      <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
-                    ) : (
-                      <Building2 className="h-4 w-4 text-muted-foreground/40" />
-                    )}
-                    <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
-                  </div>
-                  <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
-                  <div className="text-sm text-foreground/70 font-medium mb-1">{cs.description}</div>
-                  <div className="text-xs text-muted-foreground mb-1">{cs.metric}</div>
-                  <div className="text-[10px] text-muted-foreground/40 italic">{cs.detail}</div>
-                </motion.div>
-              ))}
-            </motion.div>
+            <div className="relative">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ staggerChildren: 0.12 }}
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
+              >
+                {visibleCaseStudies.map((cs, i) => (
+                  <motion.div
+                    key={i}
+                    variants={cardVariants(i, i % 2 === 0)}
+                    className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      {cs.logo ? (
+                        <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
+                      ) : (
+                        <Building2 className="h-4 w-4 text-muted-foreground/40" />
+                      )}
+                      <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
+                    </div>
+                    <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
+                    <div className="text-sm text-foreground/70 font-medium mb-1">{cs.description}</div>
+                    <div className="text-xs text-muted-foreground mb-1">{cs.metric}</div>
+                    <div className="text-[10px] text-muted-foreground/40 italic">{cs.detail}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+              {!expanded && (
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-20" />
+              )}
+            </div>
             <div className="mt-8 pt-6 border-t border-border/20 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />
@@ -326,7 +325,7 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Expand/Collapse bar */}
+        {/* Expand/Collapse bar — controls case studies only */}
         <div className="flex justify-center mt-10">
           <button
             onClick={() => setExpanded(!expanded)}
@@ -346,7 +345,7 @@ const Testimonial = () => {
               +200 empresas confían en CALLA
             </span>
             <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
-              {expanded ? "Ver menos" : "Ver más"}
+              {expanded ? "Ver menos" : "Ver más casos"}
               <svg
                 className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
