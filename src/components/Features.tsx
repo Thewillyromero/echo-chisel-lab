@@ -69,7 +69,7 @@ const cardVariants = {
     scale: 1,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1], // smooth overshoot
+      ease: [0.22, 1, 0.36, 1] as const, // smooth overshoot
     },
   },
 };
@@ -82,7 +82,7 @@ const characterVariants = {
     scale: 1,
     rotate: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 260,
       damping: 18,
       delay: 0.15,
@@ -96,7 +96,7 @@ const badgeVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
