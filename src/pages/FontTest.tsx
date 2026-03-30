@@ -5,6 +5,35 @@ const FontTest = () => (
     <Navbar />
     <div className="container mx-auto pt-24 space-y-16">
       <div>
+        <p className="text-sm text-brand-emerald font-bold mb-2">★ PUFFY — La candidata (gratis, OFL)</p>
+        <h1 className="text-5xl md:text-7xl font-puffy tracking-tight text-foreground">
+          Tus llamadas, <span className="text-gradient">resueltas por IA</span>
+        </h1>
+      </div>
+
+      <div>
+        <p className="text-sm text-brand-emerald font-bold mb-2">★ PUFFY + sombra 3D</p>
+        <h1 className="text-5xl md:text-7xl font-puffy tracking-tight text-puffy">
+          Tus llamadas, <span className="text-gradient text-puffy-teal">resueltas por IA</span>
+        </h1>
+      </div>
+
+      <div>
+        <p className="text-sm text-brand-emerald font-bold mb-2">★ PUFFY — otros títulos</p>
+        <h2 className="text-3xl md:text-5xl font-puffy tracking-tight text-foreground mb-4">
+          ¿Cuánto te cuesta <span className="text-gradient-warm">gestionar el teléfono?</span>
+        </h2>
+        <h2 className="text-3xl md:text-5xl font-puffy tracking-tight text-foreground mb-4">
+          Habla con <span className="text-gradient">ARIA ahora mismo</span>
+        </h2>
+        <h2 className="text-3xl md:text-5xl font-puffy tracking-tight text-foreground">
+          Lo que dicen <span className="text-gradient">nuestros clientes</span>
+        </h2>
+      </div>
+
+      <hr className="border-border/30" />
+
+      <div>
         <p className="text-sm text-muted-foreground mb-2">Fuente actual (font-display / Outfit)</p>
         <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight text-foreground">
           Tus llamadas, <span className="text-gradient">resueltas por IA</span>
