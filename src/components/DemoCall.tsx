@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import agentInbound from "@/assets/characters/agent-inbound.png";
 import Vapi from "@vapi-ai/web";
+import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
 const VAPI_PUBLIC_KEY = "47ea7042-5d4a-4bb0-9995-0762b2f51ee2";
 const ASSISTANT_ID = "c54bd4a1-68ef-4913-9207-906c44d625b0";
@@ -80,30 +81,8 @@ const DemoCall = () => {
   const [volume, setVolume] = useState(0);
   const [callStartTime, setCallStartTime] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [demoCount, setDemoCount] = useState(0);
-  const [liveViewers, setLiveViewers] = useState(0);
   const vapiRef = useRef<InstanceType<typeof Vapi> | null>(null);
-
-  /* Live demo counter */
-  useEffect(() => {
-    const base = Math.floor((new Date().getDate() / 30) * 480) + 20;
-    const offset = Math.floor(Math.random() * 15);
-    setDemoCount(base + offset);
-    setLiveViewers(Math.floor(Math.random() * 12) + 6);
-
-    const countInterval = setInterval(() => {
-      setDemoCount((c) => c + 1);
-    }, Math.random() * 10000 + 15000);
-
-    const viewerInterval = setInterval(() => {
-      setLiveViewers(Math.floor(Math.random() * 12) + 6);
-    }, 30000);
-
-    return () => {
-      clearInterval(countInterval);
-      clearInterval(viewerInterval);
-    };
-  }, []);
+  const { testCount, viewers, incrementTest } = useLiveMetricsContext();
 
   /* Cleanup on unmount */
   useEffect(() => {
@@ -137,7 +116,7 @@ const DemoCall = () => {
         clearTimeout(fallbackTimer);
         setCallState("active");
         setCallStartTime(Date.now());
-        setDemoCount((c) => c + 1);
+        incrementTest();
         toast.success("Conectado con ARIA");
       });
 
@@ -292,19 +271,19 @@ const DemoCall = () => {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2.5 w-2.5">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground/50">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
                 </span>
-                <span className="text-sm text-muted-foreground/60">
-                  <span className="font-display font-bold text-foreground/80 tabular-nums">{demoCount}</span> demos realizadas este mes
+                <span>
+                  <span className="font-display font-semibold text-foreground/70 tabular-nums">{testCount}</span> tests con ARIA este mes
                 </span>
               </div>
-              <span className="text-muted-foreground/20 hidden sm:inline">·</span>
-              <span className="text-xs text-muted-foreground/40">
-                🟢 {liveViewers} personas en la web ahora
+              <span className="text-muted-foreground/20">·</span>
+              <span>
+                <span className="font-semibold text-foreground/60 tabular-nums">{viewers}</span> personas en la web
               </span>
             </div>
           </motion.div>

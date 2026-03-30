@@ -1,23 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
 const LiveViewers = () => {
-  const [viewers, setViewers] = useState(Math.floor(Math.random() * 12) + 6);
-  const [demos] = useState(() => {
-    const base = Math.floor((new Date().getDate() / 30) * 480) + 20;
-    return base + Math.floor(Math.random() * 15);
-  });
-  const viewersRef = useRef(viewers);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
-      const next = Math.min(22, Math.max(4, viewersRef.current + delta));
-      viewersRef.current = next;
-      setViewers(next);
-    }, Math.random() * 10000 + 25000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const { testCount, viewers } = useLiveMetricsContext();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-card/80 backdrop-blur-md border-t border-border/20 h-8 flex items-center justify-center gap-6">
@@ -32,7 +16,7 @@ const LiveViewers = () => {
       </div>
       <span className="text-xs text-muted-foreground/30">·</span>
       <span className="text-xs text-muted-foreground/50">
-        <span className="font-semibold text-foreground/60 tabular-nums">{demos}</span> demos hoy
+        <span className="font-semibold text-foreground/60 tabular-nums">{testCount}</span> tests con ARIA este mes
       </span>
     </div>
   );

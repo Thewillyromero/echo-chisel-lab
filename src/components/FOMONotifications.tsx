@@ -1,22 +1,23 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
 const pool = [
   // Demos
   { type: "demo", text: "María L. de Madrid acaba de probar ARIA", icon: "🎤" },
-  { type: "demo", text: "Un despacho legal de Barcelona ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Un despacho legal de Barcelona ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Dra. García de Málaga acaba de hablar con ARIA", icon: "🎤" },
-  { type: "demo", text: "Antonio G. de Zaragoza ha completado la demo", icon: "🎤" },
+  { type: "demo", text: "Antonio G. de Zaragoza ha hecho un test con ARIA", icon: "🎤" },
   { type: "demo", text: "Laura M. de Granada ha probado ARIA ahora mismo", icon: "🎤" },
-  { type: "demo", text: "Centro dental en Valencia ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Centro dental en Valencia ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Pedro R. de Bilbao acaba de hablar con ARIA", icon: "🎤" },
   { type: "demo", text: "Un fisioterapeuta de Sevilla ha probado ARIA", icon: "🎤" },
-  { type: "demo", text: "Carmen S. de Alicante ha completado la demo", icon: "🎤" },
+  { type: "demo", text: "Carmen S. de Alicante ha hecho un test con ARIA", icon: "🎤" },
   { type: "demo", text: "Clínica estética en Madrid ha probado ARIA", icon: "🎤" },
-  { type: "demo", text: "Asesoría fiscal de Pamplona ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Asesoría fiscal de Pamplona ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Juan M. de Murcia acaba de probar ARIA", icon: "🎤" },
-  { type: "demo", text: "Taller mecánico de Córdoba ha probado la demo", icon: "🎤" },
+  { type: "demo", text: "Taller mecánico de Córdoba ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Elena P. de Santander ha hablado con ARIA", icon: "🎤" },
   { type: "demo", text: "Inmobiliaria de Las Palmas ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Andrea V. de Gijón acaba de probar la demo", icon: "🎤" },
@@ -69,6 +70,9 @@ const FOMONotifications = () => {
   const dismissCount = useRef(0);
   const stopped = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { viewers } = useLiveMetricsContext();
+  const viewersRef = useRef(viewers);
+  viewersRef.current = viewers;
 
   const showNext = useCallback(() => {
     if (stopped.current) return;
@@ -80,8 +84,7 @@ const FOMONotifications = () => {
     lastIdx.current = idx;
 
     const item = pool[idx];
-    const viewingN = Math.floor(Math.random() * 12) + 6;
-    const text = item.text.replace("{n}", String(viewingN));
+    const text = item.text.replace("{n}", String(viewersRef.current));
     const minutesAgo = Math.floor(Math.random() * 8) + 1;
 
     setCurrent({ text, icon: item.icon, minutesAgo });

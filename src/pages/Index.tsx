@@ -20,6 +20,7 @@ import ContactFormDialog from "@/components/ContactFormDialog";
 import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
 import ScrollRobot from "@/components/ScrollRobot";
+import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
 
 const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
@@ -32,29 +33,31 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-8">
-      <Navbar onContact={() => openContact("navbar")} />
-      <Hero onContact={() => openContact("hero")} />
-      <SocialProof />
-      <LogoMarquee />
-      <Features />
-      <DemoCall />
-      <ROICalculator onContact={() => openContact("roi-calculator")} />
-      <CallPlayer />
-      <CampaignResults />
-      <Squad />
-      <About />
-      <Stats />
-      <Testimonial />
-      <Blog />
-      <FAQ />
-      <CTA onContact={() => openContact("cta")} />
-      <Footer />
-      <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
-      <ScrollRobot />
-      <FOMONotifications />
-      <LiveViewers />
-    </div>
+    <LiveMetricsProvider>
+      <div className="min-h-screen bg-background pb-8">
+        <Navbar onContact={() => openContact("navbar")} />
+        <Hero onContact={() => openContact("hero")} />
+        <SocialProof />
+        <LogoMarquee />
+        <Features />
+        <DemoCall />
+        <ROICalculator onContact={() => openContact("roi-calculator")} />
+        <CallPlayer />
+        <CampaignResults />
+        <Squad />
+        <About />
+        <Stats />
+        <Testimonial />
+        <Blog />
+        <FAQ />
+        <CTA onContact={() => openContact("cta")} />
+        <Footer />
+        <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
+        <ScrollRobot />
+        <FOMONotifications />
+        <LiveViewers />
+      </div>
+    </LiveMetricsProvider>
   );
 };
 
