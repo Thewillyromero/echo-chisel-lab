@@ -1,21 +1,56 @@
 import { motion } from "framer-motion";
-import { Star, Quote, ArrowRight, TrendingUp, Building2 } from "lucide-react";
+import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.png";
 import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
 import logoTutorDoctor from "@/assets/logos/tutor-doctor.jpg";
 import logoRehabSystem from "@/assets/logos/rehab-system.jpg";
 import logoMonitronics from "@/assets/logos/monitronics.jpg";
 
+/** Trustpilot-style star: green square with white star inside */
+const TrustpilotStar = ({ size = 20, filled = true }: { size?: number; filled?: boolean }) => (
+  <svg width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" rx="2" fill={filled ? "#00b67a" : "#dcdce6"} />
+    <path
+      d="M10 3.5l1.95 4.1 4.35.6-3.15 3.05.75 4.35L10 13.35 6.1 15.6l.75-4.35L3.7 8.2l4.35-.6L10 3.5z"
+      fill="#fff"
+      fillOpacity={filled ? 1 : 0.3}
+    />
+  </svg>
+);
+
+const TrustpilotStars = ({ rating = 5, size = 20 }: { rating?: number; size?: number }) => {
+  const fullStars = Math.floor(rating);
+  const hasPartial = rating % 1 > 0;
+  return (
+    <div className="flex items-center" style={{ gap: '2px' }}>
+      {[...Array(5)].map((_, i) => {
+        if (i < fullStars) return <TrustpilotStar key={i} size={size} filled />;
+        if (i === fullStars && hasPartial) {
+          return (
+            <div key={i} className="relative" style={{ width: size, height: size }}>
+              <TrustpilotStar size={size} filled={false} />
+              <div className="absolute inset-0 overflow-hidden" style={{ width: `${(rating % 1) * 100}%` }}>
+                <TrustpilotStar size={size} filled />
+              </div>
+            </div>
+          );
+        }
+        return <TrustpilotStar key={i} size={size} filled={false} />;
+      })}
+    </div>
+  );
+};
+
 const testimonials = [
   {
-    quote: "Contratamos a 3 equipos distintos para encontrar al mejor, y el equipo de Guillermo destacó por encima de todos. Nos generaron más de $300K en nuevos ingresos con una estrategia impecable.",
+    quote: "Contratamos a 3 equipos distintos para encontrar al mejor, y Guillermo destacó por encima de todos. Nos generaron más de $300K en nuevos ingresos.",
     name: "Tim Michael Bissonnette",
     role: "CEO",
     company: "Direct Public Funding",
     initials: "TB",
     result: "$300K+ generados",
     logo: null,
-    context: "Sector financiero",
+    context: "Finanzas",
   },
   {
     quote: "Fue un placer trabajar con Guillermo y su equipo. Son expertos en su campo. Me ayudaron a ejecutar una campaña muy exitosa desde el primer día.",
@@ -23,19 +58,19 @@ const testimonials = [
     role: "Marketing Manager",
     company: "Reputation Loop",
     initials: "CC",
-    result: "Campaña exitosa",
+    result: "Campaña exitosa desde día 1",
     logo: logoReputationLoop,
-    context: "Generación de leads",
+    context: "Lead Generation",
   },
   {
-    quote: "El sistema que nos implementaron genera más de 200 leads al mes y citas consistentes para procedimientos dentales de alto valor.",
+    quote: "El sistema que nos implementaron genera más de 200 leads al mes y citas consistentes para procedimientos de alto valor.",
     name: "Dr. Laurence Fendrich",
     role: "Fundador",
     company: "Dental 101",
     initials: "LF",
     result: "200+ leads/mes",
     logo: null,
-    context: "Sector salud",
+    context: "Salud dental",
   },
   {
     quote: "Son comunicadores excepcionales, proporcionando explicaciones detalladas de la metodología. Decir que prestan atención al detalle sería quedarse corto.",
@@ -70,7 +105,7 @@ const testimonials = [
 ];
 
 const caseStudies = [
-  { company: "Tutor Doctor", logo: logoTutorDoctor, result: "$5,000", description: "en ventas la primera semana", metric: "25 leads a $30/lead", detail: "Leads reducidos a $13.28 en segunda fase" },
+  { company: "Tutor Doctor", logo: logoTutorDoctor, result: "$5,000", description: "en ventas primera semana", metric: "25 leads a $30/lead", detail: "Leads reducidos a $13.28 en segunda fase" },
   { company: "Rehab System", logo: logoRehabSystem, result: "$400K", description: "en capital captado", metric: "Inversores acreditados a <$15", detail: "Estrategia de pre-framing y retargeting" },
   { company: "Advanced Plumbing", logo: null, result: "$7,200", description: "en ventas en 14 días", metric: "Leads a $6 · Citas a $26", detail: "Posicionamiento en cuidado preventivo" },
   { company: "Empresa de Suelos", logo: null, result: "$18K", description: "en ventas el primer mes", metric: "Presupuestos a $10.53", detail: "Leads desde $0.93" },
@@ -78,8 +113,17 @@ const caseStudies = [
   { company: "Debt Relief", logo: null, result: "<$10", description: "por lead cualificado", metric: "Citas a $27-$35", detail: "Cientos de leads generados" },
 ];
 
-const cardVariants = (i: number, cols: number = 3) => ({
-  hidden: { opacity: 0, y: 30, x: (i % cols === 0) ? -30 : (i % cols === cols - 1) ? 30 : 0 },
+const avatarGradients = [
+  "from-brand-teal/40 to-brand-emerald/30",
+  "from-brand-lavender/40 to-primary/30",
+  "from-brand-rose/40 to-brand-amber/30",
+  "from-brand-amber/40 to-brand-teal/30",
+  "from-brand-emerald/40 to-brand-lavender/30",
+  "from-primary/40 to-brand-rose/30",
+];
+
+const cardVariants = (i: number, fromLeft: boolean) => ({
+  hidden: { opacity: 0, y: 30, x: fromLeft ? -40 : 40 },
   visible: {
     opacity: 1,
     y: 0,
@@ -94,6 +138,7 @@ const Testimonial = () => {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       <div className="container mx-auto relative z-10">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -111,26 +156,31 @@ const Testimonial = () => {
             Más de 20 industrias, cientos de campañas exitosas.
           </p>
 
+          {/* Trustpilot-style rating badges */}
           <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-4">
             {[
-              { label: "Google Reviews", rating: "4.9", color: "fill-brand-amber text-brand-amber" },
-              { label: "Trustpilot", rating: "4.8", color: "fill-brand-emerald text-brand-emerald" },
-              { label: "Clutch.co", rating: "5.0", color: "fill-brand-rose text-brand-rose" },
+              { label: "Google Reviews", rating: 4.9 },
+              { label: "Trustpilot", rating: 4.8 },
+              { label: "Clutch.co", rating: 5.0 },
             ].map((badge) => (
-              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2.5 md:gap-3 hover:border-primary/20 transition-all duration-300">
+              <div key={badge.label} className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2.5 md:gap-3 hover:border-border/50 transition-all duration-300">
                 <div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-sm font-bold text-foreground">{badge.rating}</span>
-                    <div className="flex items-center gap-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`h-3 w-3 ${badge.color}`} />
-                      ))}
-                    </div>
+                    <TrustpilotStars rating={badge.rating} size={14} />
                   </div>
                   <span className="text-[10px] text-muted-foreground">{badge.label}</span>
                 </div>
               </div>
             ))}
+            {/* Verified badge */}
+            <div className="bg-card/50 rounded-xl border border-border/30 px-3.5 md:px-5 py-2.5 md:py-3 flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5" style={{ color: '#00b67a' }} />
+              <div>
+                <span className="text-xs font-semibold text-foreground block leading-tight">Verificado</span>
+                <span className="text-[10px] text-muted-foreground">Opiniones reales</span>
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -142,39 +192,59 @@ const Testimonial = () => {
           transition={{ staggerChildren: 0.08 }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
-          {testimonials.map((t, i) => (
-            <motion.div key={i} variants={cardVariants(i, 3)}>
-              <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 transition-all duration-500 h-full flex flex-col group">
-                <Quote className="h-5 w-5 text-primary/30 mb-3 shrink-0" />
-                <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                  "{t.quote}"
-                </blockquote>
-                <div className="mb-4">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground/50 bg-secondary/40 px-2.5 py-1 rounded-full">
-                    {t.context}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-3 pt-4 border-t border-border/20">
+          {testimonials.map((t, i) => {
+            const fromLeft = i % 2 === 0;
+            return (
+              <motion.div key={i} variants={cardVariants(i, fromLeft)}>
+                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                  {/* Stars row */}
+                  <div className="flex items-center justify-between mb-4">
+                    <TrustpilotStars rating={5} size={18} />
+                    <CheckCircle2 className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/50 transition-colors" style={{ color: '#00b67a40' }} />
+                  </div>
+
+                  {/* Quote */}
+                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />
+                    {t.quote}
+                  </blockquote>
+
+                  {/* Result badge */}
+                  <div className="mb-4">
+                    <span
+                      className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full"
+                      style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}
+                    >
+                      {t.result}
+                    </span>
+                  </div>
+
+                  {/* Separator */}
+                  <div className="h-px bg-border/20 mb-4" />
+
+                  {/* Author */}
                   <div className="flex items-center gap-3">
                     {t.logo ? (
-                      <div className="w-9 h-9 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1">
+                      <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1 ring-1 ring-border/20">
                         <img src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
                       </div>
                     ) : (
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
                         <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
                       </div>
                     )}
-                    <div>
-                      <div className="text-sm font-medium text-foreground">{t.name}</div>
-                      <div className="text-xs text-muted-foreground">{t.role}, {t.company}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
                     </div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">
+                      {t.context}
+                    </span>
                   </div>
-                  <span className="text-[10px] text-primary font-semibold whitespace-nowrap">{t.result}</span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         {/* Case Studies */}
@@ -200,7 +270,11 @@ const Testimonial = () => {
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
               {caseStudies.map((cs, i) => (
-                <motion.div key={i} variants={cardVariants(i, 3)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 transition-all duration-300">
+                <motion.div
+                  key={i}
+                  variants={cardVariants(i, i % 2 === 0)}
+                  className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
+                >
                   <div className="flex items-center gap-2 mb-3">
                     {cs.logo ? (
                       <img src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
