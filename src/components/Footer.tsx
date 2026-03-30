@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import heroRobot from "@/assets/hero-robot.png";
+import heroRobot from "@/assets/hero-robot.webp";
 
 const Footer = () => {
   return (
@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
-              <img src={heroRobot} alt="CALLA" className="h-8 w-8 object-contain" width={64} height={64} />
+              <img loading="lazy" src={heroRobot} alt="CALLA" className="h-8 w-8 object-contain" width={64} height={64} />
               <span className="text-lg font-display font-bold text-foreground tracking-tight">
                 CA<span className="text-gradient-blue">LLA</span>
               </span>

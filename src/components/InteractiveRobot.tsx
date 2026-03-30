@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
-import heroRobot from "@/assets/hero-robot.png";
+import heroRobot from "@/assets/hero-robot.webp";
 
 const InteractiveRobot = () => {
   const [visible, setVisible] = useState(false);
@@ -20,8 +20,12 @@ const InteractiveRobot = () => {
   }, []);
 
   useEffect(() => {
+    let lastMove = 0;
     const handleMouse = (e: MouseEvent) => {
       if (dodging) return;
+      const now = Date.now();
+      if (now - lastMove < 50) return;
+      lastMove = now;
       const targetX = Math.min(e.clientX + 200, window.innerWidth - 80);
       mouseX.set(targetX);
       mouseY.set(e.clientY);

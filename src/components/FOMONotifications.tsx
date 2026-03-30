@@ -90,9 +90,9 @@ const FOMONotifications = () => {
     setCurrent({ text, icon: item.icon, minutesAgo });
     setVisible(true);
 
-    setTimeout(() => setVisible(false), 4000);
+    setTimeout(() => setVisible(false), 3500);
 
-    const delay = Math.random() * 4000 + 18000;
+    const delay = Math.random() * 6000 + 20000;
     timerRef.current = setTimeout(showNext, delay);
   }, []);
 

@@ -3,7 +3,7 @@ import { MessageCircle, X, Send, Loader2, CheckCircle, ArrowRight } from "lucide
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import heroRobot from "@/assets/hero-robot.png";
+import heroRobot from "@/assets/hero-robot.webp";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -252,7 +252,7 @@ const Chatbot = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-border/20 shrink-0">
-            <img src={heroRobot} alt="ARIA" className="w-8 h-8 object-contain" width={64} height={64} />
+            <img loading="lazy" src={heroRobot} alt="ARIA" className="w-8 h-8 object-contain" width={64} height={64} />
             <div>
               <p className="text-sm font-display font-bold text-foreground">ARIA</p>
               <p className="text-[10px] text-muted-foreground">Asistente virtual de CALLA</p>
@@ -267,7 +267,7 @@ const Chatbot = () => {
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             {messages.length === 0 && (
               <div className="text-center py-8">
-                <img src={heroRobot} alt="" className="w-16 h-16 mx-auto mb-3 opacity-40" width={64} height={64} />
+                <img loading="lazy" src={heroRobot} alt="" className="w-16 h-16 mx-auto mb-3 opacity-40" width={64} height={64} />
                 <p className="text-sm text-muted-foreground">
                   ¡Hola! 👋 Soy ARIA, tu asistente virtual. ¿En qué puedo ayudarte?
                 </p>

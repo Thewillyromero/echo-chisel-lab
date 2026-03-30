@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Phone, PhoneOutgoing, Clock, Users, BarChart3, ChevronRight } from "lucide-react";
-import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import agentAnalytics from "@/assets/characters/agent-analytics.webp";
 
 const metrics = [
   { label: "Leads procesados", value: "662", icon: Users, color: "brand-teal", suffix: "" },
@@ -63,7 +63,7 @@ const CampaignResults = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16 md:mb-20"
         >
@@ -87,7 +87,7 @@ const CampaignResults = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-12"
         >
           {metrics.map((m, i) => (
@@ -116,14 +116,14 @@ const CampaignResults = () => {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="relative rounded-3xl border border-border/25 overflow-hidden">
             {/* Dashboard top bar */}
             <div className="bg-card/60 border-b border-border/20 px-6 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img src={agentAnalytics} alt="BYTE" className="w-8 h-8 object-contain" width={512} height={512} />
+                <img loading="lazy" src={agentAnalytics} alt="BYTE" className="w-8 h-8 object-contain" width={512} height={512} />
                 <div>
                   <span className="text-sm font-display font-bold text-brand-amber">BYTE</span>
                   <span className="text-xs text-muted-foreground ml-2">Campaign Analytics</span>

@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
-import heroRobot from "@/assets/hero-robot.png";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroRobot from "@/assets/hero-robot.webp";
+import heroBg from "@/assets/hero-bg.webp";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 

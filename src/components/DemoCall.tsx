@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import agentInbound from "@/assets/characters/agent-inbound.png";
+import agentInbound from "@/assets/characters/agent-inbound.webp";
 import Vapi from "@vapi-ai/web";
 import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
@@ -231,7 +231,7 @@ const DemoCall = () => {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: "-80px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="inline-flex items-center gap-2 bg-brand-teal/[0.08] border border-brand-teal/20 rounded-full px-4 py-1.5 mb-6">
@@ -261,7 +261,7 @@ const DemoCall = () => {
                   key={i}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-center gap-3"
                 >
@@ -294,7 +294,7 @@ const DemoCall = () => {
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, margin: "-60px" }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative">

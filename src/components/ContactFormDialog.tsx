@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import heroRobot from "@/assets/hero-robot.png";
+import heroRobot from "@/assets/hero-robot.webp";
 
 interface ContactFormDialogProps {
   open: boolean;
@@ -73,7 +73,7 @@ const ContactFormDialog = ({ open, onOpenChange, source = "general" }: ContactFo
                 Nos pondremos en contacto contigo en menos de 24 horas.
               </DialogDescription>
             </DialogHeader>
-            <img src={heroRobot} alt="" className="w-24 opacity-40 mt-2" width={1024} height={1024} />
+            <img loading="lazy" src={heroRobot} alt="" className="w-24 opacity-40 mt-2" width={1024} height={1024} />
             <Button variant="outline" onClick={() => handleClose(false)} className="mt-2 rounded-full">Cerrar</Button>
           </div>
         ) : (

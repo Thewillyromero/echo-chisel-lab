@@ -2,7 +2,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import heroRobot from "@/assets/hero-robot.png";
+import heroRobot from "@/assets/hero-robot.webp";
 import { sectors } from "@/data/sectors";
 
 const Navbar = ({ onContact }: { onContact?: () => void }) => {

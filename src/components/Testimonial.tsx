@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
-import agentSupport from "@/assets/characters/agent-support.png";
+import agentSupport from "@/assets/characters/agent-support.webp";
 import CharacterReveal from "@/components/CharacterReveal";
-import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
-import logoTutorDoctor from "@/assets/logos/tutor-doctor.jpg";
-import logoRehabSystem from "@/assets/logos/rehab-system.jpg";
-import logoMonitronics from "@/assets/logos/monitronics.jpg";
+import logoReputationLoop from "@/assets/logos/reputation-loop.webp";
+import logoTutorDoctor from "@/assets/logos/tutor-doctor.webp";
+import logoRehabSystem from "@/assets/logos/rehab-system.webp";
+import logoMonitronics from "@/assets/logos/monitronics.webp";
 
 /** Trustpilot-style star: green square with white star inside */
 const TrustpilotStar = ({ size = 20, filled = true }: { size?: number; filled?: boolean }) => (
@@ -153,7 +153,7 @@ const Testimonial = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="text-center mb-16"
         >
@@ -199,7 +199,7 @@ const Testimonial = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.05 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{ staggerChildren: 0.08 }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
@@ -237,7 +237,7 @@ const Testimonial = () => {
                   <div className="flex items-center gap-3">
                     {t.logo ? (
                       <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center overflow-hidden p-1 ring-1 ring-border/20">
-                        <img src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
+                        <img loading="lazy" src={t.logo} alt={t.company} className="w-full h-full object-contain rounded-full" />
                       </div>
                     ) : (
                       <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
@@ -262,7 +262,7 @@ const Testimonial = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
           <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
@@ -276,7 +276,7 @@ const Testimonial = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: false, amount: 0.1 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ staggerChildren: 0.06 }}
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
@@ -288,7 +288,7 @@ const Testimonial = () => {
                 >
                   <div className="flex items-center gap-2 mb-3">
                     {cs.logo ? (
-                      <img src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
+                      <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" />
                     ) : (
                       <Building2 className="h-4 w-4 text-muted-foreground/40" />
                     )}

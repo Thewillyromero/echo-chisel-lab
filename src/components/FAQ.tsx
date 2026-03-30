@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
+import agentScheduler from "@/assets/characters/agent-scheduler.webp";
 import CharacterReveal from "@/components/CharacterReveal";
 import {
   Accordion,
@@ -83,7 +83,7 @@ const FAQ = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="text-center mb-14"
         >
@@ -102,7 +102,7 @@ const FAQ = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, margin: "-60px" }}
         >
           <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, i) => (

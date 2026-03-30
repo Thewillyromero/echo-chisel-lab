@@ -4,7 +4,7 @@ import {
   Calculator, ArrowRight, Sparkles, ChevronDown,
   UserX, Check,
 } from "lucide-react";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
+import agentScheduler from "@/assets/characters/agent-scheduler.webp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -59,7 +59,7 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
@@ -83,7 +83,7 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: "-60px" }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="rounded-2xl border border-border/25 bg-card/35 p-5 sm:p-7 h-full flex flex-col">
@@ -193,7 +193,7 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: "-60px" }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="rounded-2xl border border-brand-emerald/20 bg-brand-emerald/[0.02] p-5 sm:p-7 h-full flex flex-col">

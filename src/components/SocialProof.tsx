@@ -53,7 +53,7 @@ const SocialProof = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-40px" }}
+          viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="bg-card/30 border border-border/20 rounded-2xl p-5 md:p-6"
         >
@@ -99,7 +99,7 @@ const SocialProof = () => {
                 key={i}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }}
                 className="flex-shrink-0 bg-card/50 border border-border/20 rounded-xl px-4 py-3.5 w-[260px] flex flex-col hover:border-border/40 transition-all duration-300"
               >

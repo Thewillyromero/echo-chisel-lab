@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import iconPublications from "@/assets/icons/icon-publications.png";
-import iconUpdates from "@/assets/icons/icon-updates.png";
-import iconNews from "@/assets/icons/icon-news.png";
+import iconPublications from "@/assets/icons/icon-publications.webp";
+import iconUpdates from "@/assets/icons/icon-updates.webp";
+import iconNews from "@/assets/icons/icon-news.webp";
 
 const items = [
   {
@@ -50,7 +50,7 @@ const Blog = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="flex flex-col lg:flex-row items-center gap-8 mb-14"
         >
@@ -67,7 +67,7 @@ const Blog = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ staggerChildren: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-5"
         >

@@ -39,7 +39,7 @@ export function useLiveMetrics(): LiveMetrics {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => setViewers(getViewers()), 30000);
+    const interval = setInterval(() => setViewers(getViewers()), 45000);
     return () => clearInterval(interval);
   }, []);
 

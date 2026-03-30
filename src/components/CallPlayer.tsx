@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Volume2, Headphones, Clock } from "lucide-react";
-import agentInbound from "@/assets/characters/agent-inbound.png";
-import agentOutbound from "@/assets/characters/agent-outbound.png";
+import agentInbound from "@/assets/characters/agent-inbound.webp";
+import agentOutbound from "@/assets/characters/agent-outbound.webp";
 
 interface CallSample {
   id: string;
@@ -51,7 +51,7 @@ const CallCard = ({ call }: { call: CallSample }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false }}
+    viewport={{ once: true }}
     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     className="group rounded-2xl border border-border/25 bg-card/35 overflow-hidden transition-all duration-400 hover:border-border/40"
   >
@@ -109,7 +109,7 @@ const CallPlayer = () => (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, margin: "-80px" }}
+        viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="text-center mb-16 md:mb-20"
       >
@@ -137,7 +137,7 @@ const CallPlayer = () => (
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: false }}
+        viewport={{ once: true }}
         transition={{ delay: 0.5 }}
         className="text-center text-xs text-muted-foreground/30 mt-8"
       >

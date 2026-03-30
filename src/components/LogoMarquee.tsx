@@ -1,31 +1,31 @@
-import logoReputationLoop from "@/assets/logos/reputation-loop.png";
-import logoMonitronics from "@/assets/logos/monitronics.png";
-import logoInvictus from "@/assets/logos/invictus-advisors.png";
-import logoRehab from "@/assets/logos/rehab-system.png";
-import logoHartmetall from "@/assets/logos/hartmetall-usa.png";
-import logoConveyAll from "@/assets/logos/convey-all.png";
-import logoBeyondGroup from "@/assets/logos/beyondgrouptravel.png";
-import logoAvian from "@/assets/logos/avian-digital.png";
-import logoTutor from "@/assets/logos/tutor-doctor.png";
-import logoIntelligent from "@/assets/logos/intelligent-office.png";
-import logoEasyMobile from "@/assets/logos/easymobile.png";
-import logoMcKenzie from "@/assets/logos/mckenzie-law.png";
-import logoCornerstone from "@/assets/logos/cornerstone.png";
-import logoRedRoot from "@/assets/logos/redroot.png";
-import logoCox from "@/assets/logos/cox-business.png";
-import logoNorthwest from "@/assets/logos/northwest-lighting.png";
-import logoAdvancedPlumbing from "@/assets/logos/advanced-plumbing.png";
-import logoMarketingAuto from "@/assets/logos/marketing-automation.png";
-import logoHouwzer from "@/assets/logos/houwzer.png";
-import logoCapify from "@/assets/logos/capify.png";
-import logoConsole from "@/assets/logos/console-hollawell.png";
-import logoUSHealth from "@/assets/logos/ushealth.png";
-import logoDLC from "@/assets/logos/dlc-consulting.png";
-import logoTesla from "@/assets/logos/tesla-energy.png";
-import logoThreeRivers from "@/assets/logos/three-rivers-dental.png";
-import logoCrowdfund from "@/assets/logos/crowdfund-mafia.png";
-import logoPCS from "@/assets/logos/pcs-software.png";
-import logoGeniusDen from "@/assets/logos/genius-den.png";
+import logoReputationLoop from "@/assets/logos/reputation-loop.webp";
+import logoMonitronics from "@/assets/logos/monitronics.webp";
+import logoInvictus from "@/assets/logos/invictus-advisors.webp";
+import logoRehab from "@/assets/logos/rehab-system.webp";
+import logoHartmetall from "@/assets/logos/hartmetall-usa.webp";
+import logoConveyAll from "@/assets/logos/convey-all.webp";
+import logoBeyondGroup from "@/assets/logos/beyondgrouptravel.webp";
+import logoAvian from "@/assets/logos/avian-digital.webp";
+import logoTutor from "@/assets/logos/tutor-doctor.webp";
+import logoIntelligent from "@/assets/logos/intelligent-office.webp";
+import logoEasyMobile from "@/assets/logos/easymobile.webp";
+import logoMcKenzie from "@/assets/logos/mckenzie-law.webp";
+import logoCornerstone from "@/assets/logos/cornerstone.webp";
+import logoRedRoot from "@/assets/logos/redroot.webp";
+import logoCox from "@/assets/logos/cox-business.webp";
+import logoNorthwest from "@/assets/logos/northwest-lighting.webp";
+import logoAdvancedPlumbing from "@/assets/logos/advanced-plumbing.webp";
+import logoMarketingAuto from "@/assets/logos/marketing-automation.webp";
+import logoHouwzer from "@/assets/logos/houwzer.webp";
+import logoCapify from "@/assets/logos/capify.webp";
+import logoConsole from "@/assets/logos/console-hollawell.webp";
+import logoUSHealth from "@/assets/logos/ushealth.webp";
+import logoDLC from "@/assets/logos/dlc-consulting.webp";
+import logoTesla from "@/assets/logos/tesla-energy.webp";
+import logoThreeRivers from "@/assets/logos/three-rivers-dental.webp";
+import logoCrowdfund from "@/assets/logos/crowdfund-mafia.webp";
+import logoPCS from "@/assets/logos/pcs-software.webp";
+import logoGeniusDen from "@/assets/logos/genius-den.webp";
 
 const logos = [
   logoReputationLoop, logoMonitronics, logoCox, logoHartmetall,
@@ -38,10 +38,10 @@ const logos = [
 ];
 
 const LogoMarquee = () => {
-  const tripled = [...logos, ...logos, ...logos];
+  const doubled = [...logos, ...logos];
 
   return (
-    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20">
+    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20" style={{ contain: 'layout style paint' }}>
       {/* Deep edge fades */}
       <div className="absolute left-0 top-0 bottom-0 w-28 md:w-52 bg-gradient-to-r from-background via-background/90 to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-28 md:w-52 bg-gradient-to-l from-background via-background/90 to-transparent z-10 pointer-events-none" />
@@ -51,7 +51,7 @@ const LogoMarquee = () => {
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="flex animate-marquee items-center" style={{ willChange: 'transform' }}>
-        {tripled.map((logo, i) => (
+        {doubled.map((logo, i) => (
           <div
             key={i}
             className="mx-5 md:mx-10 flex items-center justify-center min-w-[80px] md:min-w-[130px] shrink-0 group cursor-default"

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import agentInbound from "@/assets/characters/agent-inbound.png";
-import agentOutbound from "@/assets/characters/agent-outbound.png";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
-import agentAnalytics from "@/assets/characters/agent-analytics.png";
+import agentInbound from "@/assets/characters/agent-inbound.webp";
+import agentOutbound from "@/assets/characters/agent-outbound.webp";
+import agentScheduler from "@/assets/characters/agent-scheduler.webp";
+import agentAnalytics from "@/assets/characters/agent-analytics.webp";
 import CharacterReveal from "@/components/CharacterReveal";
 import { Phone, PhoneOutgoing, CalendarCheck, BarChart3, ArrowRight, Sparkles } from "lucide-react";
 
@@ -125,7 +125,7 @@ const Features = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16 md:mb-20"
         >
@@ -152,7 +152,7 @@ const Features = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.08 }}
+          viewport={{ once: true, amount: 0.08 }}
           className="grid md:grid-cols-2 gap-4 md:gap-5"
         >
           {features.map((f, i) => {
