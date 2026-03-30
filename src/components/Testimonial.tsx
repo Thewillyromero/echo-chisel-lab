@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
 import agentSupport from "@/assets/characters/agent-support.png";
+import CharacterReveal from "@/components/CharacterReveal";
 import logoReputationLoop from "@/assets/logos/reputation-loop.jpg";
 import logoTutorDoctor from "@/assets/logos/tutor-doctor.jpg";
 import logoRehabSystem from "@/assets/logos/rehab-system.jpg";
