@@ -72,12 +72,18 @@ const Squad = () => {
           transition={{ staggerChildren: 0.08 }}
           className="flex flex-wrap justify-center gap-4 md:gap-6 mb-14"
         >
-          {agents.map((agent) => (
+          {agents.map((agent, idx) => (
             <motion.div key={agent.name} variants={cardVariants()} className="flex flex-col items-center group cursor-pointer">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card/60 border border-border/30 flex items-center justify-center mb-2 group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-300 group-hover:-translate-y-1">
-                <img src={agent.image} alt={agent.name} className="w-12 h-12 md:w-14 md:h-14 object-contain" width={512} height={512} loading="lazy" />
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-card/60 border border-border/30 flex items-center justify-center mb-2 group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-300 group-hover:-translate-y-1">
+                <CharacterReveal
+                  src={agent.image}
+                  alt={agent.name}
+                  className="w-18 h-18 md:w-22 md:h-22"
+                  glowColor={agent.accentColor === "text-brand-teal" ? "hsl(190 60% 55%)" : agent.accentColor === "text-brand-lavender" ? "hsl(260 50% 65%)" : agent.accentColor === "text-brand-emerald" ? "hsl(160 50% 48%)" : agent.accentColor === "text-brand-amber" ? "hsl(35 70% 58%)" : "hsl(340 55% 60%)"}
+                  revealOffset={[0.05 + idx * 0.03, 0.35 + idx * 0.03]}
+                />
               </div>
-              <span className={`text-[10px] font-display font-bold ${agent.accentColor} tracking-wider`}>{agent.name}</span>
+              <span className={`text-[11px] font-display font-bold ${agent.accentColor} tracking-wider`}>{agent.name}</span>
               <span className="text-[10px] text-muted-foreground/60">{agent.role}</span>
             </motion.div>
           ))}
