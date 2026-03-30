@@ -199,8 +199,8 @@ const Testimonial = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
-          transition={{ staggerChildren: 0.08 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ staggerChildren: 0.12 }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16"
         >
           {testimonials.map((t, i) => {
@@ -277,7 +277,7 @@ const Testimonial = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ staggerChildren: 0.06 }}
+              transition={{ staggerChildren: 0.12 }}
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
             >
               {caseStudies.map((cs, i) => (

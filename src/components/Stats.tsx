@@ -100,7 +100,7 @@ const Stats = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ staggerChildren: 0.1 }}
               className="grid grid-cols-2 gap-x-6 md:gap-x-10 gap-y-6 md:gap-y-8"
             >

@@ -152,7 +152,7 @@ const Features = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.08 }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid md:grid-cols-2 gap-4 md:gap-5"
         >
           {features.map((f, i) => {

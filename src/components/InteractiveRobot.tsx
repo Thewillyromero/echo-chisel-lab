@@ -10,8 +10,8 @@ const InteractiveRobot = () => {
   const mouseX = useMotionValue(typeof window !== "undefined" ? window.innerWidth - 100 : 0);
   const mouseY = useMotionValue(typeof window !== "undefined" ? window.innerHeight / 2 : 0);
 
-  const robotX = useSpring(mouseX, { stiffness: 15, damping: 20, mass: 2 });
-  const robotY = useSpring(mouseY, { stiffness: 15, damping: 20, mass: 2 });
+  const robotX = useSpring(mouseX, { stiffness: 8, damping: 30, mass: 2 });
+  const robotY = useSpring(mouseY, { stiffness: 8, damping: 30, mass: 2 });
 
   useEffect(() => {
     const handleScroll = () => setVisible(window.scrollY > 500);
@@ -24,7 +24,7 @@ const InteractiveRobot = () => {
     const handleMouse = (e: MouseEvent) => {
       if (dodging) return;
       const now = Date.now();
-      if (now - lastMove < 50) return;
+      if (now - lastMove < 100) return;
       lastMove = now;
       const targetX = Math.min(e.clientX + 200, window.innerWidth - 80);
       mouseX.set(targetX);
@@ -55,6 +55,7 @@ const InteractiveRobot = () => {
         y: robotY,
         translateX: "-50%",
         translateY: "-50%",
+        willChange: "transform",
       }}
       onClick={handleClick}
       initial={{ opacity: 0, scale: 0 }}

@@ -1,10 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useLiveMetricsContext } from "@/contexts/LiveMetricsContext";
 
 const pool = [
-  // Demos
   { type: "demo", text: "María L. de Madrid acaba de probar ARIA", icon: "🎤" },
   { type: "demo", text: "Un despacho legal de Barcelona ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Dra. García de Málaga acaba de hablar con ARIA", icon: "🎤" },
@@ -22,7 +20,6 @@ const pool = [
   { type: "demo", text: "Inmobiliaria de Las Palmas ha probado ARIA", icon: "🎤" },
   { type: "demo", text: "Andrea V. de Gijón acaba de probar la demo", icon: "🎤" },
   { type: "demo", text: "Gabinete psicológico de Vitoria ha probado ARIA", icon: "🎤" },
-  // Bookings
   { type: "booking", text: "Carlos R. de Valencia ha reservado una consulta", icon: "📅" },
   { type: "booking", text: "Una clínica dental de Sevilla ha agendado demo", icon: "📅" },
   { type: "booking", text: "Inmobiliaria en Bilbao ha reservado consulta", icon: "📅" },
@@ -38,13 +35,11 @@ const pool = [
   { type: "booking", text: "Asesoría de Vigo ha agendado demo personalizada", icon: "📅" },
   { type: "booking", text: "Patricia M. de Oviedo ha reservado consulta", icon: "📅" },
   { type: "booking", text: "Centro veterinario de Toledo ha agendado demo", icon: "📅" },
-  // Viewing
   { type: "viewing", text: "{n} personas están viendo esta página ahora", icon: "👥" },
   { type: "viewing", text: "{n} empresas están explorando CALLA ahora mismo", icon: "👥" },
   { type: "viewing", text: "{n} personas están mirando los planes ahora", icon: "👥" },
   { type: "viewing", text: "{n} personas están viendo la demo ahora", icon: "👥" },
   { type: "viewing", text: "{n} profesionales están explorando CALLA", icon: "👥" },
-  // Signup / purchase
   { type: "signup", text: "Una academia de Murcia se acaba de registrar", icon: "🎉" },
   { type: "signup", text: "Clínica dental de Madrid ha activado su cuenta", icon: "🎉" },
   { type: "signup", text: "Inmobiliaria de BCN ha contratado el plan Pro", icon: "🎉" },
@@ -114,35 +109,33 @@ const FOMONotifications = () => {
 
   return (
     <div className="fixed bottom-12 left-4 right-4 md:right-auto z-50 md:max-w-[320px]">
-      <AnimatePresence>
-        {visible && current && (
-          <motion.div
-            initial={{ opacity: 0, x: -40, y: 10 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            exit={{ opacity: 0, x: -40 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-card/95 backdrop-blur-md border border-border/30 rounded-xl shadow-2xl p-3 pr-8 relative"
+      {current && (
+        <div
+          className={`bg-card/95 backdrop-blur-md border border-border/30 rounded-xl shadow-2xl p-3 pr-8 relative transition-all duration-300 ease-out ${
+            visible
+              ? "translate-x-0 opacity-100"
+              : "-translate-x-full opacity-0 pointer-events-none"
+          }`}
+        >
+          <button
+            onClick={handleDismiss}
+            className="absolute top-2 right-2 text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors"
           >
-            <button
-              onClick={handleDismiss}
-              className="absolute top-2 right-2 text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-secondary/60 flex items-center justify-center shrink-0 text-sm">
-                {current.icon}
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm text-foreground leading-snug">{current.text}</p>
-                <p className="text-[10px] text-muted-foreground/40 mt-0.5">
-                  hace {current.minutesAgo} min
-                </p>
-              </div>
+            <X className="w-3.5 h-3.5" />
+          </button>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-secondary/60 flex items-center justify-center shrink-0 text-sm">
+              {current.icon}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="min-w-0">
+              <p className="text-sm text-foreground leading-snug">{current.text}</p>
+              <p className="text-[10px] text-muted-foreground/40 mt-0.5">
+                hace {current.minutesAgo} min
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
