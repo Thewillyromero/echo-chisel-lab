@@ -241,9 +241,9 @@ const DemoCall = () => {
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-5 tracking-tight leading-[1.1] text-puffy">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-5 tracking-tight leading-[1.1] text-glow">
               Habla con{" "}
-              <span className="text-gradient text-puffy-teal">ARIA ahora mismo</span>
+              <span className="text-gradient text-glow-teal">ARIA ahora mismo</span>
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed mb-8 max-w-lg">

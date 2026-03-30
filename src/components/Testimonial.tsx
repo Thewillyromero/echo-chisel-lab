@@ -160,8 +160,8 @@ const Testimonial = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             Resultados reales
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-puffy">
-            Lo que dicen <span className="text-gradient text-puffy-teal">nuestros clientes</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-glow">
+            Lo que dicen <span className="text-gradient text-glow-teal">nuestros clientes</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light mb-8 md:mb-10">
             Más de 20 industrias, cientos de campañas exitosas.

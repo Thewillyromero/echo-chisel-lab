@@ -69,9 +69,9 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
               Calculadora
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-4 tracking-tight leading-[1.1] text-puffy">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-4 tracking-tight leading-[1.1] text-glow">
             ¿Cuánto te cuesta{" "}
-            <span className="text-gradient-warm text-puffy-warm">gestionar el teléfono</span>?
+            <span className="text-gradient-warm text-glow-warm">gestionar el teléfono</span>?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto text-base md:text-lg font-light">
             3 datos. 10 segundos. La respuesta te sorprenderá.

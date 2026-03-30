@@ -44,9 +44,9 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs text-primary font-medium">Atención telefónica inteligente</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.05] mb-5 md:mb-6 tracking-tight text-foreground text-puffy">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.05] mb-5 md:mb-6 tracking-tight text-foreground text-glow">
             Tus llamadas,{" "}
-            <span className="text-gradient text-puffy-teal">resueltas por IA</span>
+            <span className="text-gradient text-glow-teal">resueltas por IA</span>
           </h1>
           <p className="text-base md:text-xl text-muted-foreground mb-3 md:mb-4 leading-relaxed font-light max-w-xl">
             CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Lanza campañas outbound para appointment setting.

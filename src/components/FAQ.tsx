@@ -90,8 +90,8 @@ const FAQ = () => {
           <p className="text-primary font-display text-xs tracking-[0.25em] uppercase mb-4 font-semibold">
             FAQ
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-puffy">
-            Preguntas <span className="text-gradient text-puffy-lavender">frecuentes</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-glow">
+            Preguntas <span className="text-gradient text-glow-lavender">frecuentes</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg font-light">
             Todo lo que necesitas saber antes de empezar con CALLA.
