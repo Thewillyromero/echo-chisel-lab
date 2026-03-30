@@ -112,8 +112,8 @@ const Squad = () => {
                       <div key={stepIdx} className="flex items-center gap-2 flex-1">
                         <div className="flex flex-col items-center text-center flex-1 group">
                           <div className="relative">
-                            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-secondary/60 border border-border/20 flex items-center justify-center mb-3 group-hover:scale-105 group-hover:border-primary/30 transition-all duration-300">
-                              <img src={agent.image} alt={agent.name} className="w-12 h-12 lg:w-16 lg:h-16 object-contain" width={512} height={512} loading="lazy" />
+                            <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-secondary/60 border border-border/20 flex items-center justify-center mb-3 group-hover:scale-105 group-hover:border-primary/30 transition-all duration-300">
+                              <img src={agent.image} alt={agent.name} className="w-16 h-16 lg:w-20 lg:h-20 object-contain" width={512} height={512} loading="lazy" />
                             </div>
                             <div className={`absolute -top-1 -right-1 w-6 h-6 rounded-full bg-card border border-border flex items-center justify-center text-xs font-bold ${agent.accentColor}`}>
                               {stepIdx + 1}
