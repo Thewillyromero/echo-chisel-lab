@@ -136,66 +136,60 @@ const Testimonial = () => {
           </div>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="relative mb-12 md:mb-16">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {visibleTestimonials.map((t, i) => (
-              <motion.div key={`${t.name}-${t.result}`} variants={cardVariants(i, i % 2 === 0)}>
-                <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
-                  <div className="flex items-center justify-between mb-4">
-                    <TrustpilotStars rating={5} size={18} />
-                    <CheckCircle2 className="w-4 h-4" style={{ color: '#00b67a40' }} />
-                  </div>
-                  <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
-                    <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />{t.quote}
-                  </blockquote>
-                  <div className="mb-4">
-                    <span className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full" style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}>{t.result}</span>
-                  </div>
-                  <div className="h-px bg-border/20 mb-4" />
-                  <div className="flex items-center gap-3">
-                    {t.avatar ? (
-                      <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
-                    ) : (
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
-                        <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
-                      <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
-                    </div>
-                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">{t.context}</span>
-                  </div>
+        {/* Testimonials Grid — no wrappers, no gradients, just the grid */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-12 md:mb-16">
+          {visibleTestimonials.map((t, i) => (
+            <motion.div key={`${t.name}-${t.result}`} variants={cardVariants(i, i % 2 === 0)}>
+              <div className="bg-card/40 rounded-2xl border border-border/30 p-6 hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col group">
+                <div className="flex items-center justify-between mb-4">
+                  <TrustpilotStars rating={5} size={18} />
+                  <CheckCircle2 className="w-4 h-4" style={{ color: '#00b67a40' }} />
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          {!expanded && <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />}
-        </div>
+                <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
+                  <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />{t.quote}
+                </blockquote>
+                <div className="mb-4">
+                  <span className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full" style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}>{t.result}</span>
+                </div>
+                <div className="h-px bg-border/20 mb-4" />
+                <div className="flex items-center gap-3">
+                  {t.avatar ? (
+                    <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover ring-1 ring-border/20" loading="lazy" />
+                  ) : (
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]} flex items-center justify-center ring-1 ring-border/20`}>
+                      <span className="font-display font-bold text-foreground text-xs">{t.initials}</span>
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-foreground truncate">{t.name}</div>
+                    <div className="text-xs text-muted-foreground truncate">{t.role}, {t.company}</div>
+                  </div>
+                  <span className="text-[9px] uppercase tracking-wider text-muted-foreground/40 bg-secondary/40 px-2 py-0.5 rounded-full shrink-0">{t.context}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
         {/* Case Studies */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}>
           <div className="bg-card/40 rounded-2xl border border-border/30 p-5 md:p-10 relative overflow-hidden">
             <div className="absolute -bottom-4 right-8 hidden md:block"><img src={agentSupport} alt="" className="w-24 object-contain opacity-15" width={512} height={512} loading="lazy" /></div>
             <div className="flex items-center gap-2 mb-8"><TrendingUp className="h-5 w-5 text-primary" /><h3 className="font-display font-bold text-lg text-foreground">Resultados probados en +20 industrias</h3></div>
-            <div className="relative">
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
-                {visibleCaseStudies.map((cs, i) => (
-                  <motion.div key={cs.company + cs.result} variants={cardVariants(i, i % 2 === 0)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300">
-                    <div className="flex items-center gap-2 mb-3">
-                      {cs.logo ? <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" /> : <Building2 className="h-4 w-4 text-muted-foreground/40" />}
-                      <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
-                    </div>
-                    <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
-                    <div className="text-sm text-foreground/70 font-medium mb-1">{cs.description}</div>
-                    <div className="text-xs text-muted-foreground mb-1">{cs.metric}</div>
-                    <div className="text-[10px] text-muted-foreground/40 italic">{cs.detail}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-              {!expanded && <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-20" />}
-            </div>
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ staggerChildren: 0.12 }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {visibleCaseStudies.map((cs, i) => (
+                <motion.div key={cs.company + cs.result} variants={cardVariants(i, i % 2 === 0)} className="bg-secondary/30 rounded-xl border border-border/20 p-4 hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300">
+                  <div className="flex items-center gap-2 mb-3">
+                    {cs.logo ? <img loading="lazy" src={cs.logo} alt={cs.company} className="h-5 w-5 object-contain rounded-sm" /> : <Building2 className="h-4 w-4 text-muted-foreground/40" />}
+                    <span className="text-xs text-muted-foreground font-medium">{cs.company}</span>
+                  </div>
+                  <div className="text-2xl font-display font-bold text-foreground mb-1">{cs.result}</div>
+                  <div className="text-sm text-foreground/70 font-medium mb-1">{cs.description}</div>
+                  <div className="text-xs text-muted-foreground mb-1">{cs.metric}</div>
+                  <div className="text-[10px] text-muted-foreground/40 italic">{cs.detail}</div>
+                </motion.div>
+              ))}
+            </motion.div>
             <div className="mt-8 pt-6 border-t border-border/20 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-brand-emerald animate-pulse" />Datos verificados</span>
               <span className="flex items-center gap-1.5"><ArrowRight className="h-3 w-3 text-primary" />Campañas gestionadas por Guillermo y equipo</span>
