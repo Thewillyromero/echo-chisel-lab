@@ -18,7 +18,7 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ContactFormDialog from "@/components/ContactFormDialog";
 
-const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/30-min-meeting333-5466de86-217d-4157-a735-59dcb4fcc11f-444718d0-b968-4988-a435-8a8529fcab09";
+const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
 const Index = () => {
   const [contactOpen, setContactOpen] = useState(false);
