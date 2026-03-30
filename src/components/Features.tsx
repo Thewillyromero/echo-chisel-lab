@@ -82,7 +82,7 @@ const characterVariants = {
     scale: 1,
     rotate: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 260,
       damping: 18,
       delay: 0.15,
