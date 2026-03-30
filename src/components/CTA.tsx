@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroRobot from "@/assets/hero-robot.png";
+import CharacterReveal from "@/components/CharacterReveal";
 
 const CTA = ({ onContact }: { onContact?: () => void }) => {
   return (
@@ -41,10 +42,13 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
                 </div>
               </div>
               <div className="shrink-0 flex justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-full blur-3xl opacity-15 scale-[2]" style={{ background: "hsl(190 60% 55%)" }} />
-                  <img src={heroRobot} alt="" className="w-24 md:w-52 lg:w-64 object-contain animate-float drop-shadow-2xl relative z-10" width={1024} height={1024} loading="lazy" />
-                </div>
+                <CharacterReveal
+                  src={heroRobot}
+                  alt="CALLA"
+                  className="w-32 md:w-56 lg:w-72"
+                  glowColor="hsl(190 60% 55%)"
+                  revealOffset={[0.1, 0.45]}
+                />
               </div>
             </div>
           </div>
