@@ -51,9 +51,9 @@ const CampaignResults = () => {
 
   return (
     <section id="resultados" className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
-      {/* Background character — LUMI */}
-      <div className="absolute -right-10 top-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block">
-        <img src={agentScheduler} alt="" className="w-[350px] md:w-[550px] opacity-[0.05] rotate-6 blur-[0.5px]" loading="lazy" />
+      {/* Background character — BYTE (left) */}
+      <div className="absolute -left-10 top-1/3 pointer-events-none select-none hidden lg:block">
+        <img src={agentAnalytics} alt="" className="w-[350px] md:w-[500px] opacity-[0.12] -rotate-6" loading="lazy" />
       </div>
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
       <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full bg-brand-amber/[0.03] blur-[180px] pointer-events-none" />
