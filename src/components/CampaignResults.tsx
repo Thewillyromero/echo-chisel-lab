@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Phone, PhoneOutgoing, Clock, Users, BarChart3, ChevronRight } from "lucide-react";
 import agentAnalytics from "@/assets/characters/agent-analytics.png";
-import agentScheduler from "@/assets/characters/agent-scheduler.png";
 
 const metrics = [
   { label: "Leads procesados", value: "662", icon: Users, color: "brand-teal", suffix: "" },
