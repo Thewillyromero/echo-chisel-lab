@@ -17,6 +17,7 @@ import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ContactFormDialog from "@/components/ContactFormDialog";
+import FOMONotifications from "@/components/FOMONotifications";
 
 const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZraSrAu8QT";
 
@@ -48,6 +49,7 @@ const Index = () => {
       <CTA onContact={() => openContact("cta")} />
       <Footer />
       <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} source={contactSource} />
+      <FOMONotifications />
     </div>
   );
 };
