@@ -110,9 +110,9 @@ const LogoMarquee = memo(() => {
                 className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px]"
                 loading="lazy"
                 draggable={false}
-                style={{ filter: "grayscale(1) brightness(2) contrast(0.6)", opacity: 0.35, transition: "opacity 0.5s ease" }}
-                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.35"; }}
+                style={{ filter: "brightness(1.8) contrast(0.8)", opacity: 0.45, transition: "opacity 0.5s ease" }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.45"; }}
               />
             </div>
           ))}
@@ -124,9 +124,9 @@ const LogoMarquee = memo(() => {
                 className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px]"
                 loading="lazy"
                 draggable={false}
-                style={{ filter: "grayscale(1) brightness(2) contrast(0.6)", opacity: 0.35, transition: "opacity 0.5s ease" }}
-                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.35"; }}
+                style={{ filter: "brightness(1.8) contrast(0.8)", opacity: 0.45, transition: "opacity 0.5s ease" }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.45"; }}
               />
             </div>
           ))}

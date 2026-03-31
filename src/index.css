@@ -162,7 +162,7 @@
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-infinite 80s linear infinite;
+  animation: marquee-infinite 88s linear infinite;
   will-change: transform;
 }
 
