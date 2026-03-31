@@ -153,7 +153,27 @@
   50% { transform: translateY(-20px); }
 }
 
-@keyframes marquee {
+/* Marquee — CSS-only infinite loop */
+.marquee-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-infinite 80s linear infinite;
+  will-change: transform;
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes marquee-infinite {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }

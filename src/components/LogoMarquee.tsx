@@ -89,67 +89,52 @@ const logos = [
   logoThreeRivers, logoIntelligent, logoEasyMobile, logoCrowdfund,
 ];
 
-const LogoMarquee = () => {
+import { memo } from "react";
+
+const LogoMarquee = memo(() => {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const displayLogos = isMobile ? logos.slice(0, 20) : logos;
-  const doubled = [...displayLogos, ...displayLogos];
 
   return (
-    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20" style={{ contain: 'layout style paint' }}>
-      {/* Deep edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-28 md:w-52 bg-gradient-to-r from-background via-background/90 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-28 md:w-52 bg-gradient-to-l from-background via-background/90 to-transparent z-10 pointer-events-none" />
+    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20">
+      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-      {/* Subtle top glow line */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-      <div className="flex animate-marquee items-center" style={{ willChange: 'transform' }}>
-        {doubled.map((logo, i) => (
-          <div
-            key={i}
-            className="mx-5 md:mx-10 flex items-center justify-center min-w-[80px] md:min-w-[130px] shrink-0 group cursor-default"
-          >
-            <div className="relative py-1">
-              {/* Glow orb behind logo on hover */}
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-16 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-                style={{
-                  background: "radial-gradient(ellipse, hsl(210 80% 65% / 0.12) 0%, hsl(210 80% 65% / 0.04) 50%, transparent 80%)",
-                  filter: "blur(10px)",
-                  transform: "translate(-50%, -50%) scale(1.8)",
-                }}
-              />
+      <div className="marquee-container">
+        <div className="marquee-track">
+          {displayLogos.map((logo, i) => (
+            <div key={`a-${i}`} className="marquee-item">
               <img
                 src={logo}
                 alt=""
-                className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px] relative z-10 transition-all duration-700"
-                draggable={false}
-                style={{
-                  opacity: 0.4,
-                  filter: "grayscale(1) brightness(2.2) contrast(0.7)",
-                  mixBlendMode: "lighten",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget;
-                  el.style.opacity = "0.85";
-                  el.style.filter = "grayscale(0) brightness(1.3) contrast(1.05) drop-shadow(0 0 12px hsl(210 80% 65% / 0.25))";
-                  el.style.transform = "scale(1.08)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget;
-                  el.style.opacity = "0.4";
-                  el.style.filter = "grayscale(1) brightness(2.2) contrast(0.7)";
-                  el.style.transform = "scale(1)";
-                }}
+                className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px]"
                 loading="lazy"
+                draggable={false}
+                style={{ filter: "grayscale(1) brightness(2) contrast(0.6)", opacity: 0.35, transition: "opacity 0.5s ease" }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.35"; }}
               />
             </div>
-          </div>
-        ))}
+          ))}
+          {displayLogos.map((logo, i) => (
+            <div key={`b-${i}`} className="marquee-item">
+              <img
+                src={logo}
+                alt=""
+                className="h-5 md:h-7 w-auto object-contain max-w-[90px] md:max-w-[130px]"
+                loading="lazy"
+                draggable={false}
+                style={{ filter: "grayscale(1) brightness(2) contrast(0.6)", opacity: 0.35, transition: "opacity 0.5s ease" }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.35"; }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
-};
+});
 
+LogoMarquee.displayName = "LogoMarquee";
 export default LogoMarquee;
