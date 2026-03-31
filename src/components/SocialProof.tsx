@@ -6,6 +6,7 @@ import avatarRoberto from "@/assets/avatars/roberto-mendez.webp";
 import avatarCarmen from "@/assets/avatars/carmen-ortega.webp";
 import avatarJorge from "@/assets/avatars/jorge-navarro.webp";
 import avatarMarta from "@/assets/avatars/marta-jimenez.webp";
+import avatarLaura from "@/assets/avatars/laura-m.webp";
 import avatarSergio from "@/assets/avatars/sergio-lopez.webp";
 
 const reviews = [
@@ -13,7 +14,7 @@ const reviews = [
   { text: "Impresionante. Duplicamos citas en el primer mes.", author: "Javier R.", role: "Inmobiliaria", avatar: avatarRoberto },
   { text: "Nuestros pacientes no notan que hablan con una IA. Increíble.", author: "Dra. Carmen S.", role: "Centro médico", avatar: avatarCarmen },
   { text: "Recuperamos 15 llamadas perdidas al día. Literalmente nos paga solo.", author: "Antonio G.", role: "Taller mecánico", avatar: avatarSergio },
-  { text: "El outbound de CALLA nos genera 40 citas cualificadas al mes.", author: "Laura M.", role: "Energía solar", avatar: avatarMarta },
+  { text: "El outbound de CALLA nos genera 40 citas cualificadas al mes.", author: "Laura M.", role: "Energía solar", avatar: avatarLaura },
   { text: "Mis recepcionistas ahora se dedican a lo importante. CALLA gestiona el teléfono.", author: "Pedro V.", role: "Despacho legal", avatar: avatarJorge },
 ];
 
