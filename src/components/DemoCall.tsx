@@ -81,8 +81,30 @@ const DemoCall = () => {
   const [volume, setVolume] = useState(0);
   const [callStartTime, setCallStartTime] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [endReason, setEndReason] = useState("");
   const vapiRef = useRef<InstanceType<typeof Vapi> | null>(null);
   const { testCount, viewers, incrementTest } = useLiveMetricsContext();
+
+  const CALL_LIMIT = 3;
+  const COOKIE_KEY = "calla_demo_calls";
+
+  const getTodayCalls = (): number => {
+    const today = new Date().toISOString().split("T")[0];
+    try {
+      const stored = document.cookie.split(";").find(c => c.trim().startsWith(COOKIE_KEY));
+      if (!stored) return 0;
+      const val = JSON.parse(decodeURIComponent(stored.split("=")[1]));
+      if (val.date !== today) return 0;
+      return val.count;
+    } catch { return 0; }
+  };
+
+  const incrementCalls = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const current = getTodayCalls();
+    const val = JSON.stringify({ date: today, count: current + 1 });
+    document.cookie = `${COOKIE_KEY}=${encodeURIComponent(val)}; path=/; max-age=86400; SameSite=Lax`;
+  };
 
   /* Cleanup on unmount */
   useEffect(() => {
@@ -94,6 +116,12 @@ const DemoCall = () => {
   }, []);
 
   const startWebCall = useCallback(async () => {
+    if (getTodayCalls() >= CALL_LIMIT) {
+      toast.error("Has alcanzado el límite de demos por hoy. ¡Agenda una llamada con el equipo!");
+      window.open(CALENDAR_URL, "_blank");
+      return;
+    }
+
     try {
       setCallState("connecting");
 
@@ -133,11 +161,14 @@ const DemoCall = () => {
         setCallState("active");
         setCallStartTime(Date.now());
         incrementTest();
+        incrementCalls();
         toast.success("Conectado con ARIA");
       });
 
-      vapi.on("call-end", () => {
+      vapi.on("call-end", (reason?: unknown) => {
         clearTimeout(fallbackTimer);
+        const r = typeof reason === "string" ? reason : (reason as Record<string, string>)?.reason || "";
+        setEndReason(r);
         setCallState("ended");
         micStream.getTracks().forEach(t => t.stop());
         vapiRef.current = null;
@@ -370,7 +401,34 @@ const DemoCall = () => {
                 <div className="relative p-6 sm:p-8">
                   <AnimatePresence mode="wait">
                     {/* === FORM STATE === */}
-                    {callState === "idle" && (
+                    {callState === "idle" && getTodayCalls() >= CALL_LIMIT && (
+                      <motion.div
+                        key="limit"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex flex-col items-center text-center py-8"
+                      >
+                        <div className="w-16 h-16 rounded-full bg-brand-teal/10 flex items-center justify-center mb-5">
+                          <Sparkles className="w-7 h-7 text-brand-teal" />
+                        </div>
+                        <h3 className="font-display font-bold text-lg text-foreground mb-2">
+                          ¡Nos encanta tu interés!
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+                          Has probado ARIA {CALL_LIMIT} veces hoy. Agenda una demo personalizada con el equipo para una experiencia completa.
+                        </p>
+                        <Button
+                          size="lg"
+                          className="rounded-xl text-base font-display font-semibold"
+                          style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
+                          onClick={() => window.open(CALENDAR_URL, "_blank")}
+                        >
+                          Agendar demo personalizada
+                        </Button>
+                      </motion.div>
+                    )}
+
+                    {callState === "idle" && getTodayCalls() < CALL_LIMIT && (
                       <motion.form
                         key="form"
                         initial={{ opacity: 1 }}
@@ -446,7 +504,7 @@ const DemoCall = () => {
                         </Button>
 
                         <p className="text-[11px] text-muted-foreground/35 text-center leading-relaxed">
-                          Tu navegador pedirá permiso de micrófono · Sin coste · Conversación de ~2 min
+                          Conversación de hasta 3 min · Sin coste · Tu navegador pedirá permiso de micrófono
                         </p>
                       </motion.form>
                     )}
@@ -537,31 +595,52 @@ const DemoCall = () => {
                         <div className="w-16 h-16 rounded-full bg-brand-teal/10 flex items-center justify-center mb-5">
                           <Phone className="w-7 h-7 text-brand-teal" />
                         </div>
-                        <h3 className="font-display font-bold text-lg text-foreground mb-2">
-                          ¡Gracias por probar CALLA!
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-6 max-w-xs">
-                          {form.name}, nuestro equipo te contactará pronto para una demo
-                          personalizada de tu sector.
-                        </p>
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={handleReset}
-                            className="rounded-full text-sm border-border/40"
-                          >
-                            Otra demo
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="rounded-full text-sm"
-                            style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
-                            onClick={() => window.open(CALENDAR_URL, "_blank")}
-                          >
-                            Agendar demo personalizada
-                          </Button>
-                        </div>
+                        {endReason === "max-duration-reached" ? (
+                          <>
+                            <h3 className="font-display font-bold text-lg text-foreground mb-2">
+                              ¡Se nos ha pasado el tiempo volando!
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+                              Si quieres seguir la conversación, el equipo estará encantado de atenderte.
+                            </p>
+                            <Button
+                              size="sm"
+                              className="rounded-full text-sm"
+                              style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
+                              onClick={() => window.open(CALENDAR_URL, "_blank")}
+                            >
+                              Agendar demo personalizada
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <h3 className="font-display font-bold text-lg text-foreground mb-2">
+                              ¡Gracias por probar CALLA!
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+                              {form.name}, nuestro equipo te contactará pronto para una demo
+                              personalizada de tu sector.
+                            </p>
+                            <div className="flex gap-3">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleReset}
+                                className="rounded-full text-sm border-border/40"
+                              >
+                                Otra demo
+                              </Button>
+                              <Button
+                                size="sm"
+                                className="rounded-full text-sm"
+                                style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
+                                onClick={() => window.open(CALENDAR_URL, "_blank")}
+                              >
+                                Agendar demo personalizada
+                              </Button>
+                            </div>
+                          </>
+                        )}
                       </motion.div>
                     )}
                   </AnimatePresence>

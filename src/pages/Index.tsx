@@ -5,6 +5,7 @@ import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
 import DemoCall from "@/components/DemoCall";
 import CallPlayer from "@/components/CallPlayer";
+import CallSimulator from "@/components/CallSimulator";
 import ROICalculator from "@/components/ROICalculator";
 import CampaignResults from "@/components/CampaignResults";
 import Squad from "@/components/Squad";
@@ -36,6 +37,7 @@ const Index = () => {
         <DemoCall />
         <ROICalculator onContact={openContact} />
         <CallPlayer />
+        <CallSimulator />
         <CampaignResults />
         <Squad />
         <About />
