@@ -144,7 +144,7 @@ const ROICalculator = ({ onContact }: { onContact?: () => void }) => {
                   <label className="text-xs text-muted-foreground/60 font-medium block mb-2">
                     ¿Cuántas horas al día dedicas TÚ al teléfono?
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {hourOptions.map((h) => (
                       <button
                         key={h}

@@ -19,7 +19,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
           <div className="relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-card/80 to-accent/[0.04]" />
             {/* Background character — hero robot watermark */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none hidden md:block">
               <img src={heroRobot} alt="" className="w-[300px] md:w-[800px] opacity-[0.05] blur-[1px]" loading="lazy" />
             </div>
 

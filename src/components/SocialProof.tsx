@@ -52,7 +52,7 @@ const SocialProof = () => (
         </div>
         <div className="flex items-stretch gap-3 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
           {reviews.map((r, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }} className="flex-shrink-0 bg-card/50 border border-border/20 rounded-xl px-4 py-3.5 w-[260px] flex flex-col hover:border-border/40 transition-all duration-300">
+            <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }} className="flex-shrink-0 bg-card/50 border border-border/20 rounded-xl px-4 py-3.5 w-[220px] md:w-[260px] flex flex-col hover:border-border/40 transition-all duration-300">
               <div className="mb-2"><TrustpilotStars rating={5} size={16} /></div>
               <p className="text-xs text-foreground/80 leading-snug mb-2.5 flex-1 line-clamp-2 italic">"{r.text}"</p>
               <div className="flex items-center gap-2 mt-auto">

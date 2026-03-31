@@ -27,7 +27,7 @@ const Index = () => {
 
   return (
     <LiveMetricsProvider>
-      <div className="min-h-screen bg-background pb-8">
+      <div className="min-h-screen bg-background pb-8 overflow-x-hidden">
         <Navbar onContact={openContact} />
         <Hero onContact={openContact} />
         <SocialProof />

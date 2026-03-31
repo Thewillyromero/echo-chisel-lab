@@ -87,7 +87,7 @@ const FOMONotifications = () => {
 
     setTimeout(() => setVisible(false), 3500);
 
-    const delay = Math.random() * 6000 + 20000;
+    const baseDelay = typeof window !== "undefined" && window.innerWidth < 768 ? 30000 : 20000; const delay = Math.random() * 6000 + baseDelay;
     timerRef.current = setTimeout(showNext, delay);
   }, []);
 

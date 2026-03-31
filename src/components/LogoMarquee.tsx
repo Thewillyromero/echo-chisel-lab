@@ -90,7 +90,9 @@ const logos = [
 ];
 
 const LogoMarquee = () => {
-  const doubled = [...logos, ...logos];
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const displayLogos = isMobile ? logos.slice(0, 20) : logos;
+  const doubled = [...displayLogos, ...displayLogos];
 
   return (
     <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20" style={{ contain: 'layout style paint' }}>
