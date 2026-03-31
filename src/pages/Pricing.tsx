@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -107,6 +107,10 @@ const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/m4SFv9fHyIZr
 const Pricing = () => {
   const [contactOpen, setContactOpen] = useState(false);
   const [annual, setAnnual] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background noise-overlay">

@@ -40,7 +40,6 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Recursos</h4>
             <ul className="space-y-2.5">
-              <li><a href="#blog" onClick={scrollTo("blog")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
               <li><a href="#testimonials" onClick={scrollTo("testimonials")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonios</a></li>
               <li><a href="#about" onClick={scrollTo("about")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre nosotros</a></li>
             </ul>

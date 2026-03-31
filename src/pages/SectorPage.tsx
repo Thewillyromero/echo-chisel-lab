@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, ArrowRight, Target, Zap, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -12,6 +12,10 @@ const SectorPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const sector = sectors.find((s) => s.slug === slug);
   const [contactOpen, setContactOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!sector) return <Navigate to="/" replace />;
 
