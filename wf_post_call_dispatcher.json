@@ -1,0 +1,372 @@
+{
+  "name": "PB - Post-Call Dispatcher (Enhanced)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vaw-pb-postcall",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "pc-webhook-1",
+      "name": "Webhook PostCall",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 400],
+      "webhookId": "vaw-pb-postcall"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst body = data.body || data;\nconst message = body.message || body;\n\nconst messageType = message.type || body.type || '';\nconst isEOCR = messageType === 'end-of-call-report';\n\nif (!isEOCR) {\n  return [{ json: { skip: true, reason: 'Not EOCR: ' + messageType } }];\n}\n\nconst call = message.call || body.call || {};\nconst artifact = message.artifact || body.artifact || {};\nconst analysis = message.analysis || body.analysis || {};\nconst sd = analysis.structuredData || {};\n\nconst callId = call.id || '';\nconst customerNumber = call.customer?.number || '';\nconst phone9 = customerNumber.replace('+34','').replace('+','').trim().slice(-9);\nconst phoneE164 = '+34' + phone9;\nconst assistantId = call.assistantId || '';\nconst duration = call.costBreakdown?.duration || call.duration || 0;\nconst cost = call.costBreakdown?.total || call.cost || 0;\nconst endedReason = call.endedReason || '';\nconst transcript = artifact.transcript || '';\nconst recordingUrl = artifact.recordingUrl || '';\nconst summary = analysis.summary || '';\nconst successEval = analysis.successEvaluation || '';\n\n// Structured data from VAPI analysisPlan\nconst resultado = sd.resultado || '';\nconst citaAgendada = sd.cita_agendada || false;\nconst nombreContacto = sd.nombre_contacto || '';\nconst objecion = sd.objecion_principal || '';\nconst interes = sd.interes_percibido || '';\nconst callbackDatetime = sd.callback_datetime || '';\nconst email = sd.email || '';\n\nconst fecha = new Date().toISOString();\n\n// Determine assistant type\nconst isPBOut = assistantId === '03a2bdfd-c35d-4116-ab53-a91eb24774f8';\n\nreturn [{ json: {\n  skip: false,\n  callId,\n  customerNumber,\n  phone: phoneE164,\n  phone9,\n  assistantId,\n  isPBOut,\n  duration,\n  cost,\n  endedReason,\n  transcript: transcript.substring(0, 5000),\n  recordingUrl,\n  summary: summary.substring(0, 1000),\n  successEval,\n  resultado,\n  citaAgendada,\n  nombreContacto,\n  objecion,\n  interes,\n  callbackDatetime,\n  email,\n  fecha\n} }];"
+      },
+      "id": "pc-parse-1",
+      "name": "Parse EOCR",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "pc-is-eocr-1",
+      "name": "Is Valid EOCR?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [640, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst nombre = d.nombreContacto || '';\nconst bookingUrl = 'https://app.cal.eu/ventas-pb/discovery-call';\nconst contactInfo = 'Mas info: admin@psycoboost.com | WA: wa.me/34982685874';\n\n// Determine resultado category\nlet resultado = (d.resultado || '').toLowerCase().trim();\n\n// If no resultado from structured data, infer from call data\nif (!resultado) {\n  if (d.citaAgendada) {\n    resultado = 'cita_agendada';\n  } else if (d.endedReason === 'customer-did-not-answer') {\n    resultado = 'no_contesta';\n  } else if (d.endedReason === 'voicemail-reached' || d.transcript.toLowerCase().includes('buzon')) {\n    resultado = 'buzon_voz';\n  } else if (d.duration < 15) {\n    resultado = 'no_contesta';\n  } else {\n    resultado = 'no_interesado';\n  }\n}\n\n// Normalize resultado to known categories\nconst resultadoMap = {\n  'cita_agendada': 'cita_agendada',\n  'cita_manual': 'cita_manual',\n  'llamar_despues': 'llamar_despues',\n  'interesado_no_agendo': 'interesado_no_agendo',\n  'interesado': 'interesado_no_agendo',\n  'pedir_info': 'pedir_info',\n  'no_interesado': 'no_interesado',\n  'gatekeeper': 'gatekeeper',\n  'no_contesta': 'no_contesta',\n  'buzon_voz': 'buzon_voz',\n  'error_booking': 'error_booking'\n};\nconst normalizedResultado = resultadoMap[resultado] || resultado;\n\n// Map nivel_interes\nlet nivelInteres = 'bajo';\nif (['cita_agendada', 'cita_manual'].includes(normalizedResultado)) {\n  nivelInteres = 'alto';\n} else if (['llamar_despues', 'interesado_no_agendo', 'pedir_info', 'error_booking'].includes(normalizedResultado)) {\n  nivelInteres = 'medio';\n}\n\n// Build SMS text based on resultado\nlet smsText = '';\nlet shouldSendSMS = false;\nconst nombreSaludo = nombre ? nombre : '';\n\nswitch (normalizedResultado) {\n  case 'cita_agendada':\n  case 'cita_manual':\n    smsText = 'Tu sesion esta confirmada! Te enviamos detalles pronto. ' + contactInfo;\n    shouldSendSMS = true;\n    break;\n  case 'llamar_despues':\n    const cuando = d.callbackDatetime ? d.callbackDatetime : 'pronto';\n    smsText = (nombreSaludo ? 'Hola ' + nombreSaludo + ', ' : 'Hola, ') + 'como hemos quedado te llamo ' + cuando + '. Si necesitas algo: ' + contactInfo;\n    shouldSendSMS = true;\n    break;\n  case 'interesado_no_agendo':\n  case 'pedir_info':\n    smsText = (nombreSaludo ? 'Hola ' + nombreSaludo + ', ' : 'Hola, ') + 'ha sido un placer hablar contigo. Te dejo el enlace por si quieres agendar tu sesion: ' + bookingUrl + '. ' + contactInfo;\n    shouldSendSMS = true;\n    break;\n  case 'error_booking':\n    smsText = (nombreSaludo ? 'Hola ' + nombreSaludo + ', ' : 'Hola, ') + 'disculpa, hemos tenido un problema tecnico. Puedes agendar directamente aqui: ' + bookingUrl + '. O escribenos: ' + contactInfo;\n    shouldSendSMS = true;\n    break;\n  case 'no_interesado':\n  case 'gatekeeper':\n  case 'no_contesta':\n  case 'buzon_voz':\n    shouldSendSMS = false;\n    break;\n  default:\n    shouldSendSMS = false;\n}\n\n// Determine estado_seguimiento\nlet estadoSeguimiento = 'completado';\nif (['llamar_despues'].includes(normalizedResultado)) {\n  estadoSeguimiento = 'pendiente_callback';\n} else if (['interesado_no_agendo', 'pedir_info'].includes(normalizedResultado)) {\n  estadoSeguimiento = 'pendiente_seguimiento';\n} else if (['no_contesta', 'buzon_voz', 'gatekeeper'].includes(normalizedResultado)) {\n  estadoSeguimiento = 'sin_contacto';\n} else if (['cita_agendada', 'cita_manual'].includes(normalizedResultado)) {\n  estadoSeguimiento = 'cita_programada';\n}\n\nreturn [{ json: {\n  ...d,\n  resultado: normalizedResultado,\n  nivelInteres,\n  estadoSeguimiento,\n  smsText,\n  shouldSendSMS,\n  isMobile: d.phone9.startsWith('6') || d.phone9.startsWith('7')\n} }];"
+      },
+      "id": "pc-classify-1",
+      "name": "Classify + Build SMS",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ performUpsert: { fieldsToMergeOn: ['lead_id'] }, records: [{ fields: { lead_id: $json.phone9, nombre: $json.nombreContacto || 'Desconocido', telefono: $json.phone, email: $json.email || '', resultado: $json.resultado, estado_seguimiento: $json.estadoSeguimiento, nivel_interes: $json.nivelInteres, objeciones: $json.objecion || '', resumen: $json.summary || '', fecha_llamada: $json.fecha, callback_datetime: $json.callbackDatetime || '', callback_ejecutado: false, recordatorio_24h: false, recordatorio_1h: false, noshow: false, vapi_call_id: $json.callId, do_not_contact: ($json.resultado === 'no_interesado') } }] }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "pc-upsert-at-1",
+      "name": "Upsert Airtable Seguimiento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 340]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $('Classify + Build SMS').first().json.shouldSendSMS }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ $('Classify + Build SMS').first().json.isMobile }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "pc-should-sms-1",
+      "name": "Should Send SMS?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1360, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telnyx.com/v2/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TELNYX_API_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: 'Psycoboost', to: $('Classify + Build SMS').first().json.phone, text: $('Classify + Build SMS').first().json.smsText, messaging_profile_id: '40019b6b-a7ea-4186-8092-ae712b2f844a' }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "pc-send-sms-1",
+      "name": "Send SMS Telnyx",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 240]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ performUpsert: { fieldsToMergeOn: ['lead_id'] }, records: [{ fields: { lead_id: $('Classify + Build SMS').first().json.phone9, fecha_sms_enviado: new Date().toISOString() } }] }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "pc-update-sms-date-1",
+      "name": "Update SMS Date in Airtable",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1840, 240]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok', callId: $('Parse EOCR').first().json.callId, resultado: $('Classify + Build SMS').first().json.resultado, smsSent: true }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "pc-respond-ok-sms-1",
+      "name": "Respond 200 (SMS Sent)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2080, 240]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok', callId: $('Parse EOCR').first().json.callId, resultado: $('Classify + Build SMS').first().json.resultado, smsSent: false }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "pc-respond-ok-nosms-1",
+      "name": "Respond 200 (No SMS)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1600, 460]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"skipped\", \"reason\": \"not_eocr\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "pc-respond-skip-1",
+      "name": "Respond Skip",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 520]
+    },
+    {
+      "parameters": {
+        "content": "## PB - Post-Call Dispatcher (Enhanced)\n\n**Webhook: /webhook/vaw-pb-postcall**\n\nReceives EOCR from VAW Event Router.\n\n### Flow:\n1. Parse EOCR data (call, transcript, structured data)\n2. Classify resultado + build SMS text\n3. Upsert to PB_Seguimiento_PostLlamada\n4. Send SMS via Telnyx (if applicable)\n5. Update fecha_sms_enviado in Airtable\n\n### SMS Rules:\n- cita_agendada/cita_manual: confirmation\n- llamar_despues: callback reminder\n- interesado_no_agendo/pedir_info: booking link\n- error_booking: apology + booking link\n- no_interesado/gatekeeper/no_contesta/buzon: NO SMS\n\n### Config:\n- Telnyx sender: Psycoboost (alphanumeric, unidirectional)\n- Airtable table: PB_Seguimiento_PostLlamada\n- All SMS include contact info footer"
+      },
+      "id": "pc-docs-1",
+      "name": "Docs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 200]
+    }
+  ],
+  "connections": {
+    "Webhook PostCall": {
+      "main": [
+        [
+          {
+            "node": "Parse EOCR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse EOCR": {
+      "main": [
+        [
+          {
+            "node": "Is Valid EOCR?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid EOCR?": {
+      "main": [
+        [
+          {
+            "node": "Classify + Build SMS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify + Build SMS": {
+      "main": [
+        [
+          {
+            "node": "Upsert Airtable Seguimiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert Airtable Seguimiento": {
+      "main": [
+        [
+          {
+            "node": "Should Send SMS?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should Send SMS?": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Telnyx",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond 200 (No SMS)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS Telnyx": {
+      "main": [
+        [
+          {
+            "node": "Update SMS Date in Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update SMS Date in Airtable": {
+      "main": [
+        [
+          {
+            "node": "Respond 200 (SMS Sent)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": null,
+  "triggerCount": 1
+}

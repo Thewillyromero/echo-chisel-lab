@@ -1,0 +1,634 @@
+{
+  "name": "PB - Cron Callbacks & Reminders (15min)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "cr-cron-1",
+      "name": "Every 15 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [200, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build Airtable filter for callbacks due in the next 15 minutes\nconst now = new Date();\nconst in15 = new Date(now.getTime() + 15 * 60 * 1000);\n\n// Format for Airtable DATETIME_PARSE comparison\nconst nowISO = now.toISOString();\nconst in15ISO = in15.toISOString();\n\n// Also compute tomorrow date range for 24h reminders (Madrid timezone)\n// We use a 15-min window approach: citas happening tomorrow\nconst madridOffset = 1; // CET = UTC+1 (CEST = UTC+2, adjust seasonally)\nconst madridNow = new Date(now.getTime() + madridOffset * 3600000);\nconst tomorrow = new Date(madridNow);\ntomorrow.setDate(tomorrow.getDate() + 1);\nconst tomorrowStr = tomorrow.toISOString().split('T')[0];\n\n// 1h reminders: citas in the next 60-75 minutes\nconst in60 = new Date(now.getTime() + 60 * 60 * 1000);\nconst in75 = new Date(now.getTime() + 75 * 60 * 1000);\nconst in60ISO = in60.toISOString();\nconst in75ISO = in75.toISOString();\n\nreturn [{ json: {\n  nowISO,\n  in15ISO,\n  in60ISO,\n  in75ISO,\n  tomorrowStr\n} }];"
+      },
+      "id": "cr-compute-times-1",
+      "name": "Compute Time Windows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 400]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc?filterByFormula=AND(IS_AFTER(callback_datetime, '{{ $json.nowISO }}'), IS_BEFORE(callback_datetime, '{{ $json.in15ISO }}'), callback_ejecutado=FALSE(), do_not_contact=FALSE())&maxRecords=50",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-fetch-callbacks-1",
+      "name": "Fetch Due Callbacks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc?filterByFormula=AND(DATESTR(fecha_cita)='{{ $('Compute Time Windows').first().json.tomorrowStr }}', recordatorio_24h=FALSE(), do_not_contact=FALSE())&maxRecords=50",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-fetch-24h-1",
+      "name": "Fetch 24h Reminder Citas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc?filterByFormula=AND(IS_AFTER(fecha_cita, '{{ $('Compute Time Windows').first().json.in60ISO }}'), IS_BEFORE(fecha_cita, '{{ $('Compute Time Windows').first().json.in75ISO }}'), recordatorio_1h=FALSE(), do_not_contact=FALSE())&maxRecords=50",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-fetch-1h-1",
+      "name": "Fetch 1h Reminder Citas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build VAPI call payloads for each due callback\nconst input = $input.first().json;\nconst records = input.records || [];\n\nif (!records.length) {\n  return [{ json: { hasCallbacks: false, payloads: [] } }];\n}\n\nconst payloads = records.map(r => {\n  const f = r.fields || {};\n  return {\n    recordId: r.id,\n    phone: f.telefono || '',\n    nombre: f.nombre || 'Desconocido',\n    leadId: f.lead_id || '',\n    vapiPayload: {\n      assistantId: '03a2bdfd-c35d-4116-ab53-a91eb24774f8',\n      phoneNumberId: '2339e804-8989-4047-a5c0-7d2e614d6076',\n      customer: {\n        number: f.telefono || ''\n      },\n      assistantOverrides: {\n        variableValues: {\n          first_name: f.nombre || '',\n          lead_id: f.lead_id || '',\n          is_callback: 'true',\n          previous_resultado: f.resultado || '',\n          objeciones: f.objeciones || ''\n        }\n      }\n    }\n  };\n});\n\nreturn payloads.map(p => ({ json: p }));"
+      },
+      "id": "cr-build-vapi-1",
+      "name": "Build VAPI Call Payloads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [940, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.phone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cr-has-phone-1",
+      "name": "Has Phone?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1160, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer VAPI_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.vapiPayload) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-vapi-call-1",
+      "name": "VAPI Outbound Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1380, 140]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc/{{ $('Build VAPI Call Payloads').item.json.recordId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { callback_ejecutado: true } }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-mark-callback-done-1",
+      "name": "Mark Callback Done",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 140]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build 24h reminder SMS for each cita\nconst input = $input.first().json;\nconst records = input.records || [];\n\nif (!records.length) {\n  return [{ json: { hasReminders: false } }];\n}\n\nconst contactInfo = 'Mas info: admin@psycoboost.com | WA: wa.me/34982685874';\n\nconst items = records.map(r => {\n  const f = r.fields || {};\n  const nombre = f.nombre || '';\n  const phone = f.telefono || '';\n  const phone9 = phone.replace('+34','').replace('+','').trim().slice(-9);\n  const isMobile = phone9.startsWith('6') || phone9.startsWith('7');\n\n  let fechaCitaStr = '';\n  if (f.fecha_cita) {\n    try {\n      const d = new Date(f.fecha_cita);\n      fechaCitaStr = d.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });\n    } catch(e) {\n      fechaCitaStr = f.fecha_cita;\n    }\n  }\n\n  const smsText = (nombre ? 'Hola ' + nombre + ', ' : 'Hola, ') + 'te recordamos que manana tienes tu sesion de discovery call' + (fechaCitaStr ? ' a las ' + fechaCitaStr.split(' ').pop() : '') + '. Te esperamos! ' + contactInfo;\n\n  return {\n    json: {\n      recordId: r.id,\n      phone,\n      isMobile,\n      smsText,\n      hasReminders: true\n    }\n  };\n});\n\nreturn items;"
+      },
+      "id": "cr-build-24h-sms-1",
+      "name": "Build 24h Reminder SMS",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [940, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.hasReminders }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ $json.isMobile }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cr-has-24h-1",
+      "name": "Has 24h Reminders?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1160, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telnyx.com/v2/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TELNYX_API_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: 'Psycoboost', to: $json.phone, text: $json.smsText, messaging_profile_id: '40019b6b-a7ea-4186-8092-ae712b2f844a' }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-send-24h-sms-1",
+      "name": "Send 24h SMS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1380, 360]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc/{{ $json.recordId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { recordatorio_24h: true } }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-mark-24h-done-1",
+      "name": "Mark 24h Done",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build 1h reminder SMS for each cita\nconst input = $input.first().json;\nconst records = input.records || [];\n\nif (!records.length) {\n  return [{ json: { hasReminders: false } }];\n}\n\nconst contactInfo = 'Mas info: admin@psycoboost.com | WA: wa.me/34982685874';\n\nconst items = records.map(r => {\n  const f = r.fields || {};\n  const nombre = f.nombre || '';\n  const phone = f.telefono || '';\n  const phone9 = phone.replace('+34','').replace('+','').trim().slice(-9);\n  const isMobile = phone9.startsWith('6') || phone9.startsWith('7');\n\n  let horaStr = '';\n  if (f.fecha_cita) {\n    try {\n      const d = new Date(f.fecha_cita);\n      horaStr = d.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });\n    } catch(e) {}\n  }\n\n  const smsText = (nombre ? 'Hola ' + nombre + '! ' : 'Hola! ') + 'En 1 hora tienes tu sesion de discovery call' + (horaStr ? ' (a las ' + horaStr + ')' : '') + '. Asegurate de estar disponible. Te esperamos! ' + contactInfo;\n\n  return {\n    json: {\n      recordId: r.id,\n      phone,\n      isMobile,\n      smsText,\n      hasReminders: true\n    }\n  };\n});\n\nreturn items;"
+      },
+      "id": "cr-build-1h-sms-1",
+      "name": "Build 1h Reminder SMS",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [940, 600]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.hasReminders }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ $json.isMobile }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cr-has-1h-1",
+      "name": "Has 1h Reminders?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1160, 600]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telnyx.com/v2/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TELNYX_API_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: 'Psycoboost', to: $json.phone, text: $json.smsText, messaging_profile_id: '40019b6b-a7ea-4186-8092-ae712b2f844a' }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-send-1h-sms-1",
+      "name": "Send 1h SMS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1380, 560]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc/{{ $json.recordId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { recordatorio_1h: true } }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "cr-mark-1h-done-1",
+      "name": "Mark 1h Done",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 560]
+    },
+    {
+      "parameters": {
+        "content": "## PB - Cron Callbacks & Reminders\n\n**Runs every 15 minutes**\n\n### 3 parallel tracks:\n\n**Track 1 - Callbacks (top row):**\n- Fetch records where callback_datetime is within next 15 min\n- Trigger VAPI outbound call for each\n- Mark callback_ejecutado=true\n\n**Track 2 - 24h Reminders (middle row):**\n- Fetch citas happening tomorrow\n- Send SMS reminder\n- Mark recordatorio_24h=true\n\n**Track 3 - 1h Reminders (bottom row):**\n- Fetch citas happening in 60-75 minutes\n- Send SMS reminder\n- Mark recordatorio_1h=true\n\n### No Wait nodes used - cron handles timing\n### All SMS via Telnyx (Psycoboost sender)"
+      },
+      "id": "cr-docs-1",
+      "name": "Docs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 150]
+    }
+  ],
+  "connections": {
+    "Every 15 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Compute Time Windows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Time Windows": {
+      "main": [
+        [
+          {
+            "node": "Fetch Due Callbacks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch 24h Reminder Citas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch 1h Reminder Citas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Due Callbacks": {
+      "main": [
+        [
+          {
+            "node": "Build VAPI Call Payloads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build VAPI Call Payloads": {
+      "main": [
+        [
+          {
+            "node": "Has Phone?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Phone?": {
+      "main": [
+        [
+          {
+            "node": "VAPI Outbound Call",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "VAPI Outbound Call": {
+      "main": [
+        [
+          {
+            "node": "Mark Callback Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch 24h Reminder Citas": {
+      "main": [
+        [
+          {
+            "node": "Build 24h Reminder SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build 24h Reminder SMS": {
+      "main": [
+        [
+          {
+            "node": "Has 24h Reminders?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has 24h Reminders?": {
+      "main": [
+        [
+          {
+            "node": "Send 24h SMS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Send 24h SMS": {
+      "main": [
+        [
+          {
+            "node": "Mark 24h Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch 1h Reminder Citas": {
+      "main": [
+        [
+          {
+            "node": "Build 1h Reminder SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build 1h Reminder SMS": {
+      "main": [
+        [
+          {
+            "node": "Has 1h Reminders?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has 1h Reminders?": {
+      "main": [
+        [
+          {
+            "node": "Send 1h SMS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Send 1h SMS": {
+      "main": [
+        [
+          {
+            "node": "Mark 1h Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": null,
+  "triggerCount": 1
+}

@@ -1,0 +1,258 @@
+{
+  "name": "PB - Email Template Sender",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pb-send-email",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "em-webhook-1",
+      "name": "Webhook Email",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 400],
+      "webhookId": "pb-send-email"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst body = data.body || data;\n\nconst templateName = (body.template_name || '').toLowerCase().trim();\nconst email = body.email || '';\nconst nombre = body.nombre || '';\nconst leadId = body.lead_id || '';\nconst fechaCita = body.fecha_cita || '';\nconst closerName = body.closer_name || 'el equipo de Psycoboost';\nconst bookingUrl = 'https://app.cal.eu/ventas-pb/discovery-call';\n\nconst validTemplates = ['bienvenida', 'confirmacion', 'recordatorio_24h', 'recordatorio_1h', 'noshow'];\n\nif (!email) {\n  return [{ json: { skip: true, reason: 'no_email' } }];\n}\n\nif (!validTemplates.includes(templateName)) {\n  return [{ json: { skip: true, reason: 'invalid_template: ' + templateName } }];\n}\n\nreturn [{ json: {\n  skip: false,\n  templateName,\n  email,\n  nombre,\n  leadId,\n  fechaCita,\n  closerName,\n  bookingUrl\n} }];"
+      },
+      "id": "em-route-1",
+      "name": "Route by Template",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "em-is-valid-1",
+      "name": "Is Valid Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [640, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst nombre = d.nombre || 'profesional';\nconst bookingUrl = d.bookingUrl;\nconst fechaCita = d.fechaCita || '';\nconst closerName = d.closerName;\n\n// Common styles\nconst styles = `\n  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }\n  .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }\n  .header { background: linear-gradient(135deg, #6C63FF 0%, #4834d4 100%); padding: 32px 24px; text-align: center; }\n  .header h1 { color: #ffffff; font-size: 24px; margin: 0; font-weight: 700; }\n  .header p { color: rgba(255,255,255,0.85); font-size: 14px; margin: 8px 0 0; }\n  .body-content { padding: 32px 24px; color: #333; line-height: 1.6; font-size: 15px; }\n  .body-content h2 { color: #4834d4; font-size: 20px; margin-top: 0; }\n  .cta-btn { display: inline-block; background: #6C63FF; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; margin: 16px 0; }\n  .footer { background: #f0f0f0; padding: 20px 24px; text-align: center; font-size: 12px; color: #888; }\n  .footer a { color: #6C63FF; text-decoration: none; }\n  .highlight { background: #f0eeff; border-left: 4px solid #6C63FF; padding: 12px 16px; border-radius: 4px; margin: 16px 0; }\n`;\n\nconst footer = `\n  <div class=\"footer\">\n    <p>Psycoboost - Ayudamos a psicologos a llenar su agenda</p>\n    <p><a href=\"mailto:admin@psycoboost.com\">admin@psycoboost.com</a> | <a href=\"https://wa.me/34982685874\">WhatsApp</a></p>\n    <p style=\"margin-top:8px;\">Si no deseas recibir mas emails, responde a este mensaje con BAJA</p>\n  </div>\n`;\n\nlet subject = '';\nlet htmlBody = '';\n\nswitch (d.templateName) {\n  case 'bienvenida':\n    subject = 'Bienvenido/a a Psycoboost, ' + nombre;\n    htmlBody = `\n      <div class=\"body-content\">\n        <h2>Hola ${nombre},</h2>\n        <p>Gracias por tu interes en Psycoboost. Nos dedicamos a ayudar a psicologos como tu a tener la agenda llena de pacientes.</p>\n        <p>En breve, un miembro de nuestro equipo se pondra en contacto contigo para conocer tu situacion y ver como podemos ayudarte.</p>\n        <div class=\"highlight\">\n          <strong>Mientras tanto:</strong> Si quieres adelantar y agendar directamente tu sesion de discovery call gratuita, haz clic aqui:\n        </div>\n        <p style=\"text-align:center;\"><a href=\"${bookingUrl}\" class=\"cta-btn\">Agendar mi sesion</a></p>\n        <p>Un saludo,<br><strong>El equipo de Psycoboost</strong></p>\n      </div>\n    `;\n    break;\n\n  case 'confirmacion':\n    subject = 'Tu sesion esta confirmada - Psycoboost';\n    htmlBody = `\n      <div class=\"body-content\">\n        <h2>Sesion confirmada!</h2>\n        <p>Hola ${nombre},</p>\n        <p>Tu discovery call con ${closerName} esta confirmada.</p>\n        ${fechaCita ? '<div class=\"highlight\"><strong>Fecha y hora:</strong> ' + fechaCita + '</div>' : ''}\n        <p>Prepara cualquier pregunta que tengas sobre como podemos ayudarte a captar mas pacientes. Esta sesion es totalmente gratuita y sin compromiso.</p>\n        <p><strong>Consejos para la sesion:</strong></p>\n        <ul>\n          <li>Busca un lugar tranquilo donde puedas hablar con calma</li>\n          <li>Ten a mano datos sobre tu situacion actual (numero de pacientes, fuentes de captacion, etc.)</li>\n          <li>Piensa en tus objetivos a 3-6 meses</li>\n        </ul>\n        <p>Si necesitas cambiar la hora, escribenos a <a href=\"mailto:admin@psycoboost.com\">admin@psycoboost.com</a> o por <a href=\"https://wa.me/34982685874\">WhatsApp</a>.</p>\n        <p>Un saludo,<br><strong>El equipo de Psycoboost</strong></p>\n      </div>\n    `;\n    break;\n\n  case 'recordatorio_24h':\n    subject = 'Recordatorio: Tu sesion es manana - Psycoboost';\n    htmlBody = `\n      <div class=\"body-content\">\n        <h2>Tu sesion es manana!</h2>\n        <p>Hola ${nombre},</p>\n        <p>Te recordamos que manana tienes tu discovery call con ${closerName}.</p>\n        ${fechaCita ? '<div class=\"highlight\"><strong>Fecha y hora:</strong> ' + fechaCita + '</div>' : ''}\n        <p>Estamos deseando hablar contigo y mostrarte como otros psicologos han conseguido llenar su agenda.</p>\n        <p>Si necesitas reprogramar, no hay problema: escribenos a <a href=\"mailto:admin@psycoboost.com\">admin@psycoboost.com</a> o por <a href=\"https://wa.me/34982685874\">WhatsApp</a>.</p>\n        <p>Hasta manana!<br><strong>El equipo de Psycoboost</strong></p>\n      </div>\n    `;\n    break;\n\n  case 'recordatorio_1h':\n    subject = 'En 1 hora: Tu sesion con Psycoboost';\n    htmlBody = `\n      <div class=\"body-content\">\n        <h2>En 1 hora empieza tu sesion!</h2>\n        <p>Hola ${nombre},</p>\n        <p>Solo queriamos recordarte que en aproximadamente 1 hora tienes tu discovery call con ${closerName}.</p>\n        ${fechaCita ? '<div class=\"highlight\"><strong>Hora:</strong> ' + fechaCita + '</div>' : ''}\n        <p>Asegurate de estar en un lugar tranquilo y con buena conexion. Te llamaremos al numero que nos facilitaste.</p>\n        <p>Te esperamos!<br><strong>El equipo de Psycoboost</strong></p>\n      </div>\n    `;\n    break;\n\n  case 'noshow':\n    subject = 'Te hemos echado de menos - Psycoboost';\n    htmlBody = `\n      <div class=\"body-content\">\n        <h2>Hola ${nombre},</h2>\n        <p>Hoy teniamos programada tu discovery call pero no hemos podido conectar contigo. No pasa nada, sabemos que a veces surgen imprevistos.</p>\n        <p>Si sigues interesado/a en descubrir como otros psicologos han llenado su agenda con nuestro metodo, puedes reagendar facilmente:</p>\n        <p style=\"text-align:center;\"><a href=\"${bookingUrl}\" class=\"cta-btn\">Reagendar mi sesion</a></p>\n        <p>Si tienes cualquier pregunta, estamos aqui para ti.</p>\n        <p>Un saludo,<br><strong>El equipo de Psycoboost</strong></p>\n      </div>\n    `;\n    break;\n}\n\nconst fullHtml = `<!DOCTYPE html>\n<html lang=\"es\">\n<head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><style>${styles}</style></head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Psycoboost</h1>\n      <p>Llenamos la agenda de tu consulta</p>\n    </div>\n    ${htmlBody}\n    ${footer}\n  </div>\n</body>\n</html>`;\n\nreturn [{ json: {\n  ...d,\n  subject,\n  htmlBody: fullHtml\n} }];"
+      },
+      "id": "em-build-html-1",
+      "name": "Build HTML Template",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer re_PLACEHOLDER_CONFIGURE_RESEND_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: 'Psycoboost <noreply@psycoboost.com>', to: [$json.email], subject: $json.subject, html: $json.htmlBody }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "em-send-resend-1",
+      "name": "Send via Resend (Placeholder)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.airtable.com/v0/appMKzx72jwPbVeAg/tblxspXF93Nv5ojGc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AIRTABLE_TOKEN_PLACEHOLDER"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ performUpsert: { fieldsToMergeOn: ['lead_id'] }, records: [{ fields: { lead_id: $('Route by Template').first().json.leadId, fecha_email_enviado: new Date().toISOString() } }] }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "em-update-at-1",
+      "name": "Update Airtable Email Date",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1360, 340]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok', template: $('Route by Template').first().json.templateName, email: $('Route by Template').first().json.email }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "em-respond-ok-1",
+      "name": "Respond 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1580, 340]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'skipped', reason: $json.reason || 'invalid_request' }) }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "em-respond-skip-1",
+      "name": "Respond 400 Skip",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 520]
+    },
+    {
+      "parameters": {
+        "content": "## PB - Email Template Sender\n\n**Webhook: /webhook/pb-send-email**\n\n### Payload:\n```json\n{\n  \"template_name\": \"bienvenida|confirmacion|recordatorio_24h|recordatorio_1h|noshow\",\n  \"email\": \"lead@example.com\",\n  \"nombre\": \"Dr. Garcia\",\n  \"lead_id\": \"612345678\",\n  \"fecha_cita\": \"28/03/2026 10:00\",\n  \"closer_name\": \"Laura\"\n}\n```\n\n### Templates:\n- **bienvenida**: Welcome + booking link\n- **confirmacion**: Appointment confirmed\n- **recordatorio_24h**: 24h before appointment\n- **recordatorio_1h**: 1h before appointment\n- **noshow**: Missed appointment + rebooking link\n\n### Status: PLACEHOLDER\nResend API key needs to be configured.\nReplace `re_PLACEHOLDER_CONFIGURE_RESEND_KEY` with actual key."
+      },
+      "id": "em-docs-1",
+      "name": "Docs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 200]
+    }
+  ],
+  "connections": {
+    "Webhook Email": {
+      "main": [
+        [
+          {
+            "node": "Route by Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Template": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Request?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Request?": {
+      "main": [
+        [
+          {
+            "node": "Build HTML Template",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond 400 Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build HTML Template": {
+      "main": [
+        [
+          {
+            "node": "Send via Resend (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send via Resend (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Update Airtable Email Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Airtable Email Date": {
+      "main": [
+        [
+          {
+            "node": "Respond 200 OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": null,
+  "triggerCount": 1
+}
