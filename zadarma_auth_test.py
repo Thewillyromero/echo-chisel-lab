@@ -28,11 +28,22 @@ import ssl
 import sys
 from collections import OrderedDict
 
+# ─── Credentials (loaded from environment variables) ──────────────────────────
+# Set these before running:
+#   export ZADARMA_API_KEY="your_key_here"
+#   export ZADARMA_API_SECRET="your_secret_here"
+import os
 
-# ─── Credentials ───────────────────────────────────────────────────────────────
-API_KEY    = "212d57bcd79758650f71"
-API_SECRET = "dd776a8c73f1decd2240"
-API_BASE   = "https://api.zadarma.com"
+API_KEY    = os.environ.get("ZADARMA_API_KEY", "")
+API_SECRET = os.environ.get("ZADARMA_API_SECRET", "")
+API_BASE   = os.environ.get("ZADARMA_API_BASE", "https://api.zadarma.com")
+
+if not API_KEY or not API_SECRET:
+    print("ERROR: ZADARMA_API_KEY and ZADARMA_API_SECRET environment variables must be set.")
+    print("Example:")
+    print("  export ZADARMA_API_KEY='your_key_here'")
+    print("  export ZADARMA_API_SECRET='your_secret_here'")
+    sys.exit(1)
 
 
 def zadarma_sign(method: str, params: dict, secret: str) -> tuple:
