@@ -58,7 +58,7 @@ const PressQuotes = () => {
           </p>
 
           <div
-            className="relative rounded-2xl border border-brand-gold/10 p-8 md:p-12 lg:p-16 overflow-hidden"
+            className="glow-border relative rounded-2xl p-8 md:p-12 lg:p-16 overflow-hidden"
             style={{
               background: "linear-gradient(135deg, hsl(43 50% 55% / 0.03) 0%, hsl(var(--card) / 0.5) 50%, hsl(43 50% 55% / 0.02) 100%)",
             }}

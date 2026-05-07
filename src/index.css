@@ -270,6 +270,134 @@
   50% { opacity: 0.5; }
 }
 
+/* ── Aurora / mesh gradient keyframes ── */
+@keyframes aurora {
+  0%, 100% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
+  33% { opacity: 0.6; transform: scale(1.1) rotate(2deg); }
+  66% { opacity: 0.5; transform: scale(0.95) rotate(-1deg); }
+}
+
+/* ── Rotating glow border ── */
+@property --glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes glow-rotate {
+  to { --glow-angle: 360deg; }
+}
+
+.glow-border {
+  position: relative;
+  background: hsl(var(--card));
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 25%,
+    hsl(190 60% 55% / 0.4) 30%,
+    hsl(260 50% 65% / 0.3) 40%,
+    transparent 45%,
+    transparent 75%,
+    hsl(217 91% 60% / 0.3) 80%,
+    hsl(43 72% 65% / 0.2) 85%,
+    transparent 90%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glow-rotate 8s linear infinite;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 25%,
+    hsl(190 60% 55% / 0.08) 30%,
+    hsl(260 50% 65% / 0.06) 40%,
+    transparent 45%,
+    transparent 75%,
+    hsl(217 91% 60% / 0.06) 80%,
+    hsl(43 72% 65% / 0.04) 85%,
+    transparent 90%
+  );
+  filter: blur(12px);
+  z-index: -1;
+  animation: glow-rotate 8s linear infinite;
+}
+
+/* Hover-only variant */
+.glow-border-hover::before,
+.glow-border-hover::after {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.glow-border-hover:hover::before,
+.glow-border-hover:hover::after {
+  opacity: 1;
+}
+
+/* ── Shimmer light sweep ── */
+@keyframes shimmer-sweep {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    110deg,
+    hsl(var(--foreground)) 35%,
+    hsl(0 0% 100% / 0.8) 50%,
+    hsl(var(--foreground)) 65%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-sweep 5s ease-in-out infinite;
+}
+
+.shimmer-border {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(0 0% 100% / 0.04),
+    transparent
+  );
+  animation: shimmer-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
 /* ── Improved typography scale ── */
 @layer utilities {
   .text-display-xl {

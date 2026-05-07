@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroRobot from "@/assets/hero-robot.webp";
 import CharacterReveal from "@/components/CharacterReveal";
+import TextReveal from "@/components/TextReveal";
 
 const CTA = ({ onContact }: { onContact?: () => void }) => {
   return (
@@ -16,7 +17,7 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
-          <div className="relative rounded-3xl border border-border/30 overflow-hidden">
+          <div className="shimmer-border relative rounded-3xl border border-border/30 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-card/80 to-accent/[0.04]" />
             {/* Background character — hero robot watermark */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none hidden md:block">
@@ -26,7 +27,10 @@ const CTA = ({ onContact }: { onContact?: () => void }) => {
             <div className="relative p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 md:gap-10">
               <div className="flex-1 text-center md:text-left">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-glow">
-                  Empieza <span className="text-gradient text-glow-emerald">hoy mismo</span>
+                  <TextReveal>Empieza</TextReveal>{" "}
+                  <span className="text-gradient text-glow-emerald">
+                    <TextReveal delay={0.1}>hoy mismo</TextReveal>
+                  </span>
                 </h2>
                 <p className="text-muted-foreground text-base md:text-lg mb-6 md:mb-8 font-light max-w-md">
                   En menos de 30 minutos, puedes tener un asistente virtual gestionando todas tus llamadas y citas.

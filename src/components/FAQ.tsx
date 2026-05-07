@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import agentScheduler from "@/assets/characters/agent-scheduler.webp";
 import CharacterReveal from "@/components/CharacterReveal";
+import TextReveal from "@/components/TextReveal";
 import {
   Accordion,
   AccordionContent,
@@ -91,7 +92,10 @@ const FAQ = () => {
             FAQ
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold mb-4 md:mb-5 tracking-tight text-glow">
-            Preguntas <span className="text-gradient text-glow-lavender">frecuentes</span>
+            <TextReveal>Preguntas</TextReveal>{" "}
+            <span className="text-gradient text-glow-lavender">
+              <TextReveal delay={0.1}>frecuentes</TextReveal>
+            </span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg font-light">
             Todo lo que necesitas saber antes de empezar con CALLA.

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import agentAnalytics from "@/assets/characters/agent-analytics.webp";
 import CharacterReveal from "@/components/CharacterReveal";
+import TextReveal from "@/components/TextReveal";
 
 const stats = [
   { value: 2, suffix: "M+", label: "Llamadas gestionadas" },
@@ -91,7 +92,10 @@ const Stats = () => {
                 Resultados probados
               </p>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-3 tracking-tight text-glow">
-                Innovación en <span className="text-gradient text-glow-teal">IA conversacional</span>
+                <TextReveal>Innovación en</TextReveal>{" "}
+                <span className="text-gradient text-glow-teal">
+                  <TextReveal delay={0.15}>IA conversacional</TextReveal>
+                </span>
               </h2>
               <p className="text-muted-foreground max-w-xl mb-8 md:mb-12 text-base md:text-lg font-light">
                 Nuestros asistentes virtuales aportan calma a tu negocio gestionando llamadas y citas.

@@ -62,7 +62,7 @@ const Footer = () => {
             © 2026 CALLA. Todos los derechos reservados.
           </p>
           <p className="text-xs text-muted-foreground/30">
-            Hecho con IA · Desde España 🇪🇸
+            callao.app
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import ScrollProgress from "@/components/ScrollProgress";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
@@ -32,6 +33,7 @@ const Index = () => {
   return (
     <LiveMetricsProvider>
       <div className="min-h-screen bg-background pb-8 overflow-x-hidden">
+        <ScrollProgress />
         <Navbar onContact={openContact} />
         <Hero onContact={openContact} />
         <SocialProof />

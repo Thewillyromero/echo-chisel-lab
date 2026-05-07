@@ -172,7 +172,7 @@ const Pricing = () => {
                   <div
                     className={`rounded-2xl p-5 sm:p-6 lg:p-8 h-full transition-all duration-500 ${
                       tier.popular
-                        ? "glass-warm border border-brand-lavender/20"
+                        ? "glass-warm glow-border border-brand-lavender/20"
                         : "glass border-border/20 hover:border-border/30"
                     }`}
                     style={{

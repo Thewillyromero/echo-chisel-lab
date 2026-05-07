@@ -4,6 +4,7 @@ import agentInbound from "@/assets/characters/agent-inbound.webp";
 import agentOutbound from "@/assets/characters/agent-outbound.webp";
 import agentAnalytics from "@/assets/characters/agent-analytics.webp";
 import CharacterReveal from "@/components/CharacterReveal";
+import TextReveal from "@/components/TextReveal";
 
 const About = () => {
   return (
@@ -63,7 +64,7 @@ const About = () => {
             Sobre nosotros
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold mb-5 md:mb-6 tracking-tight text-glow">
-            Conócenos
+            <TextReveal>Conócenos</TextReveal>
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-4 text-base md:text-lg font-light">
             Contamos con un equipo de profesionales especializados en IA conversacional. Entrenamos y adaptamos tu asistente virtual para que tus clientes reciban la mejor experiencia posible.

@@ -20,18 +20,51 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
 
   return (
     <section id="hero" ref={sectionRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
-      <img
-        src={heroBg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover opacity-25"
-        width={1920}
-        height={1080}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/50" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70" />
+      {/* Aurora background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15" width={1920} height={1080} />
 
-      <div className="absolute top-1/3 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-primary/[0.04] blur-[150px]" />
-      <div className="absolute bottom-1/4 right-1/3 w-[250px] md:w-[400px] h-[250px] md:h-[400px] rounded-full bg-accent/[0.03] blur-[120px]" />
+        {/* Aurora gradient base */}
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            background: 'linear-gradient(135deg, hsl(217 91% 20% / 0.8), hsl(260 50% 15% / 0.6), hsl(190 60% 15% / 0.5), hsl(340 55% 15% / 0.3))',
+            backgroundSize: '300% 300%',
+            animation: 'aurora 60s ease-in-out infinite',
+          }}
+        />
+
+        {/* Animated blob 1 - teal */}
+        <div
+          className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full blur-[150px]"
+          style={{
+            background: 'radial-gradient(circle, hsl(190 60% 50% / 0.15), transparent 70%)',
+            animation: 'aurora-pulse 15s ease-in-out infinite',
+          }}
+        />
+
+        {/* Animated blob 2 - purple */}
+        <div
+          className="absolute -bottom-1/4 -right-1/4 w-[700px] h-[700px] rounded-full blur-[130px]"
+          style={{
+            background: 'radial-gradient(circle, hsl(260 50% 50% / 0.12), transparent 70%)',
+            animation: 'aurora-pulse 20s ease-in-out infinite 5s',
+          }}
+        />
+
+        {/* Animated blob 3 - blue */}
+        <div
+          className="absolute top-1/3 left-1/3 w-[600px] h-[600px] rounded-full blur-[120px]"
+          style={{
+            background: 'radial-gradient(circle, hsl(217 91% 45% / 0.1), transparent 70%)',
+            animation: 'aurora-pulse 25s ease-in-out infinite 10s',
+          }}
+        />
+
+        {/* Dark overlay gradients for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+      </div>
 
       <div className="container mx-auto px-5 md:px-6 relative z-10 flex flex-col lg:flex-row items-center gap-8 md:gap-12 pt-20 md:pt-24 pb-8">
         <motion.div
@@ -40,7 +73,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="flex-1 max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 bg-primary/[0.08] border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+          <div className="shimmer-border inline-flex items-center gap-2 bg-primary/[0.08] border border-primary/20 rounded-full px-4 py-1.5 mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs text-primary font-medium">Atención telefónica inteligente</span>
           </div>
