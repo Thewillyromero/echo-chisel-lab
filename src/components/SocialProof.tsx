@@ -37,7 +37,7 @@ const SocialProof = () => (
             <TrustpilotStars rating={4.9} size={20} />
             <div className="flex flex-col">
               <span className="text-lg font-display font-bold text-foreground leading-tight">4.9 / 5</span>
-              <span className="text-xs text-muted-foreground leading-tight">Basado en +200 opiniones</span>
+              <span className="text-xs text-muted-foreground leading-tight">Verificado en Trustpilot · +200 opiniones</span>
             </div>
           </div>
           <div className="hidden md:block w-px h-10 bg-border/30" />

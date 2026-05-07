@@ -96,12 +96,15 @@ const LogoMarquee = memo(() => {
   const displayLogos = isMobile ? logos.slice(0, 20) : logos;
 
   return (
-    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20">
+    <section className="py-7 md:py-10 border-y border-white/[0.04] overflow-hidden relative bg-black/20 group/marquee">
+      <p className="text-center text-[10px] sm:text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground/40 mb-4 md:mb-5">
+        Empresas que ya conf\u00edan en CALLA
+      </p>
       <div className="absolute left-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <div className="marquee-container">
-        <div className="marquee-track">
+        <div className="marquee-track group-hover/marquee:[animation-play-state:paused]">
           {displayLogos.map((logo, i) => (
             <div key={`a-${i}`} className="marquee-item">
               <img
