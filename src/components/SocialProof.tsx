@@ -31,7 +31,7 @@ const SocialProof = () => (
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="glow-border-hover bg-card/30 border border-border/20 rounded-2xl p-5 md:p-6 hover:border-border/30 transition-all duration-300 relative overflow-hidden"
       >
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-5">
           <div className="flex items-center gap-3">
             <TrustpilotStars rating={4.9} size={20} />

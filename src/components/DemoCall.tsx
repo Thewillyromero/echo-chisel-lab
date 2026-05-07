@@ -265,7 +265,7 @@ const DemoCall = () => {
       id="demo"
       className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden"
     >
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-brand-teal/[0.04] blur-[200px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
       {/* Background character — ARIA (left) */}

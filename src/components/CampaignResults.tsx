@@ -55,7 +55,7 @@ const CampaignResults = () => {
       <div className="absolute -left-10 top-1/3 pointer-events-none select-none">
         <img src={agentAnalytics} alt="" className="w-[150px] sm:w-[250px] md:w-[350px] lg:w-[500px] opacity-[0.06] sm:opacity-[0.08] lg:opacity-[0.12] -rotate-6" loading="lazy" />
       </div>
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
       <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full bg-brand-amber/[0.03] blur-[180px] pointer-events-none" />
 
       <div className="container mx-auto relative z-10">

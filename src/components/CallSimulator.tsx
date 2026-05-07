@@ -197,7 +197,7 @@ const CallSimulator = () => {
 
   return (
     <section id="simulador" className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
 
       <div className="container mx-auto max-w-3xl relative z-10">
         <motion.div

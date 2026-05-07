@@ -86,7 +86,7 @@ const Testimonial = () => {
 
   return (
     <section id="testimonials" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
       <div className="absolute -right-10 top-1/4 pointer-events-none select-none">
         <CharacterReveal src={agentSupport} alt="" className="w-[150px] sm:w-[200px] md:w-[350px] lg:w-[450px] opacity-[0.06] sm:opacity-[0.08] lg:opacity-[0.12]" glowColor="hsl(340 55% 60%)" revealOffset={[0.05, 0.3]} />
       </div>

@@ -19,7 +19,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
   const y = useSpring(rawY, { stiffness: 60, damping: 20 });
 
   return (
-    <section id="hero" ref={sectionRef} className="relative min-h-[85svh] md:min-h-[90svh] flex items-center overflow-hidden">
+    <section id="hero" ref={sectionRef} className="relative min-h-[75svh] md:min-h-[80svh] flex items-center overflow-hidden">
       {/* Aurora background */}
       <div className="absolute inset-0 overflow-hidden">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15" width={1920} height={1080} />
@@ -81,10 +81,10 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             Tus llamadas,{" "}
             <span className="text-gradient text-glow-teal">resueltas por IA</span>
           </h1>
-          <p className="text-base md:text-xl text-muted-foreground mb-3 md:mb-4 leading-relaxed font-light max-w-xl">
+          <p className="text-base md:text-xl text-muted-foreground/80 mb-3 md:mb-4 leading-relaxed font-light max-w-xl">
             CALLA atiende tus llamadas, agenda citas y responde a tus clientes con una voz natural. Lanza campañas outbound para appointment setting.
           </p>
-          <p className="text-sm md:text-base text-muted-foreground/50 mb-6 md:mb-8">
+          <p className="text-sm md:text-base text-muted-foreground/60 mb-6 md:mb-8">
             Inbound + Outbound. Todo en una sola plataforma.
           </p>
           <motion.div
@@ -107,9 +107,9 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             transition={{ duration: 0.6, delay: 0.8 }}
             className="flex items-center gap-2.5 mt-6"
           >
-            <ShieldCheck className="w-4 h-4 text-brand-gold" />
-            <span className="text-xs text-muted-foreground/50 font-editorial italic">
-              Trusted by 200+ companies across 20 industries
+            <ShieldCheck className="w-4 h-4 text-primary/60" />
+            <span className="text-xs text-muted-foreground/60">
+              +200 empresas conf\u00edan en CALLA
             </span>
           </motion.div>
         </motion.div>

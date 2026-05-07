@@ -102,7 +102,7 @@ const CallCard = ({ call }: { call: CallSample }) => (
 
 const CallPlayer = () => (
   <section className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
-    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
     <div className="absolute bottom-1/3 -left-40 w-[500px] h-[500px] rounded-full bg-brand-teal/[0.03] blur-[160px] pointer-events-none" />
 
     <div className="container mx-auto relative z-10">

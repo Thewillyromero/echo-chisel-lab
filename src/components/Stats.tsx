@@ -62,7 +62,7 @@ const statVariants = {
 const Stats = () => {
   return (
     <section id="stats" className="py-16 md:py-28 px-5 md:px-6 relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/10 to-transparent" />
 
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-16">
