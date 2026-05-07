@@ -101,6 +101,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
 
           <a href="#squad" onClick={(e) => handleNavClick(e, "#squad")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Squad</a>
           <a href="#stats" onClick={(e) => handleNavClick(e, "#stats")} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Resultados</a>
+          <Link to="/blog" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Blog</Link>
           <Link to="/precios" className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">Precios</Link>
         </div>
 
@@ -141,6 +142,7 @@ const Navbar = ({ onContact }: { onContact?: () => void }) => {
           )}
           <button onClick={() => handleMobileNavClick("#squad")} className="py-2.5 text-sm text-muted-foreground text-left">Squad</button>
           <button onClick={() => handleMobileNavClick("#stats")} className="py-2.5 text-sm text-muted-foreground text-left">Resultados</button>
+          <Link to="/blog" className="py-2.5 text-sm text-muted-foreground" onClick={() => setOpen(false)}>Blog</Link>
           <Link to="/precios" className="py-2.5 text-sm text-muted-foreground" onClick={() => setOpen(false)}>Precios</Link>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full w-full mt-3 shadow-lg shadow-primary/20" onClick={() => { setOpen(false); onContact?.(); }}>
             Empezar gratis

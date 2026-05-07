@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         display: ['"Fredoka"', '"Outfit"', 'system-ui', 'sans-serif'],
         body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        editorial: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -57,6 +58,8 @@ export default {
           rose: "hsl(var(--brand-rose))",
           amber: "hsl(var(--brand-amber))",
           emerald: "hsl(var(--brand-emerald))",
+          gold: "hsl(43 72% 65%)",
+          "gold-muted": "hsl(43 40% 50%)",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

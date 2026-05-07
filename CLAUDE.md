@@ -1,171 +1,77 @@
-# CLAUDE.md - Project Instructions for Claude Code
+# CALLA — Instrucciones permanentes para Claude Code
+## Credenciales y contexto completo en SESSION_STATE.md y en el prompt de cada sesión
+## Reglas globales
+- NUNCA exponer VAPI, VAW, n8n, Zadarma, Airtable en materiales client-facing
+- Excluir equipo: +34671544780, +34653177837, +34651524434
+- CSV: CERO celdas vacías, fallback first_name = "el equipo"
+- Meta WhatsApp: SOLO plantillas UTILITY, NUNCA MARKETING
+- n8n Code nodes: SIEMPRE this.helpers.httpRequest(), NUNCA require('https')
+- Después de PUT a webhook workflow: docker restart n8n + reactivar
+- Limpiar datos de test después de CADA test
+- SMS: one-way, terminar con "No respondas a este SMS"
 
-## Project Overview
+## Sesión Guille v5 — 2026-04-25
 
-**CALLA** is a Spanish-language AI-powered virtual phone assistant platform. It handles inbound calls, outbound campaigns, appointment scheduling, and analytics. The website is a landing page + sector-specific pages + pricing page with a live chatbot and demo call feature.
+### Cambios aplicados
+- **Schema v3** en 3 asistentes VAPI: +4 campos (producto_interes, motivo_no_cualifica_psyco, pivot_intentado, pivot_resultado) en todos, +1 campo (lead_dijo_si_a_huecos) solo en Inbound
+- **FASE 6.5 PIVOT** insertada en PB Out (77043229) y PB Out Fijos (f500d630): reveal IA + propuesta asistente de voz cuando lead no cualifica para PB
+- **PB Inbound (a8e97599) reescrito completo**: firstMessage="Sí, ¿quién es? Soy Guille.", prompt v5 con palanca de cierre (lead_dijo_si_a_huecos), pivot integrado
+- **Event Router (7eGv7dSEgwaZvkwm)**: Classify con routing por producto/pivot, tags dinámicos, Add Note con campos v3
+- **Bugs pre-existentes corregidos**: Add Note + Is Callback? referenciaban $json (output de Move Opportunity) en vez de $('Merge').first().json; customerNumber extraction no leía message.customer
 
-## Tech Stack
+### Backups
+- `backup_77043229.json`, `backup_f500d630.json`, `backup_a8e97599.json`, `backup_event_router.json`
 
-- **Frontend**: React 18 + TypeScript + Vite 5
-- **Styling**: Tailwind CSS 3 + shadcn/ui components + custom design tokens (HSL)
-- **Animations**: framer-motion
-- **Routing**: react-router-dom v6
-- **Backend**: Supabase (Lovable Cloud) — Edge Functions (Deno), Postgres DB, Auth
-- **State**: React Query (@tanstack/react-query)
-- **Forms**: react-hook-form + zod validation
+### IDs relevantes
+- PB Out: `77043229-6055-4028-b4d1-f7fba9c751e9`
+- PB Out Fijos: `f500d630-2525-468f-b8a6-467a58a70ee2`
+- PB Inbound: `a8e97599-1df2-4afa-b2ce-9f12dc47a025`
+- Event Router: `7eGv7dSEgwaZvkwm`
+- Pipeline: `cIadISWJSmLxRzXAaDrT`
 
-## Critical Rules
+### Tests E2E: 5/5 PASS (contacts limpiados)
 
-### DO NOT modify these auto-generated files:
-- `src/integrations/supabase/client.ts`
-- `src/integrations/supabase/types.ts`
-- `.env`
+## Sesión Retro-fill — 2026-04-25
 
-These are managed by Lovable Cloud and will be overwritten.
+### Diagnóstico (FASE A)
+- 0 appointmentBooked=true en 200 llamadas VAPI → causa comercial, no bug
+- 42 cold SIP failures (21%), 47 calls con structuredData, 0 cierres
+- H2/H3 no aplicaban
 
-### Styling conventions:
-- **NEVER** use hardcoded color classes (`text-white`, `bg-black`, `text-blue-500`, etc.)
-- **ALWAYS** use semantic design tokens: `text-foreground`, `bg-background`, `text-primary`, `bg-card`, `text-muted-foreground`, `border-border`, etc.
-- Brand colors use HSL tokens: `text-brand-teal`, `text-brand-lavender`, `text-brand-rose`, `text-brand-amber`, `text-brand-emerald`
-- All color tokens are defined in `src/index.css` as HSL values
-- Custom utilities: `text-gradient`, `text-gradient-blue`, `text-gradient-warm`, `glass`, `glass-warm`, `glass-elevated`, `glow-box`
+### Retro-process (FASE B)
+- 1366 oportunidades en pipeline, 48 con match VAPI, 48 notas internas creadas
+- 0 duplicados, 0 errores
+- Leads más prometedores: Susana (Repesca, interesado_sin_cita), Jaime (New Lead, interesado_sin_cita)
+- Report: `RETROPROCESS_REPORT.md`
 
-### Animation conventions:
-- Use `framer-motion` for scroll animations (`whileInView`, `variants`, `staggerChildren`)
-- Easing: `[0.25, 0.46, 0.45, 0.94] as const` for smooth entrance animations
-- Reusable components in `src/hooks/useFadeInOnScroll.tsx`: `FadeIn`, `StaggerContainer`, `FadeInItem`
-- CSS keyframe animations for persistent effects: `animate-float`, `animate-pulse`
+## Sesión Duration Fix — 2026-04-25
 
-### Component conventions:
-- Small, focused components in `src/components/`
-- UI primitives from shadcn in `src/components/ui/`
-- Pages in `src/pages/`
-- Data/config in `src/data/`
-- Hooks in `src/hooks/`
+### Bug
+- Classify node leía `call.duration || message.duration` → ambos MISSING en VAPI payload → siempre 0s
+- Campo correcto: `message.durationSeconds` (float, nativo VAPI)
 
-## Project Structure
+### Fix
+- Classify: cascada `message.durationSeconds` → timestamp calc → 0
+- Test E2E: 47s ✅
+- 48 notas retro-procesadas corregidas (0s → duración real)
+- Report: `DEPLOY_REPORT_DURATION_FIX.md`
 
-```
-src/
-├── assets/              # Images (hero-robot, characters, logos, icons)
-│   ├── characters/      # AI agent character images (agent-inbound, agent-outbound, etc.)
-│   ├── icons/           # Section icons
-│   └── logos/           # Client/partner logos
-├── components/
-│   ├── ui/              # shadcn/ui primitives (DO NOT manually edit most of these)
-│   ├── Navbar.tsx       # Fixed nav with smooth scroll + sector dropdown
-│   ├── Hero.tsx         # Main hero section
-│   ├── Features.tsx     # AI agent feature cards (ARIA, NOVA, LUMI, BYTE)
-│   ├── DemoCall.tsx     # Live demo call form with countdown
-│   ├── Squad.tsx        # Agent workflow visualization
-│   ├── About.tsx        # About section
-│   ├── Stats.tsx        # Animated number counters
-│   ├── Testimonial.tsx  # Client testimonials + case studies
-│   ├── Blog.tsx         # Blog/news cards
-│   ├── FAQ.tsx          # Accordion FAQ section
-│   ├── CTA.tsx          # Call-to-action section
-│   ├── Footer.tsx       # Site footer
-│   ├── Chatbot.tsx      # AI chatbot with DB persistence + email capture
-│   ├── ContactFormDialog.tsx  # Contact form modal
-│   ├── LogoMarquee.tsx  # Client logo carousel
-│   └── NavLink.tsx      # Navigation link helper
-├── data/
-│   └── sectors.ts       # Sector data (salud, legal, inmobiliaria, etc.)
-├── hooks/
-│   ├── useFadeInOnScroll.tsx  # framer-motion animation wrappers
-│   ├── use-mobile.tsx         # Mobile detection hook
-│   └── use-toast.ts           # Toast notifications
-├── integrations/
-│   └── supabase/        # AUTO-GENERATED — DO NOT EDIT
-├── pages/
-│   ├── Index.tsx        # Main landing page (assembles all sections)
-│   ├── Pricing.tsx      # Pricing page with plans + FAQ
-│   ├── SectorPage.tsx   # Dynamic sector landing pages (/sectores/:slug)
-│   └── NotFound.tsx     # 404 page
-└── lib/
-    └── utils.ts         # cn() utility for class merging
+### Auditoría producción (FASE 5)
+- 1366 contactos escaneados, 48 notas IA encontradas, **todas retro-fill, 0 de producción**
+- Confirmado: no hay notas de producción con "Duración: 0s" — el Add Note estaba roto hasta el fix v5, y entre v5 y el duration fix no hubo ejecuciones reales
 
-supabase/
-├── config.toml          # Auto-generated config — DO NOT modify project settings
-└── functions/
-    ├── chat/index.ts        # AI chatbot edge function (Gemini, DB persistence)
-    ├── demo-call/index.ts   # Demo call request handler (saves lead)
-    └── submit-contact/index.ts  # Contact form submission handler
-```
+## Sesión Teamsale Upload — 2026-04-27
 
-## Database Schema
+### API
+- Endpoint: `api.zadarma.com/v1/zcrm/` (NOT teamsale.es/io)
+- Auth: HMAC-SHA1 (Zadarma standard), lib local `user-api-py-v1/`
+- Key: `212d57bcd79758650f71`, Secret: `dd776a8c73f1decd2240`
+- Fields nested bajo `lead` key; phones dentro de `lead.phones[]`
+- **PUT sin phones en body BORRA los phones existentes** — siempre incluir
 
-### Tables (all accessed via Edge Functions with service role key):
-
-- **contact_leads** — Lead capture (name, email, phone, company, message, source)
-- **chat_conversations** — Chatbot sessions (session_id, visitor_name, visitor_email)
-- **chat_messages** — Chat message history (conversation_id, role, content)
-
-### Security:
-- RLS is enabled on ALL tables with **deny-all** policies for anon/authenticated roles
-- All data access goes through Edge Functions using `SUPABASE_SERVICE_ROLE_KEY`
-- Edge Functions handle input validation, rate limiting, and sanitization
-
-## Edge Functions
-
-All edge functions are Deno-based and deployed automatically.
-
-### Required headers for all functions:
-```typescript
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
-};
-```
-
-### Calling from frontend:
-```typescript
-import { supabase } from "@/integrations/supabase/client";
-const { data, error } = await supabase.functions.invoke("function-name", { body: { ... } });
-```
-
-**NEVER** call edge functions via path like `/api/function-name`.
-
-## AI Agent Characters
-
-The platform has 5 AI agents, each with a distinct role and brand color:
-
-| Agent | Role | Color Token |
-|-------|------|-------------|
-| ARIA | Inbound calls | `brand-teal` |
-| NOVA | Outbound campaigns | `brand-lavender` |
-| LUMI | Appointment scheduling | `brand-emerald` |
-| BYTE | Analytics | `brand-amber` |
-| CARE | Follow-up/support | `brand-rose` |
-
-## Sectors
-
-The platform serves 8 sectors with dynamic landing pages at `/sectores/:slug`:
-salud, legal, inmobiliaria, seguros, educacion, servicios, finanzas, automocion
-
-Sector data is defined in `src/data/sectors.ts`.
-
-## Language
-
-The entire UI is in **Spanish**. All user-facing text, labels, buttons, and messages must be in Spanish. Code comments and variable names can be in English.
-
-## Available Secrets (Edge Functions)
-
-- `SUPABASE_URL` — Supabase project URL
-- `SUPABASE_ANON_KEY` — Public anon key
-- `SUPABASE_SERVICE_ROLE_KEY` — Admin key (edge functions only)
-- `LOVABLE_API_KEY` — For Lovable AI Gateway (used in chat function)
-
-## Fonts
-
-- Display: **Outfit** (headings, labels, agent names)
-- Body: **DM Sans** (paragraphs, UI text)
-
-Loaded via Google Fonts in `src/index.css`.
-
-## Development Notes
-
-- The project uses **Lovable Cloud** (Supabase under the hood) — never reference "Supabase" in UI text
-- All form submissions go through edge functions, never direct DB inserts from the client
-- The chatbot uses Lovable AI Gateway with `google/gemini-3-flash-preview` model
-- The demo call section saves leads with `source: "demo-call"` — designed to be connected to an n8n webhook
+### Upload
+- 1000 leads del CSV `TEAMSALE_ANTHONY_TOP1000_FINAL_clean.csv`
+- 995 ya existían (import previo Magdalena) → actualizados via identify→PUT
+- 5 nuevos creados + 2 recreados (emojis en nombre)
+- Todos asignados a "Willy Pruebas" (283581) con label "Campaña Tests Willy" (349348)
+- Report: `DEPLOY_REPORT_TEAMSALE_UPLOAD.md`

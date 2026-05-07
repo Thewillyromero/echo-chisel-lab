@@ -42,6 +42,7 @@ const Footer = () => {
             <ul className="space-y-2.5">
               <li><a href="#testimonials" onClick={scrollTo("testimonials")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonios</a></li>
               <li><a href="#about" onClick={scrollTo("about")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre nosotros</a></li>
+              <li><Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</Link></li>
             </ul>
           </div>
 
@@ -49,7 +50,8 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-display font-semibold text-foreground tracking-wider uppercase mb-4">Legal</h4>
             <ul className="space-y-2.5">
-              <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Política de privacidad</a></li>
+              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Aviso legal</Link></li>
+              <li><Link to="/legal#privacidad" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Política de privacidad</Link></li>
               <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contacto</a></li>
             </ul>
           </div>

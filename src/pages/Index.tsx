@@ -1,17 +1,14 @@
+import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
+import PressQuotes from "@/components/PressQuotes";
+import PressBar from "@/components/PressBar";
 import LogoMarquee from "@/components/LogoMarquee";
 import Features from "@/components/Features";
-import DemoCall from "@/components/DemoCall";
-import CallPlayer from "@/components/CallPlayer";
-import CallSimulator from "@/components/CallSimulator";
-import ROICalculator from "@/components/ROICalculator";
-import CampaignResults from "@/components/CampaignResults";
 import Squad from "@/components/Squad";
 import About from "@/components/About";
 import Stats from "@/components/Stats";
-import Testimonial from "@/components/Testimonial";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
@@ -19,6 +16,13 @@ import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
 import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
 import { BOOKING_URL } from "@/lib/constants";
+
+const DemoCall = lazy(() => import("@/components/DemoCall"));
+const ROICalculator = lazy(() => import("@/components/ROICalculator"));
+const CallPlayer = lazy(() => import("@/components/CallPlayer"));
+const CallSimulator = lazy(() => import("@/components/CallSimulator"));
+const CampaignResults = lazy(() => import("@/components/CampaignResults"));
+const Testimonial = lazy(() => import("@/components/Testimonial"));
 
 const Index = () => {
   const openContact = () => {
@@ -31,17 +35,31 @@ const Index = () => {
         <Navbar onContact={openContact} />
         <Hero onContact={openContact} />
         <SocialProof />
+        <PressQuotes />
+        <PressBar />
         <LogoMarquee />
         <Features />
-        <DemoCall />
-        <ROICalculator onContact={openContact} />
-        <CallPlayer />
-        <CallSimulator />
-        <CampaignResults />
+        <Suspense fallback={<div className="py-20" />}>
+          <DemoCall />
+        </Suspense>
+        <Suspense fallback={<div className="py-20" />}>
+          <ROICalculator onContact={openContact} />
+        </Suspense>
+        <Suspense fallback={<div className="py-20" />}>
+          <CallPlayer />
+        </Suspense>
+        <Suspense fallback={<div className="py-20" />}>
+          <CallSimulator />
+        </Suspense>
+        <Suspense fallback={<div className="py-20" />}>
+          <CampaignResults />
+        </Suspense>
         <Squad />
         <About />
         <Stats />
-        <Testimonial />
+        <Suspense fallback={<div className="py-20" />}>
+          <Testimonial />
+        </Suspense>
         <FAQ />
         <CTA onContact={openContact} />
         <Footer />

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @layer base {
   :root {
@@ -260,6 +260,16 @@
   50% { opacity: 0.7; transform: scale(1.05); }
 }
 
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 8px 0 hsl(190 60% 50% / 0.3), 0 4px 16px 0 hsl(190 60% 50% / 0.15); }
+  50% { box-shadow: 0 0 20px 4px hsl(190 60% 50% / 0.45), 0 4px 24px 0 hsl(190 60% 50% / 0.25); }
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* ── Improved typography scale ── */
 @layer utilities {
   .text-display-xl {
@@ -380,6 +390,63 @@ html {
     0 0 10px hsl(340 60% 55% / 0.3),
     0 0 30px hsl(340 60% 55% / 0.15),
     0 0 60px hsl(340 60% 55% / 0.08);
+}
+
+/* ── Blog article typography ── */
+.prose-blog {
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.prose-blog h2 {
+  color: hsl(var(--foreground));
+  font-family: var(--font-editorial, var(--font-display));
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.prose-blog h3 {
+  color: hsl(var(--foreground));
+  font-family: var(--font-editorial, var(--font-display));
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+}
+
+.prose-blog p {
+  margin-bottom: 1.25rem;
+}
+
+.prose-blog strong {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
+.prose-blog ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose-blog ul li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-blog a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-blog a:hover {
+  color: hsl(var(--foreground));
 }
 
 /* ── Subtle page noise texture ── */

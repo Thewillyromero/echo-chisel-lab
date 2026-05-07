@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, ArrowRight, TrendingUp, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
 import { TrustpilotStar, TrustpilotStars } from "@/components/TrustpilotStars";
@@ -39,7 +40,7 @@ const testimonials = [
   // ===== BLOQUE 2 (expandido): RESULTADOS + SECTORES VARIADOS =====
   { quote: "CALLA ha transformado nuestra clínica. Antes perdíamos 10-15 llamadas al día porque la recepcionista no daba abasto. Ahora no se pierde ni una y las citas se agendan solas.", name: "Patricia Ruiz", role: "Gerente", company: "Centro Médico Salud Plus", initials: "PR", result: "0 llamadas perdidas", context: "Centro médico", avatar: avatarPatricia },
   { quote: "We hired 3 separate teams to find the best fit, and Guillermo stood out above all of them. What surprised us most was how seamlessly they handled everything in English — you'd never guess they're a Spanish team. Over $300K in new revenue generated.", name: "Tim Michael Bissonnette", role: "CEO", company: "Direct Public Funding", initials: "TB", result: "$300K+ generados", context: "Finanzas", avatar: avatarTim },
-  { quote: "Gestionamos 200 llamadas al día entre 3 sedes. CALLA unificó todo: atiende, deriva a la sede correcta y agenda. Ahorramos 2 puestos de recepción.", name: "Miguel Santos", role: "Director de Operaciones", company: "Edommo Energía", initials: "MS", result: "2 puestos ahorrados", context: "Energía", avatar: avatarMiguel },
+  { quote: "Gestionamos 200 llamadas al día entre 3 sedes. CALLA unificó todo: atiende, deriva a la sede correcta y agenda. Ahorramos 2 puestos de recepción.", name: "Miguel Santos", role: "Director de Operaciones", company: "Edommo Energía", initials: "MS", result: "2 puestos ahorrados", context: "Energía", avatar: avatarMiguel, caseStudyUrl: "/caso/edommo" },
   { quote: "The system they built generates over 200 leads per month and consistent appointments for high-value procedures. Communication was flawless — they work in English as naturally as in Spanish. Truly impressive.", name: "Dr. Laurence Fendrich", role: "Fundador", company: "Dental 101", initials: "LF", result: "200+ leads/mes", context: "Salud dental", avatar: avatarLaurence },
   { quote: "Nuestro centro recibe 40 llamadas al día. Antes contestábamos 25 si teníamos suerte. Con CALLA, 40 de 40. Y las urgencias las deriva al móvil del doctor de guardia.", name: "Carmen Ortega", role: "Directora", company: "Centro Estética Carmen", initials: "CO", result: "40/40 llamadas atendidas", context: "Estética", avatar: avatarCarmen },
   { quote: "En nuestra fábrica recibimos pedidos por teléfono de toda España. Antes se perdían en post-its. Ahora CALLA los registra todos directamente en el sistema.", name: "Francisco Torres", role: "Director General", company: "Metálicas Torres S.L.", initials: "FT", result: "0 pedidos perdidos", context: "Industrial", avatar: avatarFrancisco },
@@ -129,8 +130,13 @@ const Testimonial = () => {
                   <blockquote className="text-sm text-foreground/85 leading-relaxed mb-5 flex-1 font-light">
                     <Quote className="inline h-3.5 w-3.5 text-primary/25 mr-1 -mt-1" />{t.quote}
                   </blockquote>
-                  <div className="mb-4">
+                  <div className="mb-4 flex items-center gap-2 flex-wrap">
                     <span className="text-[11px] font-display font-bold tracking-wide px-2.5 py-1 rounded-full" style={{ backgroundColor: 'hsl(160 50% 48% / 0.12)', color: 'hsl(160 50% 60%)' }}>{t.result}</span>
+                    {"caseStudyUrl" in t && t.caseStudyUrl && (
+                      <Link to={t.caseStudyUrl} className="text-[11px] font-display font-semibold text-primary/70 hover:text-primary transition-colors flex items-center gap-1">
+                        Ver caso completo <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    )}
                   </div>
                   <div className="h-px bg-border/20 mb-4" />
                   <div className="flex items-center gap-3">

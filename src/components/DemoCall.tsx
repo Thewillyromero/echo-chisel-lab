@@ -185,7 +185,7 @@ const DemoCall = () => {
         clearTimeout(fallbackTimer);
         console.error("Web call error:", JSON.stringify(err, null, 2));
         micStream.getTracks().forEach(t => t.stop());
-        toast.error("Error en la conexión. Inténtalo de nuevo.");
+        toast.error("Se perdió la conexión con ARIA. Inténtalo de nuevo o agenda una demo personalizada.");
         setCallState("idle");
         vapiRef.current = null;
       });
@@ -194,7 +194,7 @@ const DemoCall = () => {
       vapi.start(ASSISTANT_ID);
     } catch (err) {
       console.error("Failed to start call:", err);
-      toast.error("Error al iniciar la llamada.");
+      toast.error("No pudimos conectar la llamada. Inténtalo de nuevo en unos segundos.");
       setCallState("idle");
     }
   }, [incrementTest]);
@@ -283,9 +283,17 @@ const DemoCall = () => {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="inline-flex items-center gap-2 bg-brand-teal/[0.08] border border-brand-teal/20 rounded-full px-4 py-1.5 mb-6">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" style={{ animation: "live-pulse 1.5s ease-in-out infinite" }} />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+              </span>
+              <span className="text-xs font-display font-bold tracking-widest uppercase" style={{ color: "hsl(155 70% 55%)" }}>
+                Live
+              </span>
+              <span className="w-px h-3 bg-brand-teal/25" />
               <Sparkles className="w-3.5 h-3.5 text-brand-teal" />
               <span className="text-xs text-brand-teal font-display font-semibold tracking-wide">
-                Prueba en vivo
+                Demo real — no es una grabación
               </span>
             </div>
 
@@ -295,8 +303,8 @@ const DemoCall = () => {
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed mb-8 max-w-lg">
-              Escribe tu nombre y habla directamente con nuestra asistente IA
-              desde tu navegador. Sin descargas, sin esperas.
+              No te lo contamos, te lo demostramos. Escribe tu nombre y habla
+              directamente con nuestra IA desde tu navegador. Sin descargas, sin esperas.
             </p>
 
             <div className="space-y-4 mb-8">
@@ -490,8 +498,11 @@ const DemoCall = () => {
                           type="submit"
                           size="lg"
                           disabled={loading}
-                          className="w-full rounded-xl text-base h-13 font-display font-semibold shadow-lg shadow-brand-teal/20 hover:shadow-brand-teal/30 hover:scale-[1.01] transition-all duration-300"
-                          style={{ background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))" }}
+                          className="w-full rounded-xl text-base h-13 font-display font-semibold hover:scale-[1.01] transition-all duration-300"
+                          style={{
+                            background: "linear-gradient(135deg, hsl(190 60% 50%), hsl(190 60% 42%))",
+                            animation: loading ? "none" : "cta-glow 2.5s ease-in-out infinite",
+                          }}
                         >
                           {loading ? (
                             <Loader2 className="h-5 w-5 animate-spin" />

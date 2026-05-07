@@ -3,7 +3,7 @@ import { useRef } from "react";
 import heroRobot from "@/assets/hero-robot.webp";
 import heroBg from "@/assets/hero-bg.webp";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 const Hero = ({ onContact }: { onContact?: () => void }) => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -67,6 +67,17 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <Button size="lg" variant="outline" className="rounded-full text-base px-8 border-border/50 hover:bg-secondary/50" onClick={() => document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" })}>
               Ver demo
             </Button>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex items-center gap-2.5 mt-6"
+          >
+            <ShieldCheck className="w-4 h-4 text-brand-gold" />
+            <span className="text-xs text-muted-foreground/50 font-editorial italic">
+              Trusted by 200+ companies across 20 industries
+            </span>
           </motion.div>
         </motion.div>
 
