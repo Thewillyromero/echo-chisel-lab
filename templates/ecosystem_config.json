@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "template_version": "1.0",
+    "created_by": "CALLA",
+    "description": "Master config file — one per client. Fill all {{PLACEHOLDER}} values before deploying assistants.",
+    "instructions": "1. Copy this file as clients/[client_id]/config.json. 2. Fill every placeholder. 3. Use deploy script to create VAPI assistants from templates."
+  },
+  "client": {
+    "id": "{{CLIENT_ID}}",
+    "empresa": "{{EMPRESA}}",
+    "sector": "{{SECTOR}}",
+    "descripcion": "{{DESCRIPCION_EMPRESA}}",
+    "web": "{{WEB}}",
+    "direccion": "{{DIRECCION}}",
+    "horarios": "{{HORARIOS}}",
+    "idioma": "{{IDIOMA}}",
+    "idioma_code": "{{IDIOMA_CODE}}",
+    "tono": "{{TONO}}",
+    "servicios": "{{SERVICIOS}}",
+    "faq": "{{FAQ}}",
+    "equipo": "{{EQUIPO}}"
+  },
+  "zadarma": {
+    "extension": "{{ZADARMA_EXT}}",
+    "password": "{{ZADARMA_PWD}}",
+    "caller_id": "{{CALLER_ID}}",
+    "max_channels": "{{MAX_CHANNELS}}",
+    "numbers": [
+      "{{NUMERO_1}}",
+      "{{NUMERO_2}}"
+    ]
+  },
+  "vapi": {
+    "assistants": {
+      "recepcion": "{{VAPI_ASSISTANT_RECEPCION}}",
+      "comercial": "{{VAPI_ASSISTANT_COMERCIAL}}",
+      "soporte": "{{VAPI_ASSISTANT_SOPORTE}}"
+    },
+    "credential_id": "{{VAPI_CREDENTIAL_ID}}",
+    "phone_ids": [
+      "{{VAPI_PHONE_1}}"
+    ]
+  },
+  "integrations": {
+    "crm_type": "{{CRM_TYPE}}",
+    "crm_webhook": "{{CRM_WEBHOOK}}",
+    "calendar_type": "{{CALENDAR_TYPE}}",
+    "calendar_id": "{{CALENDAR_ID}}",
+    "notification_channel": "{{NOTIFICATION_CHANNEL}}"
+  },
+  "voice": {
+    "nombre_asistente": "{{NOMBRE_ASISTENTE}}",
+    "voice_id": "{{VOICE_ID}}",
+    "saludo": "{{SALUDO}}"
+  }
+}

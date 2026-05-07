@@ -1,0 +1,351 @@
+{
+  "name": "CALLA — CRM Middleware (Generic)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "crm-middleware",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "crm-webhook-1",
+      "name": "Webhook VAPI EOCR",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 500],
+      "webhookId": "crm-middleware"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse VAPI End-of-Call Report\n// Extracts all structured data, transcript, metadata\nconst data = $input.first().json;\nconst body = data.body || data;\nconst message = body.message || body;\n\nconst messageType = message.type || body.type || '';\nconst isEOCR = messageType === 'end-of-call-report';\n\nif (!isEOCR) {\n  return [{ json: { skip: true, reason: 'Not EOCR: ' + messageType } }];\n}\n\nconst call = message.call || body.call || {};\nconst artifact = message.artifact || body.artifact || {};\nconst analysis = message.analysis || body.analysis || {};\nconst sd = analysis.structuredData || {};\n\nconst callId = call.id || '';\nconst customerNumber = call.customer?.number || message.customer?.number || '';\nconst assistantId = call.assistantId || message.assistantId || '';\nconst phoneNumberId = call.phoneNumberId || '';\nconst phoneNumber = call.phoneNumber?.number || '';\nconst duration = message.durationSeconds || call.costBreakdown?.duration || 0;\nconst cost = call.costBreakdown?.total || call.cost || 0;\nconst endedReason = call.endedReason || message.endedReason || '';\nconst transcript = (artifact.transcript || '').substring(0, 8000);\nconst recordingUrl = artifact.recordingUrl || '';\nconst summary = (analysis.summary || '').substring(0, 2000);\nconst successEval = analysis.successEvaluation || '';\n\nreturn [{ json: {\n  skip: false,\n  callId,\n  customerNumber,\n  assistantId,\n  phoneNumberId,\n  phoneNumber,\n  duration,\n  cost,\n  endedReason,\n  transcript,\n  recordingUrl,\n  summary,\n  successEval,\n  structuredData: sd,\n  rawAnalysis: analysis,\n  timestamp: new Date().toISOString()\n} }];"
+      },
+      "id": "crm-parse-1",
+      "name": "Parse EOCR",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "crm-is-eocr-1",
+      "name": "Is Valid EOCR?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [680, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lookup client config from Supabase by assistant_id or phone_number\n// Uses array containment operator @> for matching\nconst d = $input.first().json;\nconst assistantId = d.assistantId;\nconst phoneNumber = d.phoneNumber;\n\nconst SUPABASE_URL = '{{SUPABASE_URL}}';\nconst SUPABASE_KEY = '{{SUPABASE_SERVICE_KEY}}';\n\n// Try assistant_id first\nlet config = null;\nif (assistantId) {\n  const resp = await this.helpers.httpRequest({\n    method: 'GET',\n    url: `${SUPABASE_URL}/rest/v1/client_configs?vapi_assistant_ids=cs.{${assistantId}}&limit=1`,\n    headers: {\n      'apikey': SUPABASE_KEY,\n      'Authorization': `Bearer ${SUPABASE_KEY}`,\n      'Content-Type': 'application/json'\n    }\n  });\n  if (Array.isArray(resp) && resp.length > 0) config = resp[0];\n}\n\n// Fallback: try phone_number\nif (!config && phoneNumber) {\n  const resp = await this.helpers.httpRequest({\n    method: 'GET',\n    url: `${SUPABASE_URL}/rest/v1/client_configs?vapi_phone_numbers=cs.{${phoneNumber}}&limit=1`,\n    headers: {\n      'apikey': SUPABASE_KEY,\n      'Authorization': `Bearer ${SUPABASE_KEY}`,\n      'Content-Type': 'application/json'\n    }\n  });\n  if (Array.isArray(resp) && resp.length > 0) config = resp[0];\n}\n\nif (!config) {\n  return [{ json: {\n    ...d,\n    clientFound: false,\n    clientId: null,\n    clientName: 'UNKNOWN',\n    crmType: 'none',\n    crmApiKey: null,\n    crmBaseUrl: null,\n    crmFieldMapping: {},\n    notificationType: 'none',\n    notificationTarget: null\n  } }];\n}\n\nreturn [{ json: {\n  ...d,\n  clientFound: true,\n  clientId: config.id,\n  clientName: config.client_name,\n  crmType: config.crm_type || 'none',\n  crmApiKey: config.crm_api_key || null,\n  crmBaseUrl: config.crm_base_url || null,\n  crmFieldMapping: config.crm_field_mapping || {},\n  notificationType: config.notification_type || 'none',\n  notificationTarget: config.notification_target || null\n} }];"
+      },
+      "id": "crm-lookup-1",
+      "name": "Lookup Client Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 440]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.crmType }}",
+                    "rightValue": "hubspot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "hubspot"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.crmType }}",
+                    "rightValue": "salesforce",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "salesforce"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.crmType }}",
+                    "rightValue": "pipedrive",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pipedrive"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.crmType }}",
+                    "rightValue": "webhook",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "webhook"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.crmType }}",
+                    "rightValue": "ghl",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ghl"
+            }
+          ],
+          "fallbackOutput": {
+            "renameOutput": true,
+            "outputKey": "none"
+          }
+        },
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "id": "crm-switch-1",
+      "name": "Route by CRM Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [1180, 440]
+    },
+    {
+      "parameters": {
+        "jsCode": "// HubSpot CRM push\n// Creates or updates a contact, then logs a call activity\nconst d = $input.first().json;\nconst apiKey = d.crmApiKey;\nconst mapping = d.crmFieldMapping || {};\nconst sd = d.structuredData || {};\n\n// Build contact properties from field mapping\nconst properties = {};\nfor (const [vapiField, hubspotField] of Object.entries(mapping)) {\n  const value = sd[vapiField] ?? d[vapiField];\n  if (value !== undefined && value !== null && value !== '') {\n    properties[hubspotField] = String(value);\n  }\n}\n\n// Always include phone\nif (d.customerNumber && !properties.phone) {\n  properties.phone = d.customerNumber;\n}\n\nlet contactId = null;\nlet action = 'created';\n\ntry {\n  // Search for existing contact by phone\n  const searchResp = await this.helpers.httpRequest({\n    method: 'POST',\n    url: 'https://api.hubapi.com/crm/v3/objects/contacts/search',\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      filterGroups: [{\n        filters: [{\n          propertyName: 'phone',\n          operator: 'EQ',\n          value: d.customerNumber\n        }]\n      }],\n      limit: 1\n    })\n  });\n\n  if (searchResp.total > 0) {\n    contactId = searchResp.results[0].id;\n    action = 'updated';\n    // Update existing contact\n    await this.helpers.httpRequest({\n      method: 'PATCH',\n      url: `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({ properties })\n    });\n  } else {\n    // Create new contact\n    const createResp = await this.helpers.httpRequest({\n      method: 'POST',\n      url: 'https://api.hubapi.com/crm/v3/objects/contacts',\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({ properties })\n    });\n    contactId = createResp.id;\n  }\n\n  // Log call as engagement\n  await this.helpers.httpRequest({\n    method: 'POST',\n    url: 'https://api.hubapi.com/crm/v3/objects/calls',\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      properties: {\n        hs_timestamp: d.timestamp,\n        hs_call_body: d.summary || 'AI call',\n        hs_call_duration: String(Math.round((d.duration || 0) * 1000)),\n        hs_call_direction: 'OUTBOUND',\n        hs_call_status: 'COMPLETED'\n      },\n      associations: [{\n        to: { id: contactId },\n        types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 194 }]\n      }]\n    })\n  });\n\n  return [{ json: { ...d, crmPushed: true, crmAction: action, crmContactId: contactId, crmError: null } }];\n} catch (err) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: contactId, crmError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-hubspot-1",
+      "name": "Push to HubSpot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 160]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Salesforce CRM push\n// Creates or updates a Lead, then logs a Task for the call\nconst d = $input.first().json;\nconst apiKey = d.crmApiKey;\nconst baseUrl = d.crmBaseUrl || 'https://login.salesforce.com';\nconst mapping = d.crmFieldMapping || {};\nconst sd = d.structuredData || {};\n\n// Build field map\nconst fields = {};\nfor (const [vapiField, sfField] of Object.entries(mapping)) {\n  const value = sd[vapiField] ?? d[vapiField];\n  if (value !== undefined && value !== null && value !== '') {\n    fields[sfField] = typeof value === 'object' ? JSON.stringify(value) : value;\n  }\n}\n\nif (d.customerNumber && !fields.Phone) {\n  fields.Phone = d.customerNumber;\n}\n\ntry {\n  // Query for existing Lead by phone\n  const phone = d.customerNumber;\n  const queryResp = await this.helpers.httpRequest({\n    method: 'GET',\n    url: `${baseUrl}/services/data/v59.0/query?q=${encodeURIComponent(`SELECT Id FROM Lead WHERE Phone = '${phone}' LIMIT 1`)}`,\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    }\n  });\n\n  let leadId = null;\n  let action = 'created';\n\n  if (queryResp.totalSize > 0) {\n    leadId = queryResp.records[0].Id;\n    action = 'updated';\n    await this.helpers.httpRequest({\n      method: 'PATCH',\n      url: `${baseUrl}/services/data/v59.0/sobjects/Lead/${leadId}`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify(fields)\n    });\n  } else {\n    if (!fields.LastName) fields.LastName = 'Unknown';\n    if (!fields.Company) fields.Company = 'Unknown';\n    const createResp = await this.helpers.httpRequest({\n      method: 'POST',\n      url: `${baseUrl}/services/data/v59.0/sobjects/Lead`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify(fields)\n    });\n    leadId = createResp.id;\n  }\n\n  // Log call as Task\n  await this.helpers.httpRequest({\n    method: 'POST',\n    url: `${baseUrl}/services/data/v59.0/sobjects/Task`,\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      WhoId: leadId,\n      Subject: 'AI Voice Call',\n      Description: (d.summary || 'No summary') + '\\n\\nDuration: ' + Math.round(d.duration || 0) + 's',\n      Status: 'Completed',\n      Priority: 'Normal',\n      ActivityDate: d.timestamp ? d.timestamp.split('T')[0] : new Date().toISOString().split('T')[0]\n    })\n  });\n\n  return [{ json: { ...d, crmPushed: true, crmAction: action, crmContactId: leadId, crmError: null } }];\n} catch (err) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: null, crmError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-salesforce-1",
+      "name": "Push to Salesforce",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 340]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pipedrive CRM push\n// Creates or updates a Person, then logs an Activity\nconst d = $input.first().json;\nconst apiKey = d.crmApiKey;\nconst baseUrl = d.crmBaseUrl || 'https://api.pipedrive.com/v1';\nconst mapping = d.crmFieldMapping || {};\nconst sd = d.structuredData || {};\n\ntry {\n  // Search for existing person by phone\n  const searchResp = await this.helpers.httpRequest({\n    method: 'GET',\n    url: `${baseUrl}/persons/search?term=${encodeURIComponent(d.customerNumber)}&fields=phone&limit=1&api_token=${apiKey}`,\n    headers: { 'Content-Type': 'application/json' }\n  });\n\n  let personId = null;\n  let action = 'created';\n\n  // Build person data from mapping\n  const personData = {};\n  for (const [vapiField, pdField] of Object.entries(mapping)) {\n    const value = sd[vapiField] ?? d[vapiField];\n    if (value !== undefined && value !== null && value !== '') {\n      personData[pdField] = typeof value === 'object' ? JSON.stringify(value) : value;\n    }\n  }\n\n  if (searchResp.data?.items?.length > 0) {\n    personId = searchResp.data.items[0].item.id;\n    action = 'updated';\n    await this.helpers.httpRequest({\n      method: 'PUT',\n      url: `${baseUrl}/persons/${personId}?api_token=${apiKey}`,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(personData)\n    });\n  } else {\n    if (!personData.name) personData.name = sd.nombre_contacto || d.customerNumber || 'Unknown';\n    personData.phone = [{ value: d.customerNumber, primary: true }];\n    const createResp = await this.helpers.httpRequest({\n      method: 'POST',\n      url: `${baseUrl}/persons?api_token=${apiKey}`,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(personData)\n    });\n    personId = createResp.data?.id;\n  }\n\n  // Log activity\n  await this.helpers.httpRequest({\n    method: 'POST',\n    url: `${baseUrl}/activities?api_token=${apiKey}`,\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify({\n      subject: 'AI Voice Call',\n      type: 'call',\n      person_id: personId,\n      note: (d.summary || 'No summary') + '\\n\\nDuration: ' + Math.round(d.duration || 0) + 's\\nResult: ' + (sd.resultado || 'N/A'),\n      done: 1,\n      due_date: d.timestamp ? d.timestamp.split('T')[0] : new Date().toISOString().split('T')[0],\n      duration: '00:' + String(Math.floor((d.duration || 0) / 60)).padStart(2, '0') + ':' + String(Math.round((d.duration || 0) % 60)).padStart(2, '0')\n    })\n  });\n\n  return [{ json: { ...d, crmPushed: true, crmAction: action, crmContactId: personId, crmError: null } }];\n} catch (err) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: null, crmError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-pipedrive-1",
+      "name": "Push to Pipedrive",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 520]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generic Webhook push\n// Sends the full payload to client's custom webhook URL\nconst d = $input.first().json;\nconst webhookUrl = d.crmBaseUrl;\nconst apiKey = d.crmApiKey;\nconst mapping = d.crmFieldMapping || {};\nconst sd = d.structuredData || {};\n\nif (!webhookUrl) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: null, crmError: 'No webhook URL configured' } }];\n}\n\n// Build mapped payload\nconst payload = {};\nif (Object.keys(mapping).length > 0) {\n  for (const [vapiField, targetField] of Object.entries(mapping)) {\n    const value = sd[vapiField] ?? d[vapiField];\n    if (value !== undefined && value !== null) {\n      payload[targetField] = value;\n    }\n  }\n} else {\n  // No mapping — send everything\n  payload.callId = d.callId;\n  payload.phone = d.customerNumber;\n  payload.duration = d.duration;\n  payload.summary = d.summary;\n  payload.structuredData = sd;\n  payload.timestamp = d.timestamp;\n}\n\ntry {\n  const headers = { 'Content-Type': 'application/json' };\n  if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;\n\n  const resp = await this.helpers.httpRequest({\n    method: 'POST',\n    url: webhookUrl,\n    headers,\n    body: JSON.stringify(payload)\n  });\n\n  return [{ json: { ...d, crmPushed: true, crmAction: 'webhook_sent', crmContactId: null, crmError: null, crmResponse: resp } }];\n} catch (err) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: null, crmError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-webhook-push-1",
+      "name": "Push to Webhook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 700]
+    },
+    {
+      "parameters": {
+        "jsCode": "// GoHighLevel CRM push\n// Creates or updates a Contact, then logs a call note\nconst d = $input.first().json;\nconst apiKey = d.crmApiKey;\nconst baseUrl = d.crmBaseUrl || 'https://services.leadconnectorhq.com';\nconst mapping = d.crmFieldMapping || {};\nconst sd = d.structuredData || {};\n\ntry {\n  // Search for existing contact by phone\n  const phone = d.customerNumber;\n  const searchResp = await this.helpers.httpRequest({\n    method: 'GET',\n    url: `${baseUrl}/contacts/?query=${encodeURIComponent(phone)}&limit=1`,\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Version': '2021-07-28',\n      'Content-Type': 'application/json'\n    }\n  });\n\n  let contactId = null;\n  let action = 'created';\n\n  // Build contact data from mapping\n  const contactData = {};\n  for (const [vapiField, ghlField] of Object.entries(mapping)) {\n    const value = sd[vapiField] ?? d[vapiField];\n    if (value !== undefined && value !== null && value !== '') {\n      contactData[ghlField] = typeof value === 'object' ? JSON.stringify(value) : value;\n    }\n  }\n\n  if (!contactData.phone) contactData.phone = phone;\n\n  if (searchResp.contacts?.length > 0) {\n    contactId = searchResp.contacts[0].id;\n    action = 'updated';\n    await this.helpers.httpRequest({\n      method: 'PUT',\n      url: `${baseUrl}/contacts/${contactId}`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Version': '2021-07-28',\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify(contactData)\n    });\n  } else {\n    if (!contactData.name && !contactData.firstName) {\n      contactData.firstName = sd.nombre_contacto || 'Unknown';\n    }\n    const createResp = await this.helpers.httpRequest({\n      method: 'POST',\n      url: `${baseUrl}/contacts/`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Version': '2021-07-28',\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify(contactData)\n    });\n    contactId = createResp.contact?.id;\n  }\n\n  // Add note with call summary\n  if (contactId) {\n    await this.helpers.httpRequest({\n      method: 'POST',\n      url: `${baseUrl}/contacts/${contactId}/notes`,\n      headers: {\n        'Authorization': `Bearer ${apiKey}`,\n        'Version': '2021-07-28',\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({\n        body: `AI Voice Call\\nDuration: ${Math.round(d.duration || 0)}s\\nResult: ${sd.resultado || 'N/A'}\\n\\n${d.summary || 'No summary'}`\n      })\n    });\n  }\n\n  return [{ json: { ...d, crmPushed: true, crmAction: action, crmContactId: contactId, crmError: null } }];\n} catch (err) {\n  return [{ json: { ...d, crmPushed: false, crmAction: 'error', crmContactId: null, crmError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-ghl-1",
+      "name": "Push to GHL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 880]
+    },
+    {
+      "parameters": {
+        "jsCode": "// No CRM configured — pass through with crmPushed = false\nconst d = $input.first().json;\nreturn [{ json: { ...d, crmPushed: false, crmAction: 'none', crmContactId: null, crmError: null } }];"
+      },
+      "id": "crm-none-1",
+      "name": "No CRM (Skip)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 1060]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log call result to Supabase call_logs table\n// Idempotent: upserts on vapi_call_id via on_conflict\nconst d = $input.first().json;\n\nconst SUPABASE_URL = '{{SUPABASE_URL}}';\nconst SUPABASE_KEY = '{{SUPABASE_SERVICE_KEY}}';\n\nconst row = {\n  client_id: d.clientId || null,\n  vapi_call_id: d.callId,\n  phone_number: d.customerNumber,\n  duration_seconds: d.duration || 0,\n  resultado: d.structuredData?.resultado || d.crmAction || '',\n  structured_data: d.structuredData || {},\n  summary: d.summary || '',\n  crm_pushed: d.crmPushed || false,\n  crm_response: d.crmResponse || { action: d.crmAction, contactId: d.crmContactId, error: d.crmError }\n};\n\ntry {\n  const resp = await this.helpers.httpRequest({\n    method: 'POST',\n    url: `${SUPABASE_URL}/rest/v1/call_logs?on_conflict=vapi_call_id`,\n    headers: {\n      'apikey': SUPABASE_KEY,\n      'Authorization': `Bearer ${SUPABASE_KEY}`,\n      'Content-Type': 'application/json',\n      'Prefer': 'resolution=merge-duplicates,return=representation'\n    },\n    body: JSON.stringify(row)\n  });\n  return [{ json: { ...d, logSaved: true, logResponse: resp } }];\n} catch (err) {\n  return [{ json: { ...d, logSaved: false, logError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-log-1",
+      "name": "Log to Supabase",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1780, 520]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Send notification to client's configured channel\nconst d = $input.first().json;\nconst type = d.notificationType || 'none';\nconst target = d.notificationTarget;\n\nif (type === 'none' || !target) {\n  return [{ json: { ...d, notificationSent: false, notificationReason: 'not_configured' } }];\n}\n\nconst sd = d.structuredData || {};\nconst resultado = sd.resultado || d.crmAction || 'unknown';\nconst nombre = sd.nombre_contacto || d.customerNumber || 'Unknown';\nconst duracion = Math.round(d.duration || 0);\nconst resumen = d.summary || 'No summary available';\n\ntry {\n  if (type === 'slack') {\n    // Slack incoming webhook\n    const text = `:phone: *AI Call Completed*\\n*Client:* ${d.clientName}\\n*Contact:* ${nombre} (${d.customerNumber})\\n*Duration:* ${duracion}s\\n*Result:* ${resultado}\\n*CRM:* ${d.crmPushed ? 'Pushed (' + d.crmAction + ')' : 'Not pushed'}\\n\\n${resumen}`;\n    await this.helpers.httpRequest({\n      method: 'POST',\n      url: target,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({ text })\n    });\n    return [{ json: { ...d, notificationSent: true } }];\n\n  } else if (type === 'email') {\n    // Uses n8n's built-in SMTP or a webhook-based email service\n    // For now, post to a notification webhook that sends email\n    await this.helpers.httpRequest({\n      method: 'POST',\n      url: target,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        to: target,\n        subject: `AI Call: ${resultado} - ${nombre}`,\n        body: `Client: ${d.clientName}\\nContact: ${nombre} (${d.customerNumber})\\nDuration: ${duracion}s\\nResult: ${resultado}\\nCRM Pushed: ${d.crmPushed}\\n\\n${resumen}`\n      })\n    });\n    return [{ json: { ...d, notificationSent: true } }];\n\n  } else if (type === 'whatsapp') {\n    // Post to a WhatsApp webhook (e.g. n8n sub-workflow or Twilio)\n    await this.helpers.httpRequest({\n      method: 'POST',\n      url: target,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        phone: target,\n        message: `AI Call | ${d.clientName}\\n${nombre} (${d.customerNumber})\\nDuration: ${duracion}s | Result: ${resultado}\\nCRM: ${d.crmPushed ? 'OK' : 'Skip'}\\n${resumen.substring(0, 500)}`\n      })\n    });\n    return [{ json: { ...d, notificationSent: true } }];\n  }\n\n  return [{ json: { ...d, notificationSent: false, notificationReason: 'unknown_type: ' + type } }];\n} catch (err) {\n  // Notification failure should not block the flow\n  return [{ json: { ...d, notificationSent: false, notificationError: err.message || String(err) } }];\n}"
+      },
+      "id": "crm-notify-1",
+      "name": "Send Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2040, 520]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok', callId: $json.callId, client: $json.clientName, crmPushed: $json.crmPushed, crmAction: $json.crmAction, notificationSent: $json.notificationSent }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "crm-respond-ok-1",
+      "name": "Respond 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2300, 520]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"skipped\", \"reason\": \"not_eocr\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "crm-respond-skip-1",
+      "name": "Respond Skip",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [920, 620]
+    },
+    {
+      "parameters": {
+        "content": "## CALLA — CRM Middleware (Generic)\n\n**Webhook:** `/webhook/crm-middleware`\n\n### Flow\n1. Receive VAPI end-of-call-report\n2. Parse EOCR payload (call metadata, structured data, transcript)\n3. Lookup client config from Supabase `client_configs` by assistant_id or phone_number\n4. Route to appropriate CRM handler based on `crm_type`\n5. Push data to CRM using client's field mapping\n6. Log result to Supabase `call_logs`\n7. Send notification (Slack, email, WhatsApp)\n\n### Supported CRMs\n- **hubspot** — Contact + Call engagement\n- **salesforce** — Lead + Task\n- **pipedrive** — Person + Activity\n- **webhook** — Generic POST to any URL\n- **ghl** — GoHighLevel Contact + Note\n- **none** — Skip CRM, just log\n\n### Setup\n1. Replace `{{SUPABASE_URL}}` and `{{SUPABASE_SERVICE_KEY}}` in Code nodes\n2. Create tables from `supabase_schema.sql`\n3. Add client rows to `client_configs` with their CRM details\n4. `crm_field_mapping` maps VAPI structuredData keys to CRM field names\n\n### Idempotent\n- `call_logs` upserts on `vapi_call_id`\n- CRM nodes search before create (update if exists)\n- Safe to retry on failure"
+      },
+      "id": "crm-docs-1",
+      "name": "Docs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-160, 140]
+    }
+  ],
+  "connections": {
+    "Webhook VAPI EOCR": {
+      "main": [[{"node": "Parse EOCR", "type": "main", "index": 0}]]
+    },
+    "Parse EOCR": {
+      "main": [[{"node": "Is Valid EOCR?", "type": "main", "index": 0}]]
+    },
+    "Is Valid EOCR?": {
+      "main": [
+        [{"node": "Lookup Client Config", "type": "main", "index": 0}],
+        [{"node": "Respond Skip", "type": "main", "index": 0}]
+      ]
+    },
+    "Lookup Client Config": {
+      "main": [[{"node": "Route by CRM Type", "type": "main", "index": 0}]]
+    },
+    "Route by CRM Type": {
+      "main": [
+        [{"node": "Push to HubSpot", "type": "main", "index": 0}],
+        [{"node": "Push to Salesforce", "type": "main", "index": 0}],
+        [{"node": "Push to Pipedrive", "type": "main", "index": 0}],
+        [{"node": "Push to Webhook", "type": "main", "index": 0}],
+        [{"node": "Push to GHL", "type": "main", "index": 0}],
+        [{"node": "No CRM (Skip)", "type": "main", "index": 0}]
+      ]
+    },
+    "Push to HubSpot": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "Push to Salesforce": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "Push to Pipedrive": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "Push to Webhook": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "Push to GHL": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "No CRM (Skip)": {
+      "main": [[{"node": "Log to Supabase", "type": "main", "index": 0}]]
+    },
+    "Log to Supabase": {
+      "main": [[{"node": "Send Notification", "type": "main", "index": 0}]]
+    },
+    "Send Notification": {
+      "main": [[{"node": "Respond 200 OK", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": null,
+  "triggerCount": 1
+}

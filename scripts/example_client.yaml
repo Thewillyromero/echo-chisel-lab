@@ -1,0 +1,34 @@
+empresa: "Grefusa"
+sector: "alimentacion"
+contacto: "Juan García"
+email: "juan@grefusa.com"
+idioma: "es"
+tono: "profesional"
+servicios: "Atención al cliente, pedidos, reclamaciones, información de producto"
+horarios: "Lunes a Viernes 8:00-20:00, Sábados 9:00-14:00"
+direccion: "Alzira, Valencia"
+faq: |
+  - ¿Dónde comprar? En supermercados y tiendas online
+  - ¿Alérgenos? Consultar envase de cada producto
+  - ¿Reclamaciones? Registramos y un responsable contacta en 24h
+equipo:
+  - nombre: "Departamento Comercial"
+    extension: "100"
+  - nombre: "Atención al Cliente"
+    extension: "101"
+  - nombre: "Reclamaciones"
+    extension: "102"
+zadarma:
+  server: "pbx.zadarma.com"
+  port: 5060
+  extension_user: "511497-XXX"
+  extension_pass: "PASSWORD"
+  caller_id: "+34XXXXXXXXX"
+  max_channels: 10
+voice:
+  nombre: "Clara"
+  voice_id: "h2cd3gvcqTp3m65Dysk7"
+  saludo: "Hola, buenas, Grefusa, le atiende Clara. ¿En qué puedo ayudarle?"
+assistants:
+  - type: "recepcion"
+  - type: "comercial"

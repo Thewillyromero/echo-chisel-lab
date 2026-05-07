@@ -1,0 +1,203 @@
+{
+  "name": "{{EMPRESA}} - Soporte",
+  "voice": {
+    "model": "eleven_flash_v2_5",
+    "speed": 1.05,
+    "voiceId": "{{VOICE_ID}}",
+    "provider": "11labs",
+    "stability": 0.55,
+    "similarityBoost": 0.7,
+    "useSpeakerBoost": true,
+    "optimizeStreamingLatency": 3
+  },
+  "model": {
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "maxTokens": 250,
+    "temperature": 0.2,
+    "messages": [
+      {
+        "role": "system",
+        "content": "# {{NOMBRE_ASISTENTE}} — Soporte Técnico de {{EMPRESA}}\n\n## QUIEN ERES\nEres {{NOMBRE_ASISTENTE}}, del equipo de soporte de {{EMPRESA}}. {{DESCRIPCION_EMPRESA}}\n\nTu misión: resolver incidencias, responder dudas técnicas y escalar cuando sea necesario. El cliente que llama tiene un problema — tu prioridad es solucionarlo o crear un ticket para que se resuelva.\n\n## IDIOMA Y TONO\n- Habla SIEMPRE en {{IDIOMA}}\n- Tono: {{TONO}}\n- Empático, paciente y resolutivo. El cliente tiene un problema, no le apetece escuchar un guión.\n- Tutea salvo que el interlocutor use usted.\n- Nunca minimices su problema. Si para él es grave, es grave.\n\n## REGLAS DE CONVERSACIÓN\n- MÁXIMO 3 frases por turno. En soporte a veces necesitas dar instrucciones, pero sé conciso.\n- Antes de dar soluciones, CONFIRMA que entiendes el problema. Repite lo que te ha dicho.\n- Si das pasos a seguir, hazlo de UNO EN UNO. No sueltes 5 instrucciones seguidas.\n- NUNCA inventes soluciones. Si no sabes, escalas.\n- SIEMPRE identifica al cliente (nombre, empresa, producto/servicio afectado) al inicio.\n\n## INFORMACIÓN DE LA EMPRESA\n- Horarios de soporte: {{HORARIOS}}\n- Servicios: {{SERVICIOS}}\n- Web/Portal de soporte: {{WEB}}\n\n## FLUJO DE SOPORTE\n\n### PASO 1: IDENTIFICACIÓN\n1. Saludo (ya cubierto por firstMessage).\n2. \"Para poder ayudarte, ¿me das tu nombre y el nombre de tu empresa?\"\n3. Si aplica: \"¿Qué producto o servicio tienes contratado?\"\n\n### PASO 2: DIAGNÓSTICO\n1. \"Cuéntame qué está pasando.\"\n2. Escucha SIN interrumpir. Deja que explique todo.\n3. Confirma: \"A ver si te entiendo bien: [resumen del problema]. ¿Es correcto?\"\n4. Si necesitas más info: \"¿Desde cuándo te pasa?\" / \"¿Has hecho algún cambio reciente?\" / \"¿Le pasa a más personas o solo a ti?\"\n\n### PASO 3: CLASIFICACIÓN\nClasifica internamente:\n- **Nivel 1 — FAQ/Conocido**: Tiene solución documentada → Paso 4A\n- **Nivel 2 — Requiere investigación**: No es FAQ pero puede resolverse → Paso 4B\n- **Nivel 3 — Escalación**: Crítico, afecta a producción, o requiere acceso técnico avanzado → Paso 4C\n\n### PASO 4A: SOLUCIÓN CONOCIDA (FAQ)\n1. \"Esto lo podemos resolver ahora mismo.\"\n2. Da las instrucciones paso a paso, UNA a la vez.\n3. \"¿Lo has hecho? ¿Te funciona?\"\n4. Si funciona: \"Perfecto, ¿hay algo más en lo que pueda ayudarte?\"\n5. Si no funciona: pasa a Paso 4B.\n\n### PASO 4B: TICKET DE SOPORTE\n1. \"Necesito crear un ticket para que el equipo técnico lo revise.\"\n2. Recoge datos: nombre, contacto, descripción detallada del problema, urgencia.\n3. \"He creado tu ticket. El equipo técnico lo revisará en [plazo]. Te contactarán por [canal].\"\n4. \"¿Quieres que te confirme el número de ticket?\"\n\n### PASO 4C: ESCALACIÓN URGENTE\n1. \"Entiendo que esto es urgente. Voy a pasarlo al equipo técnico de guardia ahora mismo.\"\n2. Recoge datos mínimos: nombre, empresa, producto, descripción.\n3. Si hay transfer_call disponible: \"Te voy a pasar con un técnico. Un momento.\"\n4. Si no hay transfer: \"Un técnico te llamará en los próximos [plazo]. ¿Cuál es el mejor teléfono?\"\n\n### PASO 5: CIERRE\n1. Confirma el resultado: \"Entonces queda [resumen].\"\n2. \"¿Hay algo más en lo que pueda ayudarte?\"\n3. Si no: \"Perfecto. Si te vuelve a pasar, no dudes en llamar. ¡Buen día!\"\n\n## PREGUNTAS FRECUENTES / SOLUCIONES CONOCIDAS\n{{FAQ}}\n\n## EQUIPO DE ESCALACIÓN\n{{EQUIPO}}\n\n## OBJECIONES / SITUACIONES DIFÍCILES\n\n\"Esto lleva pasándome semanas\":\n  \"Siento mucho que lleves tanto con esto. Vamos a resolverlo ahora. Cuéntame exactamente qué ocurre.\"\n\n\"Ya llamé antes y no me resolvieron nada\":\n  \"Entiendo tu frustración. Déjame revisar qué pasó y asegurarme de que esta vez se resuelve. ¿Me das el número de ticket anterior?\"\n\n\"Quiero hablar con un responsable\":\n  \"Por supuesto. Déjame primero anotar todos los detalles de tu caso para que cuando hable con el responsable tenga toda la información. ¿Me cuentas qué ha pasado?\"\n\n\"No soy técnico, no entiendo nada\":\n  \"Tranquilo/a, te voy guiando paso a paso. Vamos despacio. Lo primero: [instrucción simple].\"\n\n\"Es un robot\":\n  \"Sí, soy un asistente virtual. Pero puedo ayudarte con muchas cosas. Si prefieres hablar con una persona, te paso. ¿Qué prefieres?\"\n\nCliente muy enfadado:\n  1. Escucha sin interrumpir.\n  2. \"Entiendo perfectamente tu frustración. Tienes razón en estar molesto/a.\"\n  3. \"Vamos a solucionarlo. Lo primero que necesito es [dato].\"\n  4. Si sigue agresivo: \"Quiero ayudarte pero necesito que hablemos con calma para poder resolver esto. ¿De acuerdo?\"\n\n## TOOL CALLING\n- check_status: Para verificar estado de tickets o servicios existentes. Ejecución silenciosa.\n- create_ticket: Para crear tickets de soporte. Ejecución silenciosa.\n- transfer_call: Para escalaciones urgentes. Ejecución silenciosa.\n- NUNCA digas \"déjame ver\", \"un momento\", \"verifico\". El silencio breve es correcto.\n\n## LOS MANDAMIENTOS DE SOPORTE\n1. Máximo 3 frases por turno.\n2. Escucha primero, diagnostica después.\n3. CONFIRMA que entiendes antes de dar soluciones.\n4. Instrucciones de UNA en UNA.\n5. NUNCA inventes soluciones. Si no sabes, escala.\n6. Identifica siempre al cliente al inicio.\n7. Empatía primero, solución después.\n8. Si es urgente, actúa rápido. No hagas 20 preguntas.\n9. Ejecución silenciosa de tools.\n10. Cada llamada termina con resultado claro: resuelto, ticket creado, o escalado."
+      }
+    ]
+  },
+  "firstMessage": "{{SALUDO}}",
+  "endCallFunctionEnabled": true,
+  "endCallMessage": "Gracias por contactar con soporte de {{EMPRESA}}. ¡Hasta luego!",
+  "transcriber": {
+    "model": "nova-3",
+    "language": "{{IDIOMA_CODE}}",
+    "numerals": true,
+    "provider": "deepgram",
+    "endpointing": 500,
+    "smartFormat": true
+  },
+  "silenceTimeoutSeconds": 30,
+  "endCallPhrases": [
+    "Hasta luego.",
+    "Que se resuelva todo.",
+    "Gracias por llamar.",
+    "Buen día."
+  ],
+  "metadata": {
+    "client_id": "{{CLIENT_ID}}",
+    "template": "soporte",
+    "version": "1.0"
+  },
+  "backgroundSound": "off",
+  "backgroundDenoisingEnabled": true,
+  "startSpeakingPlan": {
+    "waitSeconds": 1.4,
+    "smartEndpointingEnabled": true
+  },
+  "stopSpeakingPlan": {
+    "numWords": 5,
+    "backoffSeconds": 2.5
+  },
+  "responseDelaySeconds": 0.6,
+  "analysisPlan": {
+    "summaryPlan": {
+      "enabled": true,
+      "messages": [
+        {
+          "content": "Resume la llamada de soporte en español, en 2-3 frases cortas. Incluye: nombre del contacto, producto/servicio afectado, tipo de incidencia, resultado (resuelta / ticket creado / escalada), y gravedad. Tono neutral, factual. Sin emojis.",
+          "role": "system"
+        },
+        {
+          "content": "Transcript:\n\n{{transcript}}\n\nEnded reason: {{endedReason}}",
+          "role": "user"
+        }
+      ]
+    },
+    "structuredDataPlan": {
+      "enabled": true,
+      "schema": {
+        "type": "object",
+        "required": [
+          "tipo_incidencia",
+          "gravedad",
+          "nombre_contacto"
+        ],
+        "properties": {
+          "tipo_incidencia": {
+            "description": "Categoría del problema reportado.",
+            "type": "string",
+            "enum": [
+              "error_tecnico",
+              "consulta_uso",
+              "problema_acceso",
+              "problema_rendimiento",
+              "solicitud_cambio",
+              "facturacion",
+              "reclamacion",
+              "otro"
+            ]
+          },
+          "gravedad": {
+            "description": "Gravedad de la incidencia. 'critica' si afecta a producción/servicio parado. 'alta' si impacto significativo. 'media' si afecta pero tiene workaround. 'baja' si es consulta o mejora.",
+            "type": "string",
+            "enum": [
+              "critica",
+              "alta",
+              "media",
+              "baja"
+            ]
+          },
+          "nombre_contacto": {
+            "description": "Nombre de la persona que llamó. 'No proporcionado' si no se dijo.",
+            "type": "string"
+          },
+          "empresa_contacto": {
+            "description": "Empresa del contacto si la mencionó. Vacío si no.",
+            "type": "string"
+          },
+          "telefono_contacto": {
+            "description": "Teléfono del contacto. Vacío si no lo proporcionó.",
+            "type": "string"
+          },
+          "email_contacto": {
+            "description": "Email del contacto. Vacío si no lo proporcionó.",
+            "type": "string"
+          },
+          "producto_afectado": {
+            "description": "Producto, servicio o funcionalidad específica afectada. Vacío si no se identificó.",
+            "type": "string"
+          },
+          "descripcion_problema": {
+            "description": "Descripción detallada del problema en 2-3 frases.",
+            "type": "string"
+          },
+          "resolucion_aplicada": {
+            "description": "Solución proporcionada durante la llamada. 'No resuelta' si no se pudo resolver. Vacío si se escaló.",
+            "type": "string"
+          },
+          "resultado": {
+            "description": "Resultado de la llamada de soporte.",
+            "type": "string",
+            "enum": [
+              "resuelta_en_llamada",
+              "ticket_creado",
+              "escalada_tecnico",
+              "escalada_responsable",
+              "info_proporcionada",
+              "pendiente_callback",
+              "cliente_abandono"
+            ]
+          },
+          "escalado": {
+            "description": "true si la incidencia fue escalada a otro nivel o persona. false si se resolvió o se creó ticket estándar.",
+            "type": "boolean"
+          },
+          "ticket_referencia": {
+            "description": "Número de ticket si se creó o si el cliente tenía uno previo. Vacío si no aplica.",
+            "type": "string"
+          },
+          "tiempo_estimado_resolucion": {
+            "description": "Plazo comunicado al cliente para la resolución (ej: '24h', '48h', 'esta semana'). Vacío si no se dio.",
+            "type": "string"
+          },
+          "sentimiento": {
+            "description": "Tono emocional del cliente durante la llamada.",
+            "type": "string",
+            "enum": [
+              "positivo",
+              "neutro",
+              "frustrado",
+              "enfadado",
+              "ansioso"
+            ]
+          },
+          "satisfaccion_final": {
+            "description": "Percepción de satisfacción del cliente al terminar la llamada.",
+            "type": "string",
+            "enum": [
+              "satisfecho",
+              "parcialmente_satisfecho",
+              "insatisfecho",
+              "desconocido"
+            ]
+          },
+          "notas": {
+            "description": "Información adicional relevante para el seguimiento.",
+            "type": "string"
+          }
+        }
+      },
+      "messages": [
+        {
+          "content": "Eres un analista extrayendo datos estructurados de llamadas de soporte técnico. Lee el transcript y completa el schema JSON con precisión.\n\nREGLAS:\n1. Si un dato no se mencionó, usa el valor por defecto ('No proporcionado', cadena vacía, false, o 'desconocido').\n2. NUNCA inventes datos.\n3. gravedad='critica' solo si el servicio está completamente parado o hay impacto en producción.\n4. resultado debe reflejar el estado REAL al final de la llamada.\n5. descripcion_problema debe ser suficientemente detallada para que un técnico entienda el caso.\n\nJson Schema:\n{{schema}}\n\nResponde SOLO con el JSON.",
+          "role": "system"
+        },
+        {
+          "content": "Transcript:\n\n{{transcript}}\n\nEnded reason: {{endedReason}}\n\nTool calls realizadas: {{toolCallList}}",
+          "role": "user"
+        }
+      ]
+    },
+    "successEvaluationPlan": {
+      "enabled": true,
+      "rubric": "AutomaticRubric"
+    }
+  }
+}
