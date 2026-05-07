@@ -3,22 +3,22 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const pressQuotes = [
   {
-    text: "El 80% de las personas que llegan al buz\u00f3n de voz no dejan mensaje \u2014 llaman a la competencia.",
+    text: "El 80% de las personas que llegan al buzón de voz no dejan mensaje — llaman a la competencia.",
     source: "Forbes",
     year: "2023",
   },
   {
-    text: "Las empresas pierden 75.000 millones de d\u00f3lares al a\u00f1o por mala atenci\u00f3n al cliente, siendo las llamadas perdidas el factor n\u00ba1.",
+    text: "Las empresas pierden 75.000 millones de dólares al año por mala atención al cliente, siendo las llamadas perdidas el factor nº1.",
     source: "NewVoiceMedia",
     year: "2023",
   },
   {
-    text: "Los asistentes de voz con IA reducen el abandono de llamadas hasta un 60% y aumentan la resoluci\u00f3n en primer contacto un 35%.",
+    text: "Los asistentes de voz con IA reducen el abandono de llamadas hasta un 60% y aumentan la resolución en primer contacto un 35%.",
     source: "McKinsey & Company",
     year: "2024",
   },
   {
-    text: "Las empresas que responden a un lead en menos de 5 minutos tienen 21 veces m\u00e1s probabilidades de cualificarlo.",
+    text: "Las empresas que responden a un lead en menos de 5 minutos tienen 21 veces más probabilidades de cualificarlo.",
     source: "Harvard Business Review",
     year: "2023",
   },

@@ -6,7 +6,7 @@ const publications = [
   { name: "Bloomberg", className: "font-body font-bold tracking-tight text-sm md:text-base" },
   { name: "Harvard Business Review", className: "font-editorial text-xs md:text-sm tracking-wide" },
   { name: "TechCrunch", className: "font-body font-extrabold tracking-tighter text-sm md:text-base" },
-  { name: "El Pa\u00eds", className: "font-editorial font-bold italic text-sm md:text-base" },
+  { name: "El País", className: "font-editorial font-bold italic text-sm md:text-base" },
 ];
 
 const PressBar = () => (

@@ -39,21 +39,25 @@ const Index = () => {
         {/* 1. Hero — qué hace CALLA */}
         <Hero onContact={openContact} />
 
-        {/* 2. Bloque de credibilidad (junto) */}
+        {/* 2. Trustpilot + Logos (juntos, coherente) */}
         <SectionFade><SocialProof /></SectionFade>
-        <SectionFade><PressQuotes /></SectionFade>
-        <SectionFade><PressBar /></SectionFade>
         <LogoMarquee />
 
         {/* 3. Los 4 agentes — el equipo de monigotes */}
         <SectionFade><Features /></SectionFade>
 
-        {/* 4. Demo ARIA + simulación de chat */}
+        {/* 4. Demo ARIA */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <DemoCall />
           </Suspense>
         </SectionFade>
+
+        {/* 5. Forbes — lo que dicen los expertos */}
+        <SectionFade><PressQuotes /></SectionFade>
+        <SectionFade><PressBar /></SectionFade>
+
+        {/* 6. Simulación de chat */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <CallSimulator />
