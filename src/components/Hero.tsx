@@ -109,7 +109,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
           >
             <ShieldCheck className="w-4 h-4 text-primary/60" />
             <span className="text-xs text-muted-foreground/60">
-              +200 empresas conf\u00edan en CALLA
+              +200 empresas confían en CALLA
             </span>
           </motion.div>
         </motion.div>
