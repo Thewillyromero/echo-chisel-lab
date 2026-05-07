@@ -19,7 +19,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
   const y = useSpring(rawY, { stiffness: 60, damping: 20 });
 
   return (
-    <section id="hero" ref={sectionRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
+    <section id="hero" ref={sectionRef} className="relative min-h-[85svh] md:min-h-[90svh] flex items-center overflow-hidden">
       {/* Aurora background */}
       <div className="absolute inset-0 overflow-hidden">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15" width={1920} height={1080} />
@@ -126,7 +126,7 @@ const Hero = ({ onContact }: { onContact?: () => void }) => {
             <motion.img
               src={heroRobot}
               alt="CALLA Asistente Virtual"
-              className="w-64 sm:w-80 md:w-[26rem] lg:w-[32rem] drop-shadow-2xl relative z-10"
+              className="w-48 sm:w-64 md:w-[22rem] lg:w-[28rem] drop-shadow-2xl relative z-10"
               width={1024}
               height={1024}
               style={{

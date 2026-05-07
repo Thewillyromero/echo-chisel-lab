@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef } from "react";
 
 interface CharacterRevealProps {
@@ -11,9 +11,9 @@ interface CharacterRevealProps {
 }
 
 /**
- * Sintra.ai-style character reveal: starts looking down (rotated forward),
- * then lifts head/body as user scrolls into view. Single smooth animation,
- * no constant bouncing.
+ * Character reveal: starts looking down (rotated forward),
+ * then lifts head/body as user scrolls into view.
+ * Falls back to simple fade-in on mobile where scroll offsets may not trigger.
  */
 const CharacterReveal = ({
   src,
@@ -23,6 +23,7 @@ const CharacterReveal = ({
   revealOffset = [0.15, 0.55],
 }: CharacterRevealProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -48,7 +49,7 @@ const CharacterReveal = ({
         style={{
           background: `radial-gradient(circle, ${glowColor.replace(")", " / 0.2)").replace("hsl(", "hsl(")} 0%, transparent 70%)`,
           transform: "scale(2.5)",
-          opacity,
+          opacity: isInView ? 1 : 0,
         }}
       />
 
@@ -59,11 +60,12 @@ const CharacterReveal = ({
         loading="lazy"
         draggable={false}
         style={{
-          rotateX,
-          y,
-          opacity,
-          scale,
+          rotateX: isInView ? rotateX : 0,
+          y: isInView ? y : 0,
+          opacity: isInView ? 1 : 0,
+          scale: isInView ? scale : 1,
           transformOrigin: "center bottom",
+          transition: "opacity 0.6s ease, transform 0.6s ease",
         }}
       />
     </div>

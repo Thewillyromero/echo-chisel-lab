@@ -34,7 +34,7 @@ const SocialProof = () => (
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-5">
           <div className="flex items-center gap-3">
-            <TrustpilotStars rating={4.9} size={28} />
+            <TrustpilotStars rating={4.9} size={20} />
             <div className="flex flex-col">
               <span className="text-lg font-display font-bold text-foreground leading-tight">4.9 / 5</span>
               <span className="text-xs text-muted-foreground leading-tight">Basado en +200 opiniones</span>

@@ -15,6 +15,7 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import FOMONotifications from "@/components/FOMONotifications";
 import LiveViewers from "@/components/LiveViewers";
+import SectionFade from "@/components/SectionFade";
 import { LiveMetricsProvider } from "@/contexts/LiveMetricsContext";
 import { BOOKING_URL } from "@/lib/constants";
 
@@ -36,34 +37,46 @@ const Index = () => {
         <ScrollProgress />
         <Navbar onContact={openContact} />
         <Hero onContact={openContact} />
-        <SocialProof />
-        <PressQuotes />
-        <PressBar />
-        <LogoMarquee />
-        <Features />
-        <Suspense fallback={<div className="py-20" />}>
-          <DemoCall />
-        </Suspense>
-        <Suspense fallback={<div className="py-20" />}>
-          <ROICalculator onContact={openContact} />
-        </Suspense>
-        <Suspense fallback={<div className="py-20" />}>
-          <CallPlayer />
-        </Suspense>
-        <Suspense fallback={<div className="py-20" />}>
-          <CallSimulator />
-        </Suspense>
-        <Suspense fallback={<div className="py-20" />}>
-          <CampaignResults />
-        </Suspense>
-        <Squad />
-        <About />
-        <Stats />
-        <Suspense fallback={<div className="py-20" />}>
-          <Testimonial />
-        </Suspense>
-        <FAQ />
-        <CTA onContact={openContact} />
+        <SectionFade><SocialProof /></SectionFade>
+        <SectionFade><PressQuotes /></SectionFade>
+        <SectionFade><PressBar /></SectionFade>
+        <SectionFade><LogoMarquee /></SectionFade>
+        <SectionFade><Features /></SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <DemoCall />
+          </Suspense>
+        </SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <ROICalculator onContact={openContact} />
+          </Suspense>
+        </SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <CallPlayer />
+          </Suspense>
+        </SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <CallSimulator />
+          </Suspense>
+        </SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <CampaignResults />
+          </Suspense>
+        </SectionFade>
+        <SectionFade><Squad /></SectionFade>
+        <SectionFade><About /></SectionFade>
+        <SectionFade><Stats /></SectionFade>
+        <SectionFade>
+          <Suspense fallback={<div className="py-20" />}>
+            <Testimonial />
+          </Suspense>
+        </SectionFade>
+        <SectionFade><FAQ /></SectionFade>
+        <SectionFade><CTA onContact={openContact} /></SectionFade>
         <Footer />
         <FOMONotifications />
         <LiveViewers />
