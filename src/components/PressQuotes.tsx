@@ -53,21 +53,18 @@ const PressQuotes = () => {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-center text-[11px] font-editorial font-bold tracking-[0.25em] uppercase mb-6 text-brand-gold-muted">
+          <p className="text-center text-[11px] font-editorial font-bold tracking-[0.25em] uppercase mb-6 text-primary/60">
             Lo que dicen los expertos
           </p>
 
           <div
             className="glow-border relative rounded-2xl p-8 md:p-12 lg:p-16 overflow-hidden"
             style={{
-              background: "linear-gradient(135deg, hsl(43 50% 55% / 0.03) 0%, hsl(var(--card) / 0.5) 50%, hsl(43 50% 55% / 0.02) 100%)",
+              background: "linear-gradient(135deg, hsl(var(--primary) / 0.03) 0%, hsl(var(--card) / 0.5) 50%, hsl(var(--primary) / 0.02) 100%)",
             }}
           >
-            {/* Subtle grid lines background */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(hsl(0 0% 100% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 0.3) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-
-            {/* Subtle gold glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] rounded-full bg-brand-gold/[0.02] blur-[100px] pointer-events-none" />
+            {/* Subtle primary glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] rounded-full bg-primary/[0.03] blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 min-h-[200px] md:min-h-[260px] flex flex-col items-center justify-center" aria-live="polite">
               <AnimatePresence mode="wait">
@@ -81,7 +78,7 @@ const PressQuotes = () => {
                 >
                   {/* Source masthead — HUGE, Forbes-style */}
                   <div className="mb-6 md:mb-8">
-                    <span className={`font-editorial font-bold text-foreground/90 tracking-tight leading-none ${
+                    <span className={`font-editorial font-bold text-foreground/90 tracking-tight leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] ${
                       quote.source.length > 15
                         ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
                         : "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
@@ -91,12 +88,12 @@ const PressQuotes = () => {
                   </div>
 
                   {/* Quote — smaller, italic, below the masthead */}
-                  <blockquote className="font-editorial italic text-base sm:text-lg md:text-xl text-muted-foreground/70 leading-relaxed max-w-2xl mx-auto mb-4">
+                  <blockquote className="font-editorial italic text-lg sm:text-xl md:text-2xl text-muted-foreground/80 leading-relaxed max-w-2xl mx-auto mb-4">
                     &ldquo;{quote.text}&rdquo;
                   </blockquote>
 
                   <div className="flex items-center justify-center gap-2">
-                    <span className="font-editorial font-bold italic text-xs text-muted-foreground/40">
+                    <span className="font-editorial font-bold italic text-sm text-muted-foreground/40">
                       &mdash;{quote.source}
                     </span>
                     {quote.year && (
@@ -119,7 +116,7 @@ const PressQuotes = () => {
                   aria-selected={i === current}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     i === current
-                      ? "bg-brand-gold w-6"
+                      ? "bg-primary w-6"
                       : "bg-border/40 hover:bg-border/60"
                   }`}
                 />
