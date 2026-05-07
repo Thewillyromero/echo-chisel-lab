@@ -39,14 +39,16 @@ const Index = () => {
         {/* 1. Hero — qué hace CALLA */}
         <Hero onContact={openContact} />
 
-        {/* 2. Forbes — credibilidad inmediata */}
+        {/* 2. Bloque de credibilidad (junto) */}
+        <SectionFade><SocialProof /></SectionFade>
         <SectionFade><PressQuotes /></SectionFade>
         <SectionFade><PressBar /></SectionFade>
+        <LogoMarquee />
 
         {/* 3. Los 4 agentes — el equipo de monigotes */}
         <SectionFade><Features /></SectionFade>
 
-        {/* 4. Demo ARIA + simulación de chat juntos */}
+        {/* 4. Demo ARIA + simulación de chat */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <DemoCall />
@@ -58,14 +60,14 @@ const Index = () => {
           </Suspense>
         </SectionFade>
 
-        {/* 5. ROI — beneficio claro, por qué mejor que alternativas */}
+        {/* 5. ROI */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <ROICalculator onContact={openContact} />
           </Suspense>
         </SectionFade>
 
-        {/* 6. Datos de campaña + Resultados probados (juntos) */}
+        {/* 6. Resultados + Datos de campaña */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <CampaignResults />
@@ -82,21 +84,17 @@ const Index = () => {
           </Suspense>
         </SectionFade>
 
-        {/* 7. Logos clientes */}
-        <SectionFade><LogoMarquee /></SectionFade>
-
-        {/* 8. Conócenos */}
+        {/* 7. Conócenos */}
         <SectionFade><About /></SectionFade>
 
-        {/* 9. Social proof + Testimonios (cierre) */}
-        <SectionFade><SocialProof /></SectionFade>
+        {/* 8. Testimonios (closer) */}
         <SectionFade>
           <Suspense fallback={<div className="py-20" />}>
             <Testimonial />
           </Suspense>
         </SectionFade>
 
-        {/* 10. FAQ + CTA final */}
+        {/* 9. FAQ + CTA final */}
         <SectionFade><FAQ /></SectionFade>
         <SectionFade><CTA onContact={openContact} /></SectionFade>
 
