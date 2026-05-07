@@ -18,16 +18,16 @@ const containerVariants = {
 };
 
 const wordVariants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 12, filter: "blur(2px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
-const TextReveal = ({ children, className = "", delay = 0, staggerDelay = 0.04 }: TextRevealProps) => {
+const TextReveal = ({ children, className = "", delay = 0, staggerDelay = 0.06 }: TextRevealProps) => {
   const words = children.split(" ");
 
   return (
@@ -43,7 +43,7 @@ const TextReveal = ({ children, className = "", delay = 0, staggerDelay = 0.04 }
         <motion.span
           key={i}
           variants={wordVariants}
-          className="inline-block mr-[0.25em]"
+          className="inline-block mr-[0.3em]"
         >
           {word}
         </motion.span>

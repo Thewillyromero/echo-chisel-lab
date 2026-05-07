@@ -34,7 +34,7 @@ const PressQuotes = () => {
 
   useEffect(() => {
     if (paused) return;
-    const timer = setInterval(next, 6000);
+    const timer = setInterval(next, 8000);
     return () => clearInterval(timer);
   }, [paused, next]);
 
@@ -73,15 +73,19 @@ const PressQuotes = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current}
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="text-center"
                 >
                   {/* Source masthead — HUGE, Forbes-style */}
                   <div className="mb-6 md:mb-8">
-                    <span className="font-editorial font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-foreground/90 tracking-tight leading-none">
+                    <span className={`font-editorial font-bold text-foreground/90 tracking-tight leading-none ${
+                      quote.source.length > 15
+                        ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+                        : "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+                    }`}>
                       {quote.source}
                     </span>
                   </div>
