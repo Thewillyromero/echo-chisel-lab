@@ -63,15 +63,13 @@ const PressQuotes = () => {
               background: "linear-gradient(135deg, hsl(43 50% 55% / 0.03) 0%, hsl(var(--card) / 0.5) 50%, hsl(43 50% 55% / 0.02) 100%)",
             }}
           >
-            {/* Decorative quote mark */}
-            <div className="absolute top-4 left-6 md:top-6 md:left-10 font-editorial text-[120px] md:text-[180px] leading-none text-brand-gold/[0.07] select-none pointer-events-none">
-              &ldquo;
-            </div>
+            {/* Subtle grid lines background */}
+            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(hsl(0 0% 100% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 0.3) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
             {/* Subtle gold glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] rounded-full bg-brand-gold/[0.02] blur-[100px] pointer-events-none" />
 
-            <div className="relative z-10 min-h-[140px] md:min-h-[160px] flex flex-col items-center justify-center" aria-live="polite">
+            <div className="relative z-10 min-h-[200px] md:min-h-[260px] flex flex-col items-center justify-center" aria-live="polite">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current}
@@ -81,21 +79,27 @@ const PressQuotes = () => {
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="text-center"
                 >
-                  <blockquote className="font-editorial italic text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground/90 leading-relaxed md:leading-relaxed mb-6 md:mb-8 max-w-3xl mx-auto">
+                  {/* Source masthead — HUGE, Forbes-style */}
+                  <div className="mb-6 md:mb-8">
+                    <span className="font-editorial font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-foreground/90 tracking-tight leading-none">
+                      {quote.source}
+                    </span>
+                  </div>
+
+                  {/* Quote — smaller, italic, below the masthead */}
+                  <blockquote className="font-editorial italic text-base sm:text-lg md:text-xl text-muted-foreground/70 leading-relaxed max-w-2xl mx-auto mb-4">
                     &ldquo;{quote.text}&rdquo;
                   </blockquote>
 
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-8 h-px bg-brand-gold/30" />
-                    <span className="font-editorial font-bold tracking-[0.15em] uppercase text-xs text-brand-gold-muted">
-                      {quote.source}
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="font-editorial font-bold italic text-xs text-muted-foreground/40">
+                      &mdash;{quote.source}
                     </span>
                     {quote.year && (
-                      <span className="text-[10px] text-muted-foreground/40">
-                        ({quote.year})
+                      <span className="text-[10px] text-muted-foreground/30">
+                        (Citation, {quote.year})
                       </span>
                     )}
-                    <div className="w-8 h-px bg-brand-gold/30" />
                   </div>
                 </motion.div>
               </AnimatePresence>
